@@ -39,6 +39,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
+      - "/var/www/vendor"
       - ./apps/backend/:/var/www
       - logs:/var/www/logs
     depends_on:
@@ -54,6 +55,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
+      - "/app/my-app/node_modules"
       - ./apps/frontend/:/app
     
     depends_on:
