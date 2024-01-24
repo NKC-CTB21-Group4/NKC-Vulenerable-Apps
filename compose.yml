@@ -1,0 +1,68 @@
+version: '3.9'
+
+services:
+
+
+  db:
+    image: mysql:8.0
+    platform: linux/x86_64
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    security_opt:
+      - seccomp:unconfined
+
+  challenges:
+    build:
+      context: ./challenges
+      dockerfile: Dockerfile
+
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./challenges/:/app
+    
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./apps/backend/:/var/www
+      - logs:/var/www/logs
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
+
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/frontend/:/app
+    
+    depends_on:
+      - backend
+    tty: true
+    stdin_open: true
+  
+  
+volumes:
+  logs:
+    driver: local
+  db:
