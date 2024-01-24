@@ -4,8 +4,12 @@ FROM php:7-alpine
 # Set the working directory in the container
 WORKDIR /var/www
 
+COPY . .
+
 # Install Composer globally
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN composer install 
 
 # Expose the port that your application will run on
 EXPOSE 8080
