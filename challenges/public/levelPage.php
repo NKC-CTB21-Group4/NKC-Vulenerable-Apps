@@ -12,18 +12,22 @@ include ("switch.php");
     <h1><?php echo $title ?></h1>
     <div>
         <nav>
-            <div>
-                <a href="">レベル１</a>
-            </div>
-            <div>
-                <a href="">レベル2</a>
-            </div>
-            <div>
-                <a href="">レベル3</a>
-            </div>
-            <div>
-                <a href="">レベル4</a>
-            </div>
+            <?php
+            if (!is_numeric($level) || $level < 1 || $level >= 5) {
+                // 数字が含まれていないか、1未満または5以上の場合の処理（例えばエラーメッセージを表示して終了）
+                echo "<p class=error>無効なレベルです。</p>";
+                exit;
+            }else{
+                for($i = 1;$i <= $level;$i++){
+                    echo "<div>
+                            <nav>
+                                <a href='./SQLi/level". $i .".php'>レベル" .$i."の問題です</a>
+                            </nav>
+                          </div>
+                         ";
+                }
+            }
+            ?>
         </nav>
     </div>
 </body>

@@ -30,3 +30,9 @@ a {
    color: black;
    text-decoration: none;
 }
+
+.error{
+    font-size: 50px;
+    color: red;
+    text-align: center;
+}

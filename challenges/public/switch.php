@@ -12,10 +12,10 @@ if (!in_array($title, $list)) {
     exit;
 }
 
-if (!is_numeric($level) || $level < 1 || $level >= 5) {
+/*if (!is_numeric($level) || $level < 1 || $level >= 5) {
     // 数字が含まれていないか、1未満または5以上の場合の処理（例えばエラーメッセージを表示して終了）
     echo "無効なレベルです。";
     exit;
-}
+}*/
 
 ?>
