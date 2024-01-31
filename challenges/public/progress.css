@@ -1,0 +1,67 @@
+.bodyprogress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #DDDDDD;
+}
+
+.container {
+    text-align: center;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.button-row {
+    margin-bottom: 10px;
+}
+
+.btn_back,.btn_level {
+    margin: 5px;
+    padding: 1rem 4rem; /* 上下のパディングと左右のパディングを指定 */
+    font-weight: bold;
+    font-size: 14px; /* ボタン内のテキストサイズを調整 */
+    
+    transition: 0.5s;
+    /* 上記スタイルは変更しない */
+    /* 追加スタイル */
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    width: 160px; /* ボタンの幅を統一 */
+    height: 50px; /* ボタンの高さを統一 */
+    white-space: nowrap; /* テキストを折り返さないように設定 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn_back:hover,.btn_level:hover {
+    color: #fff;
+    background: #27acd9;
+}
+.btn_back {   
+    vertical-align: middle;
+    
+    border-radius: 100vh;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, .3);
+    transition: 0.5s;
+}
+
+.btn_back:hover {
+    
+    border-bottom: 2px solid #fff;
+    transform: translateY(3px);
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}

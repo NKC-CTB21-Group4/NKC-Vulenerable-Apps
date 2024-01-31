@@ -1,0 +1,49 @@
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+  }
+  
+#container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 600px; /* 最大幅を指定 */
+  margin: 0 auto; /* 中央揃え */
+}
+
+.box {
+  flex: 1 0 200px;
+  margin: 20px;
+  max-width: max-content;
+  box-sizing: border-box;
+}
+
+.icon {
+  text-align: center;
+  position: relative;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+  height: 140px; /* 固定の高さを指定 */
+}
+.icon:hover{
+  opacity: 0.6;
+}
+
+.icon img {
+  width: 100px; /* 任意の幅を指定 */
+  height: 100px; /* 任意の高さを指定 */
+  object-fit: cover; /* 画像が指定したサイズに収まるように調整 */
+  border-radius: 10px;
+}
+
+.icon p {
+  position: absolute;
+  width: 100%; /* 親要素に対して幅100% */
+  text-align: center;
+  font-size: 14px;
+  margin: 0;
+}
+  
+  
+  
