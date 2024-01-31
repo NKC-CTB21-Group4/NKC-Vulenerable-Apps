@@ -1,0 +1,91 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #DDDDDD;
+}
+
+.container {
+    text-align: center;
+}
+
+.label {
+    display: inline-block;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #fff;
+}
+
+.label.level4 {
+    background-color: #e74c3c; /* 赤色 */
+}
+
+.label.level4::after {
+    content: " 不合格";
+}
+
+.label.level4::before {
+    content: "× ";
+}
+
+.label.level3 {
+    background-color: #3498db; /* 青色 */
+}
+
+.label.level3::after {
+    content: " 合格";
+}
+
+.label.level3::before {
+    content: "○ ";
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+button {
+    margin: 5px;
+    padding: 1rem 4rem; /* 上下のパディングと左右のパディングを指定 */
+    font-weight: bold;
+    font-size: 14px; /* ボタン内のテキストサイズを調整 */
+    
+    transition: 0.5s;
+    /* 上記スタイルは変更しない */
+    /* 追加スタイル */
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    width: 160px; /* ボタンの幅を統一 */
+    height: 50px; /* ボタンの高さを統一 */
+    white-space: nowrap; /* テキストを折り返さないように設定 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button:hover {
+    color: #fff;
+    background: #27acd9;
+}
+
+button.btn_back {   
+    vertical-align: middle;
+    border-radius: 100vh;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, .3);
+    transition: 0.5s;
+}
+
+button.btn_back:hover {
+    color: #fff;
+    background: #27acd9;
+    border-bottom: 2px solid #fff;
+    transform: translateY(3px);
+}
