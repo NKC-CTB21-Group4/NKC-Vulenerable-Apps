@@ -9,7 +9,7 @@ include ("switch.php");
   <link rel="stylesheet" href="levelPage.css">
 </head>
 <body>
-    <h1><?php echo $title ?></h1>
+    <h1 class="title"><?php echo $title ?></h1>
     <div>
         <nav>
             <?php
@@ -19,9 +19,9 @@ include ("switch.php");
                 exit;
             }else{
                 for($i = 1;$i <= $level;$i++){
-                    echo "<div>
-                            <nav>
-                                <a href='./SQLi/level". $i .".php'>レベル" .$i."の問題です</a>
+                    echo "<div class=levelcontainer>
+                            <nav class=navigation>
+                                <a href='./SQLi/level". $i .".php' class=practice>レベル" .$i."の問題です</a>
                             </nav>
                           </div>
                          ";

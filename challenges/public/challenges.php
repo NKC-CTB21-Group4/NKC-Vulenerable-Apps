@@ -56,7 +56,7 @@ include("progressdata.php")
         <div class="box">
             <div class="icon" onclick="window.location.href='levelPage.php?title=デシリアライゼーション&level=<?php echo count($progressLevels['デシリアライゼーション'])?>'">
                 <img src="../images/Information.png" alt="Icon 7">
-                <p>ディレクトリライジング</p>
+                <p>デシリアライゼーション</p>
             </div>
         </div>
 
