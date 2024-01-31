@@ -1,16 +1,5 @@
 <?php
-$progressLevels = [
-    'インジェクション' => ['レベル1' => 'o', 'レベル2' => 'o', 'レベル3' => 'x', 'レベル4' => 'x'],
-    '認証の不備' => ['レベル1' => 'o', 'レベル2' => 'o', 'レベル3' => 'o', 'レベル4' => 'x'],
-    '情報の露呈' => ['レベル1' => 'o', 'レベル2' => 'o', 'レベル3' => 'o', 'レベル4' => 'x'],
-    'XXE' => ['レベル1' => 'o', 'レベル2' => 'o', 'レベル3' => 'o', 'レベル4' => 'x'],
-    'アクセス制御の不備' => ['レベル1' => 'o', 'レベル2' => 'o', 'レベル3' => 'o', 'レベル4' => 'x'],
-    'XSS' => ['レベル1' => 'o', 'レベル2' => 'o', 'レベル3' => 'o', 'レベル4' => 'x'],
-    'デシリアライゼーション' => ['レベル1' => 'o', 'レベル2' => 'o', 'レベル3' => 'o', 'レベル4' => 'x'],
-    'コンポーネント' => ['レベル1' => 'o', 'レベル2' => 'o', 'レベル3' => 'o', 'レベル4' => 'x'],
-    'ロギング' => ['レベル1' => 'o', 'レベル2' => 'o', 'レベル3' => 'o', 'レベル4' => 'x'],
-    'Text-text' => ['レベル1' => 'o', 'レベル2' => 'o', 'レベル3' => 'o', 'レベル4' => 'x']
-];
+require_once 'progressdata.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['issue'])) {
     $selectedIssue = $_GET['issue'];
@@ -37,11 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['issue'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="progressdetail.css">
     <title>NKC Vulnerable Apps</title>
-    <style>
-        
-    </style>
 </head>
-<body>
+<body class="bodyprogressdetail">
     <div class="container">
         <h1>進捗状況</h1>
         

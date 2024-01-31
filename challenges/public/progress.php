@@ -1,17 +1,5 @@
 <?php
-$progressLevels = [
-    'インジェクション' => ['レベル1', 'レベル2', 'レベル3', 'レベル4'],
-    '認証の不備' => ['レベル1', 'レベル2', 'レベル3', 'レベル4'],
-    '情報の露呈' => ['レベル1', 'レベル2', 'レベル3', 'レベル4'],
-    'XXE' => ['レベル1', 'レベル2', 'レベル3', 'レベル4'],
-    'アクセス制御の不備' => ['レベル1', 'レベル2', 'レベル3', 'レベル4'],
-    'XSS' => ['レベル1', 'レベル2', 'レベル3', 'レベル4'],
-    'デシリアライゼーション' => ['レベル1', 'レベル2', 'レベル3', 'レベル4'],
-    'コンポーネント' => ['レベル1', 'レベル2', 'レベル3', 'レベル4'],
-    'ロギング' => ['レベル1', 'レベル2', 'レベル3', 'レベル4'],
-    'Text-text' => ['レベル1', 'レベル2', 'レベル3', 'レベル4']
-];
-
+require_once 'progressdata.php';
 $chunkedVulnerabilities = array_chunk(array_keys($progressLevels), 5); // 5つずつの要素に分割
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -34,11 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="progress.css">
     <title>NKC Vulnerable Apps</title>
-    <style>
-        
-    </style>
 </head>
-<body>
+<body class="bodyprogress">
     <div class="container">
         <h1>進捗状況</h1>
         
@@ -49,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="button-group">
                         <?php foreach ($row as $issue): ?>
                             <?php if (isset($progressLevels[$issue])): ?>
-                                <button type="submit" name="security_issue" value="<?php echo $issue; ?>"><?php echo $issue; ?></button>
+                                <button class="btn_level" type="submit" name="security_issue" value="<?php echo $issue; ?>"><?php echo $issue; ?></button>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </div>

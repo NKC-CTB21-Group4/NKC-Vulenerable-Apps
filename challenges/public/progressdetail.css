@@ -1,4 +1,4 @@
-body {
+.bodyprogressdetail {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,7 +50,7 @@ body {
     font-weight: bold;
 }
 
-button {
+.btn_back{
     margin: 5px;
     padding: 1rem 4rem; /* 上下のパディングと左右のパディングを指定 */
     font-weight: bold;
@@ -69,21 +69,17 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-button:hover {
-    color: #fff;
-    background: #27acd9;
-}
-
-button.btn_back {   
-    vertical-align: middle;
     border-radius: 100vh;
     box-shadow: 0 2px 7px rgba(0, 0, 0, .3);
-    transition: 0.5s;
+    
+
 }
 
-button.btn_back:hover {
+
+
+
+
+.btn_back:hover {
     color: #fff;
     background: #27acd9;
     border-bottom: 2px solid #fff;
