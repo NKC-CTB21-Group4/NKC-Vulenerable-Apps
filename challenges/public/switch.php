@@ -1,10 +1,11 @@
 <?php
+include("progressdata.php");
 
 $title = $_GET["title"];
 
 $level = $_GET["level"];
 
-$list = ['インジェクション','認証の不備','情報の露呈','XXE','ファイル削除の不備','XSS','ディレクトリライジング','コンポーネントミス設定','ロギングとモニタリング不足'];
+$list = array_keys($progressLevels);
 
 if (!in_array($title, $list)) {
     // タイトルが含まれていない場合の処理（例えばエラーメッセージを表示して終了）
