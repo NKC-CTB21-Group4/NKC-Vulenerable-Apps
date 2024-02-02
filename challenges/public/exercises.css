@@ -1,0 +1,34 @@
+.explanation_box {
+    border: 2px solid black; /* 枠線のスタイル */
+            padding: 10px; /* テキストと枠線の間の余白 */
+            width: 300px; /* 枠線の幅 */
+            position: absolute; /* 絶対位置指定 */
+            top: 50%; /* 上から50%の位置に設定 */
+            left: 50%; /* 左から50%の位置に設定 */
+            transform: translate(-50%, -50%); /* 中央揃え */
+}
+
+/* Explanation Box 内の段落のスタイル */
+.explanation_box p {
+    margin: 0; /* 段落の余白を削除 */
+    text-align: center; /* 段落のテキストを中央揃え */
+}
+
+.button-exercises {
+    position: absolute; /* 絶対位置指定 */
+    top: 65%; /* 上から50%の位置に設定 */
+    left: 50%; /* 左から50%の位置に設定 */
+    transform: translate(-50%, -50%); /* 中央揃え */
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 20px; /* 丸みを持たせる */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none; /* 下線を削除 */
+}
+
+.button-exercises:hover {
+    background-color: #ff0000; /* ホバー時の背景色 */
+}

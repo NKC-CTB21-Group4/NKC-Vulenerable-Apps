@@ -14,7 +14,7 @@
         <a class="aindex" href="./challenges.php">練習問題</a>
       </div>
       <div class="divindex">
-        <a class="aindex" href="http://localhost:3000">演習問題</a>
+        <a class="aindex" href="./exercises.php">演習問題</a>
       </div>
       <div class="divindex">
         <a class="aindex" href="./progress.php">進捗状況</a>
