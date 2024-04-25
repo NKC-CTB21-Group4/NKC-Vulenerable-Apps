@@ -1,5 +1,5 @@
 <?php
-require_once 'progressdata.php';
+require_once '../config/progressdata.php';
 $chunkedVulnerabilities = array_chunk(array_keys($progressLevels), 5); // 5つずつの要素に分割
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

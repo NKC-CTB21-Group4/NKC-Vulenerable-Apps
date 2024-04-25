@@ -1,5 +1,5 @@
 <?php
-require_once 'progressdata.php';
+require_once '../config/progressdata.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['issue'])) {
     $selectedIssue = $_GET['issue'];
