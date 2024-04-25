@@ -27,7 +27,7 @@ function generate_dynamic_link($icon_path, $alt_attr, $title, $max_level) {
     <div id="container">
         <?php
             foreach ($links as $link) {
-                echo generate_dynamic_link($link[1], $link[2], $link[0], $progressLevels[$title]);
+                echo generate_dynamic_link($link[1], $link[2], $link[0], count($progressLevels[$link[0]]));
             }
         ?>
     </div>

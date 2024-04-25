@@ -1,5 +1,5 @@
 <?php
-include("progressdata.php");
+include("../config/progressdata.php");
 
 $title = $_GET["title"];
 
