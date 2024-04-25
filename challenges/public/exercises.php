@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="exercises.css">
+  <link rel="stylesheet" href="css/exercises.css">
   
   <title>演習問題</title>
 </head>
