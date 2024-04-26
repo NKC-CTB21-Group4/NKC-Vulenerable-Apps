@@ -22,7 +22,7 @@
 	<!-- ヘッダー ここまで -->
 	<main>
 		  <h2 id="question">問題文</h2>
-		  <p class="question-item">このページは情報公開に関するレベル1の問題です。ログインページに飛び、パスワードを入力することで管理者用のサイトを開いてください。</p>
+		  <p class="question-item">このページは情報公開に関するレベル1の問題です。ログインページに飛び、管理者用のサイトを開いてください。</p>
 		  <p class="question-item">ヒントは意外な場所に隠されています。</p>
 	</main>
 	<footer class="footer">
