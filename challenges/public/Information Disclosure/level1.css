@@ -116,7 +116,7 @@ nav li{
 .info tr, .info th {
 	padding: 8px;
 	border: 1px solid #bec2c7
-	text-align: left;
+	text-align left;
 }
 .info th {
 	background-color: #dde2ea;
