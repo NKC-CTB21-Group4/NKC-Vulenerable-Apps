@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ping Test</title>
+    <title>Ping Test Lv.1</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
