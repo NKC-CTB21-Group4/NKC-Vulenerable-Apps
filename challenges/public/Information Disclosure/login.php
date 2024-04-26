@@ -10,15 +10,20 @@
 </head>
 <body>
 <div class="wrapper">
+                            <script>
+var isAdmin = false;
+if (isAdmin) {
+   adminPanelTag.setAttribute('href', '/E-bWuqAi3-hLBdut4');
+   adminPanelTag.innerText = 'Admin panel';
+}
+</script>
 <!-- ヘッダー -->
 	<header class="header">
 		  <nav class="nav">
 			<ul>
-                <li><a href="index.html">ホーム</a></li>
+                <li><a href="level1.html">ホーム</a></li>
 				<li><a href="about.html">ご案内</a></li>
-				<li><a href="hint.html">ヒント</a></li>
 				<li><a href="login.html">ログイン</a></li>
-				<li><a href="justice.html">イエーイ</a></li>
 			</ul>
 		  </nav>
 	</header>
@@ -33,7 +38,7 @@
 				</label>
 			</div>
 			<div>
-				<label>
+				<label>パスワード
 				<input type="text" name="password" placeholder="パスワード">
 				</label>
 			</div>
