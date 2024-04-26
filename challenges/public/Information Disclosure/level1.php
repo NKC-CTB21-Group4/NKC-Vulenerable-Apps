@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html class="no-js" lang="ja">
 <head>
@@ -16,9 +15,7 @@
 			<ul>
 				<li><a href="index.html">ホーム</a></li>
 				<li><a href="about.html">ご案内</a></li>
-				<li><a href="hint.html">ヒント</a></li>
 				<li><a href="login.html">ログイン</a></li>
-				<li><a href="justice.html">イエーイ</a></li>
 			</ul>
 		  </nav>
 	</header>
