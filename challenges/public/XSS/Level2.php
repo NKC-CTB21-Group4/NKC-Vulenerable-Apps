@@ -1,14 +1,11 @@
 <?php
+// 入力文字列の空白と<script>タグを削除
 
-$name = str_replace(' ', '', $_GET['name']);
-$name = str_replace('<script>', '', $name);
-$name = str_replace('</script>', '', $name);
+$name = preg_replace('/<script.*?>.*?<\/script.*>/', '', $_GET['name']);
 $name = trim($name); // 追加
-$email = str_replace(' ', '', $_GET['email']);
-$email = str_replace('<script>', '', $email);
-$email = str_replace('</script>', '', $email);
+// 入力文字列の空白と<script>タグを削除
+$email = preg_replace('/<script.*?>.*?<\/script.*>/', '', $_GET['email']);
 $email = trim($email); // 追加
-
 ?>
 
 <!DOCTYPE html>
@@ -29,4 +26,3 @@ $email = trim($email); // 追加
     <h2><?php echo $email?></h2>
 </body>
 </html>
-
