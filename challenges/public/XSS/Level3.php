@@ -1,13 +1,9 @@
 <?php
-
-$name = str_replace(' ', '', $_GET['name']);
-$name = str_replace('<script>', '', $name);
-$name = str_replace('</script>', '', $name);
-$name = trim($name); // 追加
-$email = str_replace(' ', '', $_GET['email']);
-$email = str_replace('<script>', '', $email);
-$email = str_replace('</script>', '', $email);
-$email = trim($email); // 追加
+// サニタイジング処理
+$name = str_replace(array('<', '>', '"', '&'), array('&lt;', '&gt;', '&quot;', '&amp;'), $_GET['name']);
+$name = trim($name);
+$email = str_replace(array('<', '>', '"', '&'), array('&lt;', '&gt;', '&quot;', '&amp;'), $_GET['email']);
+$email = trim($email);
 
 ?>
 
@@ -18,7 +14,7 @@ $email = trim($email); // 追加
     <title>基本的な入力フォーム</title>
 </head>
 <body>
-    <form action="./Level2.php" method="GET">
+    <form action="./Level3.php" method="GET">
         <label for="name">名前:</label><br>
         <input type="text" id="name" name="name"><br>
         <label for="email">メール:</label><br>
@@ -29,4 +25,3 @@ $email = trim($email); // 追加
     <h2><?php echo $email?></h2>
 </body>
 </html>
-
