@@ -1,10 +1,10 @@
 <?php
 // サニタイジング処理
-$name = preg_replace('/<script.*?\/script>/', '', $_GET["name"]); // JavaScriptコードを削除
+$name = preg_replace('/<script.*?\/script.*>/', '', $_GET["name"]); // JavaScriptコードを削除
 $name = strip_tags($name,['a']); // <a>タグ以外のHTMLタグを削除
 $name = trim($name);
 
-$email = preg_replace('/<script.*?\/script>/', '', $_GET["email"]); // JavaScriptコードを削除
+$email = preg_replace('/<script.*?\/script.*>/', '', $_GET["email"]); // JavaScriptコードを削除
 $email = strip_tags($email, ['a']); // <a>タグ以外のHTMLタグを削除
 $email = trim($email);
 ?>
