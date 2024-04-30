@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ping Test Lv.2</title>
+    <title>OSI Lv.2</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
