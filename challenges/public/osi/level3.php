@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>OSI Lv.1</title>
+    <title>OSI Lv.3</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
@@ -17,21 +17,17 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $target = $_POST["target"];
         if (!empty($target)) {
-            exec("ping -c 4 " . $target, $output, $return_var); // 4回のping送信
-            if ($return_var === 0) { // 成功した場合のみ結果を表示
-                echo '<div class="ping-result">';
+            exec("ping -c 4 " . $target, $output); // 4回のping送信
+            $last_line = end($output); // 最終行を取得
+            if (substr($last_line, -1) === 's' && substr($last_line, -2, 1) === 'm') {
+                // 最終行が条件を満たす場合にのみ結果を表示
                 foreach ($output as $line) {
-                    echo $line . '<br>'; // 各行を表示
+                    echo '<div class="ping-result">' . $line . '</div>';
                 }
-                echo '</div>';
-            } else {
-                echo "Ping command failed.";
             }
         } else {
             echo "Please enter a hostname or IP address to ping.";
         }
-    } else {
-        echo "Please enter a hostname or IP address to ping.";
     }
     ?>
 </body>

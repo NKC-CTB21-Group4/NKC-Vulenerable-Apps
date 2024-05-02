@@ -14,19 +14,18 @@
     </div>
 
     <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $target = $_POST["target"];
-    if (!empty($target)) {
-        exec("ping -c 4 " . $target, $output); // 4回のping送信
-        $output_string = implode("\n", $output); // 配列を文字列に変換
-        if (strpos($output_string, "PING") !== false && strpos($output_string, "data bytes") !== false) {
-            // 結果に "PING" と "data bytes" の文字が含まれている場合にのみ結果を出力
-            echo '<div class="ping-result">' . $output_string . '</div>';
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $target = $_POST["target"];
+        if (!empty($target)) {
+            exec("ping -c 4 " . $target, $output); // 4回のping送信
+            // 最初の6行のみを表示
+            for ($i = 0; $i < 6 && $i < count($output); $i++) {
+                echo '<div class="ping-result">' . $output[$i] . '</div>';
+            }
+        } else {
+            echo "Please enter a hostname or IP address to ping.";
         }
-    } else {
-        echo "Please enter a hostname or IP address to ping.";
     }
-}
-?>
+    ?>
 </body>
 </html>
