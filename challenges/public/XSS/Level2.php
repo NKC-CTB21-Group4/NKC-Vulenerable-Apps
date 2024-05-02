@@ -1,10 +1,10 @@
 <?php
 // 入力文字列の空白と<script>タグを削除
 
-$name = preg_replace('/<script.*?>.*?<\/script.*>/', '', $_GET['name']);
+$name = preg_replace('/<script.*?>.*?<\/script.*>/i', '', $_GET['name']);
 $name = trim($name); // 追加
 // 入力文字列の空白と<script>タグを削除
-$email = preg_replace('/<script.*?>.*?<\/script.*>/', '', $_GET['email']);
+$email = preg_replace('/<script.*?>.*?<\/script.*>/i', '', $_GET['email']);
 $email = trim($email); // 追加
 ?>
 

@@ -1,21 +1,12 @@
 <?php
 // サニタイジング処理
-$name = str_ireplace(" ","",$_GET["name"]);
-$email = str_ireplace(" ","",$_GET["email"]);
+$name = preg_replace('/<(.|\n)*>/i', '', $_GET["name"]); // HTMLタグを削除
+$name = preg_replace('/<script.*?\/script.*>/i', '', $name); // JavaScriptコードを削除
+$name = trim($name);
 
-function sanitaizing($input){
-    $htmltags = ["script","img","div","a","td","table","style","svg","iframe"];
-
-    foreach($htmltags as $tag){
-        $input = str_ireplace("<".$tag.">","",$input);
-        $input = str_ireplace("</".$tag.">","",$input);
-        $input = str_ireplace("<".$tag,"",$input);
-    }
-    return $input;
-}
-
-$name = sanitaizing($name);
-$email = sanitaizing($email);
+$email = preg_replace('/<(.|\n)*?>/i', '', $_GET["email"]); // HTMLタグを削除
+$email = preg_replace('/<script.*?\/script.*>/i', '', $email); // JavaScriptコードを削除
+$email = trim($email);
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +16,7 @@ $email = sanitaizing($email);
     <title>基本的な入力フォーム</title>
 </head>
 <body>
-    <form action="./Level3.php" method="GET">
+    <form action="./Level4.php" method="GET">
         <label for="name">名前:</label><br>
         <input type="text" id="name" name="name"><br>
         <label for="email">メール:</label><br>
