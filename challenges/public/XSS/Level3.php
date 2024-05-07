@@ -1,21 +1,18 @@
 <?php
 // サニタイジング処理
-$name = str_ireplace(" ","",$_GET["name"]);
-$email = str_ireplace(" ","",$_GET["email"]);
 
 function sanitaizing($input){
     $htmltags = ["script","img","div","a","td","table","style","svg","iframe"];
 
     foreach($htmltags as $tag){
-        $input = str_ireplace("<".$tag.">","",$input);
-        $input = str_ireplace("</".$tag.">","",$input);
-        $input = str_ireplace("<".$tag,"",$input);
+        $input = preg_replace("/<".$tag.".*?>/i", "", $input);
+        $input = preg_replace("/<\/".$tag.".*?>/i", "", $input);
     }
     return $input;
 }
 
-$name = sanitaizing($name);
-$email = sanitaizing($email);
+$name = sanitaizing($_GET['name']);
+$email = sanitaizing($_GET['email']);
 ?>
 
 <!DOCTYPE html>

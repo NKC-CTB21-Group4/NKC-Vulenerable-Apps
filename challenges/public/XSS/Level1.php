@@ -1,3 +1,9 @@
+<?php
+
+$name = $_GET['name'];
+$email = $_GET['email'];
+
+?>
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet" href="style.css" type="text/css">
@@ -14,20 +20,5 @@
     </form>
     <h2><?php echo $_GET['name']?></h2>
     <h2><?php echo $_GET['email']?></h2>
-<?php
-
-$name = $_GET['name'];
-$email = $_GET['email'];
-
-if (strpos($name, '<script>') !== false || strpos($name, '</script>') !== false) {
-    echo "<h1>XSSの脆弱性を発見しました。</h1>";
-}
-
-if (strpos($email, '<script>') !== false || strpos($email, '</script>') !== false) {
-    echo "<h1>XSSの脆弱性を発見しました。</h1>";
-}
-
-?>
-
 </body>
 </html>

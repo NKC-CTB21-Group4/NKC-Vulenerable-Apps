@@ -1,6 +1,5 @@
 <?php
 // 入力文字列の空白と<script>タグを削除
-
 $name = preg_replace('/<script.*?>.*?<\/script.*>/i', '', $_GET['name']);
 $name = trim($name); // 追加
 // 入力文字列の空白と<script>タグを削除
