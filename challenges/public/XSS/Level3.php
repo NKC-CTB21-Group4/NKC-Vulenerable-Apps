@@ -2,8 +2,9 @@
 // サニタイジング処理
 
 function sanitaizing($input){
+    //配列にHTMLタグを格納
     $htmltags = ["script","img","div","a","td","table","style","svg","iframe"];
-
+    
     foreach($htmltags as $tag){
         $input = preg_replace("/<".$tag.".*?>/i", "", $input);
         $input = preg_replace("/<\/".$tag.".*?>/i", "", $input);

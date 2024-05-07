@@ -1,5 +1,5 @@
 <?php
-require_once 'progressdata.php';
+require_once '../config/progressdata.php';
 $chunkedVulnerabilities = array_chunk(array_keys($progressLevels), 5); // 5つずつの要素に分割
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="progress.css">
+    <link rel="stylesheet" href="css/progress.css">
     <title>NKC Vulnerable Apps</title>
 </head>
 <body class="bodyprogress">
