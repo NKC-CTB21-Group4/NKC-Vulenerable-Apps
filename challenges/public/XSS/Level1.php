@@ -2,10 +2,8 @@
 require("../../utils/levelPageAccesCheck.php");
 $name = $_GET['name'];
 $email = $_GET['email'];
-$path = $_SERVER['REQUEST_URI'];
-if(!AccesCheck($path)){
-    header("Location: /");
-}
+if(AccessBlock())header("Location: /");
+
 ?>
 <!DOCTYPE html>
 <html>

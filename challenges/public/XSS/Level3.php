@@ -1,9 +1,6 @@
 <?php
 require("../../utils/levelPageAccesCheck.php");
-$path = $_SERVER['REQUEST_URI'];
-if(!AccesCheck($path)){
-    header("Location: /");
-}
+if(AccessBlock())header("Location: /");
 // サニタイジング処理
 function sanitaizing($input){
     //配列にHTMLタグを格納
