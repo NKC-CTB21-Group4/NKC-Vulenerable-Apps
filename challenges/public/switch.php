@@ -1,15 +1,16 @@
 <?php
-include("../config/progressdata.php");
+include("/app/config/progressdata.php");
 
 $title = $_GET["title"];
 
 $level = $_GET["level"];
 
-$list = array_keys($progressLevels);
+$list = $progressLevels;
 
-if (!in_array($title, $list)) {
+if (!in_array($title, array_keys($list))) {
     // タイトルが含まれていない場合の処理（例えばエラーメッセージを表示して終了）
     echo "<h1>無効なタイトルです。</h1>";
+    var_dump($title,array_keys($list));
     exit;
 }
 

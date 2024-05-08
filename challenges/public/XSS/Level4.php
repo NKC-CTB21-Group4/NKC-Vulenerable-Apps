@@ -1,4 +1,9 @@
 <?php
+require("../../utils/levelPageAccesCheck.php");
+$path = $_SERVER['REQUEST_URI'];
+if(!AccesCheck($path)){
+    header("Location: /");
+}
 // サニタイジング処理
 $name = preg_replace('/<(.|\n)*>/i', '', $_GET["name"]); // HTMLタグを削除
 $name = preg_replace('/<script.*?\/script.*>/i', '', $name); // JavaScriptコードを削除

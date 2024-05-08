@@ -1,5 +1,6 @@
 <?php
-include ("switch.php");
+include("switch.php");
+include("../utils/getMinLevels.php");
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -13,15 +14,15 @@ include ("switch.php");
     <div>
         <nav>
             <?php
-            if (!is_numeric($level) || $level < 1 || $level >= 5) {
+            if (!is_numeric($level) || $level < 1 || $level > count($list[$title])) {
                 // 数字が含まれていないか、1未満または5以上の場合の処理（例えばエラーメッセージを表示して終了）
                 echo "<p class=error>無効なレベルです。</p>";
                 exit;
             }else{
-                for($i = 1;$i <= $level;$i++){
+                for($i = 1;$i <= get_min_level_with_x($list,$title);$i++){
                     echo "<div class=levelcontainer>
                             <nav class=navigation>
-                                <a href='./SQLi/level". $i .".php' class=practice>レベル" .$i."の問題です</a>
+                                <a href='./".$title."/Level". $i .".php' class=practice>レベル" .$i."の問題です</a>
                             </nav>
                           </div>
                          ";
