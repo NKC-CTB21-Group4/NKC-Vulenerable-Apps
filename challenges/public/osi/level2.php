@@ -25,6 +25,8 @@
         } else {
             echo "Please enter a hostname or IP address to ping.";
         }
+    } else {
+        echo "Please enter a hostname or IP address to ping.";
     }
     ?>
 </body>
