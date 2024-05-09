@@ -1,5 +1,5 @@
 <?php
-require("../../utils/levelPageAccesCheck.php");
+require("../../utils/levelPageAccessBlock.php");
 if(AccessBlock())header("Location: /");
 // サニタイジング処理
 function sanitaizing($input){
