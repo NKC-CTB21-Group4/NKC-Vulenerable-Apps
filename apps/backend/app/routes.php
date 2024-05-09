@@ -24,4 +24,12 @@ return function (App $app) {
         $group->get('', ListUsersAction::class);
         $group->get('/{id}', ViewUserAction::class);
     });
+    
+    // challenges用のAPIエンドポイント
+    $app->group('/challenges/diary/api',function (Group $group){
+        $group->get('',function(Request $request,Response $response){
+            $response->getBody()->write('Hello world!');
+            return $response;
+        });
+    });
 };
