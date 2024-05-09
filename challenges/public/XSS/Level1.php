@@ -1,5 +1,5 @@
 <?php
-require("../../utils/levelPageAccesCheck.php");
+require("../../utils/levelPageAccessBlock.php");
 $name = $_GET['name'];
 $email = $_GET['email'];
 if(AccessBlock())header("Location: /");

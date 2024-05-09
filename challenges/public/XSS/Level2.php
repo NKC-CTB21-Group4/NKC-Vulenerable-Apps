@@ -1,5 +1,5 @@
 <?php
-require("../../utils/levelPageAccesCheck.php");
+require("../../utils/levelPageAccessBlock.php");
 if(AccessBlock())header("Location: /");
 // 入力文字列の空白と<script>タグを削除
 $name = preg_replace('/<script.*?>.*?<\/script.*>/i', '', $_GET['name']);
