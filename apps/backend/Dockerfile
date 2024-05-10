@@ -1,5 +1,5 @@
 # Use an official PHP image as the base image
-FROM php:7-alpine
+FROM php:8.0-alpine
 
 # Set the working directory in the container
 WORKDIR /var/www
