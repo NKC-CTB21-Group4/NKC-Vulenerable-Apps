@@ -45,15 +45,7 @@ return function (ContainerBuilder $containerBuilder) {
                 $cache
             );
 
-
-            $config = Setup::createAttributeMetadataConfiguration(
-                $doctrineSettings['metadata_dirs'],
-                $doctrineSettings['dev_mode'],
-                null,
-                $cache
-            );
-
-            return EntityManager::create($settings['doctrine']['connection'], $config);
+            return EntityManager::create($doctrineSettings['connection'], $config);
         },
     ]);
 };
