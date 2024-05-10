@@ -21,6 +21,33 @@ return function (ContainerBuilder $containerBuilder) {
                     'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
                     'level' => Logger::DEBUG,
                 ],
+                'doctrine' => [
+                    // Enables or disables Doctrine metadata caching
+                    // for either performance or convenience during development.
+                    'dev_mode' => true,
+        
+                    // List of paths where Doctrine will search for metadata.
+                    // Metadata can be either YML/XML files or PHP classes annotated
+                    // with comments or PHP8 attributes.
+                    'metadata_dirs' => [__DIR__ . '../src/Challenges/Model'],
+
+                    'cache_dir' => __DIR__ . '../var/cache/doctrine',
+        
+                    // The parameters Doctrine needs to connect to your database.
+                    // These parameters depend on the driver (for instance the 'pdo_sqlite' driver
+                    // needs a 'path' parameter and doesn't use most of the ones shown in this example).
+                    // Refer to the Doctrine documentation to see the full list
+                    // of valid parameters: https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/configuration.html
+                    'connection' => [
+                        'driver' => 'pdo_mysql',
+                        'host' => 'localhost',
+                        'port' => 3306,
+                        'dbname' => 'mydb',
+                        'user' => 'user',
+                        'password' => 'secret',
+                        'charset' => 'utf-8'
+                    ]
+                ]
             ]);
         }
     ]);

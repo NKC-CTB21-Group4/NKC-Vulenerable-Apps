@@ -28,8 +28,7 @@ return function (App $app) {
     // challenges用のAPIエンドポイント
     $app->group('/challenges/diary/api',function (Group $group){
         $group->get('',function(Request $request,Response $response){
-            $response->getBody()->write('Hello world!');
-            return $response;
+            
         });
     });
 };
