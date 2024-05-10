@@ -29,9 +29,9 @@ return function (ContainerBuilder $containerBuilder) {
                     // List of paths where Doctrine will search for metadata.
                     // Metadata can be either YML/XML files or PHP classes annotated
                     // with comments or PHP8 attributes.
-                    'metadata_dirs' => [__DIR__ . '../src/Challenges/Model'],
+                    'metadata_dirs' => [__DIR__ . '/../src/Challenges/Model'],
 
-                    'cache_dir' => __DIR__ . '../var/cache/doctrine',
+                    'cache_dir' => __DIR__ . '/../var/cache/doctrine',
         
                     // The parameters Doctrine needs to connect to your database.
                     // These parameters depend on the driver (for instance the 'pdo_sqlite' driver
@@ -40,12 +40,12 @@ return function (ContainerBuilder $containerBuilder) {
                     // of valid parameters: https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/configuration.html
                     'connection' => [
                         'driver' => 'pdo_mysql',
-                        'host' => 'localhost',
+                        'host' => 'db',
                         'port' => 3306,
-                        'dbname' => 'mydb',
-                        'user' => 'user',
+                        'dbname' => 'challenges',
+                        'user' => 'challenges_user',
                         'password' => 'secret',
-                        'charset' => 'utf-8'
+                        'charset' => 'utf8mb4'
                     ]
                 ]
             ]);
