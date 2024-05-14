@@ -1,0 +1,183 @@
+[
+    {
+      "id": 1,
+      "userId": 101,
+      "title": "今日の出来事",
+      "content": "今日は天気が良かったので、公園でピクニックをしました。",
+      "date": "2024-05-14T12:34:56Z",
+      "isPublic": true,
+      "isDeleted": false
+    },
+    {
+      "id": 2,
+      "userId": 102,
+      "title": "新しいプロジェクト",
+      "content": "新しいプロジェクトが始まり、チームでミーティングをしました。",
+      "date": "2024-05-13T09:00:00Z",
+      "isPublic": false,
+      "isDeleted": false
+    },
+    {
+      "id": 3,
+      "userId": 103,
+      "title": "ランニング日記",
+      "content": "今日は5キロのランニングをしました。少し疲れましたが、気分は良いです。",
+      "date": "2024-05-12T18:45:00Z",
+      "isPublic": true,
+      "isDeleted": true
+    },
+    {
+      "id": 4,
+      "userId": 104,
+      "title": "映画鑑賞",
+      "content": "今日は友達と映画を見に行きました。とても感動しました。",
+      "date": "2024-05-11T20:00:00Z",
+      "isPublic": true,
+      "isDeleted": false
+    },
+    {
+      "id": 5,
+      "userId": 105,
+      "title": "料理挑戦",
+      "content": "新しいレシピに挑戦してみました。結果は大成功！",
+      "date": "2024-05-10T15:30:00Z",
+      "isPublic": false,
+      "isDeleted": false
+    },
+    {
+      "id": 6,
+      "userId": 106,
+      "title": "読書日記",
+      "content": "今日は一日中読書をして過ごしました。新しい本がとても面白いです。",
+      "date": "2024-05-09T14:00:00Z",
+      "isPublic": true,
+      "isDeleted": false
+    },
+    {
+      "id": 7,
+      "userId": 107,
+      "title": "仕事の進捗",
+      "content": "今日は仕事が順調に進みました。新しいアイデアも浮かびました。",
+      "date": "2024-05-08T09:45:00Z",
+      "isPublic": true,
+      "isDeleted": false
+    },
+    {
+      "id": 8,
+      "userId": 108,
+      "title": "旅行計画",
+      "content": "夏休みの旅行計画を立てました。行き先は北海道です。",
+      "date": "2024-05-07T11:20:00Z",
+      "isPublic": false,
+      "isDeleted": true
+    },
+    {
+      "id": 9,
+      "userId": 109,
+      "title": "ガーデニング",
+      "content": "今日は庭の手入れをしました。新しい花を植えました。",
+      "date": "2024-05-06T08:30:00Z",
+      "isPublic": true,
+      "isDeleted": false
+    },
+    {
+      "id": 10,
+      "userId": 110,
+      "title": "ジムトレーニング",
+      "content": "ジムでのトレーニングが終わりました。疲れたけど気持ちいいです。",
+      "date": "2024-05-05T18:00:00Z",
+      "isPublic": false,
+      "isDeleted": false
+    },
+    {
+      "id": 11,
+      "userId": 111,
+      "title": "カフェでリラックス",
+      "content": "新しいカフェを見つけました。コーヒーがとても美味しかったです。",
+      "date": "2024-05-04T16:15:00Z",
+      "isPublic": true,
+      "isDeleted": false
+    },
+    {
+      "id": 12,
+      "userId": 112,
+      "title": "買い物日",
+      "content": "今日は買い物に行きました。たくさんの良いものが買えました。",
+      "date": "2024-05-03T13:45:00Z",
+      "isPublic": true,
+      "isDeleted": false
+    },
+    {
+      "id": 13,
+      "userId": 113,
+      "title": "音楽鑑賞",
+      "content": "新しいアルバムを聴きました。とてもリラックスできました。",
+      "date": "2024-05-02T19:30:00Z",
+      "isPublic": true,
+      "isDeleted": false
+    },
+    {
+      "id": 14,
+      "userId": 114,
+      "title": "散歩日記",
+      "content": "今日は近所を散歩しました。自然がいっぱいで気持ちよかったです。",
+      "date": "2024-05-01T10:00:00Z",
+      "isPublic": true,
+      "isDeleted": false
+    },
+    {
+      "id": 15,
+      "userId": 115,
+      "title": "テクノロジーの進化",
+      "content": "最新のテクノロジーについての記事を読みました。とても興味深かったです。",
+      "date": "2024-04-30T14:00:00Z",
+      "isPublic": true,
+      "isDeleted": false
+    },
+    {
+      "id": 16,
+      "userId": 116,
+      "title": "家族との時間",
+      "content": "今日は家族と一緒に過ごしました。楽しい時間を過ごしました。",
+      "date": "2024-04-29T17:00:00Z",
+      "isPublic": true,
+      "isDeleted": false
+    },
+    {
+      "id": 17,
+      "userId": 117,
+      "title": "学習記録",
+      "content": "今日は新しいプログラミング言語を学びました。面白かったです。",
+      "date": "2024-04-28T08:30:00Z",
+      "isPublic": true,
+      "isDeleted": false
+    },
+    {
+      "id": 18,
+      "userId": 118,
+      "title": "ペットとの日々",
+      "content": "ペットの猫と遊びました。とても癒されました。",
+      "date": "2024-04-27T12:00:00Z",
+      "isPublic": true,
+      "isDeleted": false
+    },
+    {
+      "id": 19,
+      "userId": 119,
+      "title": "DIYプロジェクト",
+      "content": "今日はDIYプロジェクトに挑戦しました。楽しかったです。",
+      "date": "2024-04-26T11:45:00Z",
+      "isPublic": true,
+      "isDeleted": false
+    },
+    {
+      "id": 20,
+      "userId": 120,
+      "title": "瞑想の日",
+      "content": "今日は瞑想をしました。心がすっきりしました。",
+      "date": "2024-04-25T07:30:00Z",
+      "isPublic": true,
+      "isDeleted": false
+    }
+  ]
+  
