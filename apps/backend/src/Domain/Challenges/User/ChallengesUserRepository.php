@@ -11,12 +11,12 @@ interface ChallengesUserRepository
      */
     public function findAll(): array;
 
-    // /**
-    //  * @param int $id
-    //  * @return ChallengesUser
-    //  * @throws ChallengesUserNotFoundException
-    //  */
-    // public function findUserOfId(int $id): ChallengesUser;
+    /**
+     * @param int $id
+     * @return ChallengesUser
+     * @throws ChallengesUserNotFoundException
+     */
+    public function findUserOfId(int $id): ChallengesUser;
 
     // /**
     //  * @param int $id

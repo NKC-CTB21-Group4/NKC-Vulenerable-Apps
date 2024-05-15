@@ -6,6 +6,7 @@ use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
 
 use App\Application\Actions\Challenges\User\ListChallengesUsersAction;
+use App\Application\Actions\Challenges\User\ViewChallengesUserAction;
 use App\Infrastructure\Persistence\Challenges\User\DatabaseChallengesUserRepository;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -31,10 +32,15 @@ return function (App $app) {
     });
     
     // challenges用のAPIエンドポイント
-    $app->group('/challenges/api',function (Group $group){
-        $group->get('',function(Request $request,Response $response){
-            
+    $app->group('/challenges/api', function (Group $group) {
+        $group->get('', function (Request $request, Response $response) {
+            // ここにルート処理を書く
+            return $response;
         });
-        $group->get('/users',ListChallengesUsersAction::class);
+
+        $group->group('/users', function (Group $group) {
+            $group->get('', ListChallengesUsersAction::class);
+            $group->get('/{id}', ViewChallengesUserAction::class);
+        });
     });
 };

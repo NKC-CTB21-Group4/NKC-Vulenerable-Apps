@@ -48,17 +48,17 @@ class DatabaseChallengesUserRepository extends EntityRepository implements Chall
     // /**
     //  * {@inheritdoc}
     //  */
-    // public function findUserOfId(int $id): ChallengesUser
-    // {
-    //     /** @var ChallengesUser $user */
-    //     $user = $this->repository->find((string) $id);
+    public function findUserOfId(int $id): ChallengesUser
+    {
+        /** @var ChallengesUser $user */
+        $user = parent::find((string) $id);
 
-    //     if ($user === null) {
-    //         throw new ChallengesUserNotFoundException();
-    //     }
+        if ($user === null) {
+            throw new ChallengesUserNotFoundException();
+        }
 
-    //     return $user;
-    // }
+        return $user;
+    }
 
     /**
      * {@inheritdoc}
