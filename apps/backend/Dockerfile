@@ -11,6 +11,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN composer install 
 
+RUN docker-php-ext-install pdo_mysql
+
 # Expose the port that your application will run on
 EXPOSE 8080
 
