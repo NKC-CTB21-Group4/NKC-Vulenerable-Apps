@@ -10,12 +10,12 @@
 <div class="wrapper">
 <!-- ヘッダー -->
 	<header class="header">
-		<h1 class="logo"><a href="index.html"><img src="images/logo.png" alt="KUJIRA Cafe"></a></h1>
+		<h1 class="logo"><a href="index.html"></a></h1>
 		  <nav class="nav">
 			<ul>
 				<li><a href="index.html">ホーム</a></li>
 				<li><a href="about.html">ご案内</a></li>
-				<li><a href="login.html">ログイン</a></li>
+				<li><a href="level1login.html">ログイン</a></li>
 			</ul>
 		  </nav>
 	</header>
@@ -26,7 +26,7 @@
 		  <p class="question-item">ヒントは意外な場所に隠されています。</p>
 	</main>
 	<footer class="footer">
-		<p>&copy;Copyright YARARE APPLICATION LEVEL 1 YEAHHHH.ALL rights reserved.</p>
+		<p>&copy;Copyright YARARE APPLICATION LEVEL 1.ALL rights reserved.</p>
 	</footer>
 </div>
 </body>

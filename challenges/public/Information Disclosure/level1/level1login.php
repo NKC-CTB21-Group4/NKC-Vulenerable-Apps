@@ -5,24 +5,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ログイン画面 | Login Form</title>
 <link rel="stylesheet" href="css/style.css">
-<link rel="icon" href="favicon.ico">
 </head>
 <body>
 <div class="wrapper">
-                            <script>
-var isAdmin = false;
-if (isAdmin) {
-   adminPanelTag.setAttribute('href', '/E-bWuqAi3-hLBdut4');
-   adminPanelTag.innerText = 'Admin panel';
-}
-</script>
 <!-- ヘッダー -->
 	<header class="header">
 		  <nav class="nav">
 			<ul>
                 <li><a href="level1.html">ホーム</a></li>
 				<li><a href="about.html">ご案内</a></li>
-				<li><a href="login.html">ログイン</a></li>
+				<li><a href="eaW-Fg44=tes2X--xq.html">ログイン</a></li>
 			</ul>
 		  </nav>
 	</header>
