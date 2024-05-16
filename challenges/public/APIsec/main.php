@@ -6,34 +6,31 @@ include("utils/parseJson.php");
 $entry_NewsData = parseJson('json/newsdata.json');
 $entry_DiaryData = parseJson('json/diarydata.json');
 
-// ニュースページ番号を取得
-$newsPage = isset($_GET['newsPage']) ? (int)$_GET['newsPage'] : 1;
-if ($newsPage < 1) {
-    $newsPage = 1;
+// Newsのページ番号を取得
+$newspage = isset($_GET['news-page']) ? (int)$_GET['news-page'] : 1;
+if ($newspage < 1) {
+    $newspage = 1;
 }
 
-// 日記ページ番号を取得
-$diaryPage = isset($_GET['diaryPage']) ? (int)$_GET['diaryPage'] : 1;
-if ($diaryPage < 1) {
-    $diaryPage = 1;
+$diarypage = isset($_GET['diary-page']) ? (int)$_GET['diary-page'] : 1;
+if ($diarypage < 1) {
+    $diarypage = 1;
 }
 
-// 1ページあたりのエントリー数
-$perPage = 5;
-
-// ニュースの開始位置
-$newsStart = ($newsPage - 1) * $perPage;
+// 1ページあたりの日記数
+$PerPage = 5;
 
 // 日記の開始位置
-$diaryStart = ($diaryPage - 1) * $perPage;
+$newsStart = ($newspage - 1) * $PerPage;
+$diaryStart = ($diarypage - 1) * $PerPage;
 
-// エントリーの総数を取得
-$totalNews = countEntry($entry_NewsData);
+// 日記の総数を取得
 $totalDiaries = countEntry($entry_DiaryData);
+$totalNews = countEntry($entry_NewsData);
 
 // 総ページ数を計算
-$totalNewsPages = ceil($totalNews / $perPage);
-$totalDiaryPages = ceil($totalDiaries / $perPage);
+$totalDiaryPages = ceil($totalDiaries / $PerPage);
+$totalNewsPages = ceil($totalNews / $PerPage);
 ?>
 <!DOCTYPE html>
 <html>
@@ -49,39 +46,40 @@ $totalDiaryPages = ceil($totalDiaries / $perPage);
         </nav>
     </header>
     <div id="main-content">
-        <h2 class="News">News Update</h2>
+        <h2 id="news-section" class="News">News Update</h2>
         <div class="border">
         <?php
-        displayEntryExcerpt($entry_NewsData, 'title', $newsStart, $perPage);    
+        // Newsのタイトルを表示
+        displayEntryExcerpt($entry_NewsData, 'title', $newsStart, $PerPage, 'viewNews.php?id=');
         ?>
         </div>
         <nav class="pagination">
             <?php
-            // ニュースページネーションリンクの表示
+            // Newsのページネーションリンクの表示
             for ($i = 1; $i <= $totalNewsPages; $i++) {
-                if ($i == $newsPage) {
+                if ($i == $newspage) {
                     echo "<span class='current-page'>{$i}</span> ";
                 } else {
-                    echo "<a href='?newsPage={$i}&diaryPage={$diaryPage}'>{$i}</a> ";
+                    echo "<a href='?news-page={$i}#news-section'>{$i}</a> ";
                 }
             }
             ?>
         </nav>
-        <h2 class="ViewDiary">公開日記</h2>
+        <h2 id="diary-section" class="ViewDiary">公開日記</h2>
         <div class="border">
         <?php
         // 日記のタイトルを表示
-        displayEntryExcerpt($entry_DiaryData, 'title', $diaryStart, $perPage);
+        displayEntryExcerpt($entry_DiaryData, 'title', $diaryStart, $PerPage, 'viewDiary.php?id=');
         ?>
         </div>
         <nav class="pagination">
             <?php
-            // 日記ページネーションリンクの表示
+            // 日記のページネーションリンクの表示
             for ($i = 1; $i <= $totalDiaryPages; $i++) {
-                if ($i == $diaryPage) {
+                if ($i == $diarypage) {
                     echo "<span class='current-page'>{$i}</span> ";
                 } else {
-                    echo "<a href='?newsPage={$newsPage}&diaryPage={$i}'>{$i}</a> ";
+                    echo "<a href='?diary-page={$i}#diary-section'>{$i}</a> ";
                 }
             }
             ?>
