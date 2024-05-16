@@ -81,18 +81,18 @@ class DatabaseChallengesUserRepository extends EntityRepository implements Chall
     // /**
     //  * {@inheritdoc}
     //  */
-    // public function deleteUser(int $id): void
-    // {
-    //     $user = $this->find($id);
+    public function deleteUser(int $id): void
+    {
+        $user = $this->find($id);
 
-    //     if ($user === null) {
-    //         throw new ChallengesUserNotFoundException();
-    //     }
+        if ($user === null) {
+            throw new ChallengesUserNotFoundException();
+        }
 
-    //     // 論理削除のために、削除フラグを設定する例
-    //     //$user->setDeleted(true);
-    //     $this->_em->flush();
-    // }
+        //論理削除のために、削除フラグを設定する例
+        $user->setDeleted(true);
+        $this->_em->flush();
+    }
 
     // /**
     //  * {@inheritdoc}
