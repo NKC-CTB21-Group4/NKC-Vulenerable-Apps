@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Challenges\User;
 
-use DateTimeImmutable;
+use DateTime;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -15,9 +15,9 @@ use JsonSerializable;
 final class ChallengesUser implements JsonSerializable
 {
     #[Id, GeneratedValue, Column(type: 'integer')]
-    private ?int $id;
+    private ?int $id = null;
 
-    #[Column(type: 'string', unique: true)]
+    #[Column(type: 'string')]
     private string $username;
 
     #[Column(type: 'string',unique: true)]
@@ -30,16 +30,15 @@ final class ChallengesUser implements JsonSerializable
     private bool $isAdmin;
 
     #[Column(name: "registered_at", type: "datetime", nullable: false)]
-    private DateTimeImmutable $registeredAt;
+    private DateTime $registeredAt;
 
-    public function __construct(?int $id, string $username, string $email, string $password, bool $isAdmin)
+    public function __construct(string $username, string $email, string $password, bool $isAdmin)
     {
-        $this->id = $id;
         $this->username = $username;
         $this->email = $email;
-        $this->securePassword = password_hash($password);
+        $this->securePassword = password_hash($password,PASSWORD_DEFAULT);
         $this->isAdmin = $isAdmin;
-        $this->registeredAt = new DateTimeImmutable('now');
+        $this->registeredAt = new DateTime('now');
     }
 
     public function getId(): ?int
@@ -74,7 +73,7 @@ final class ChallengesUser implements JsonSerializable
             'id' => $this->id,
             'email' => $this->email,
             'username' => $this->username,
-            'registered_at' => $this->registeredAt,
+            'registered_at' => $this->registeredAt->format('Y-m-d H:i:s'),
         ];
     }
 }

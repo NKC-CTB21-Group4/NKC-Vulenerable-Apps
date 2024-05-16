@@ -71,11 +71,12 @@ class DatabaseChallengesUserRepository extends EntityRepository implements Chall
     // /**
     //  * {@inheritdoc}
     //  */
-    // public function createUser(ChallengesUser $user): void
-    // {
-    //     $this->_em->persist($user);
-    //     $this->_em->flush();
-    // }
+    public function createUser(ChallengesUser $user): ChallengesUser
+    {
+        $this->_em->persist($user);
+        $this->_em->flush();
+        return $user;
+    }
 
     // /**
     //  * {@inheritdoc}

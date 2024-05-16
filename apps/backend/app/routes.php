@@ -7,6 +7,7 @@ use App\Application\Actions\User\ViewUserAction;
 
 use App\Application\Actions\Challenges\User\ListChallengesUsersAction;
 use App\Application\Actions\Challenges\User\ViewChallengesUserAction;
+use App\Application\Actions\Challenges\User\CreateChallengesUsersAction;
 use App\Infrastructure\Persistence\Challenges\User\DatabaseChallengesUserRepository;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -40,6 +41,7 @@ return function (App $app) {
 
         $group->group('/users', function (Group $group) {
             $group->get('', ListChallengesUsersAction::class);
+            $group->post('',CreateChallengesUsersAction::class);
             $group->get('/{id}', ViewChallengesUserAction::class);
         });
     });

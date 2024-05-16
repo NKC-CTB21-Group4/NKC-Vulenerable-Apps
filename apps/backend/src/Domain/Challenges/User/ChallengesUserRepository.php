@@ -24,11 +24,11 @@ interface ChallengesUserRepository
     //  */
     // public function deleteUser(int $id): void;
 
-    // /**
-    //  * @param ChallengesUser $user
-    //  * @return ChallengesUser
-    //  */
-    // public function createUser(ChallengesUser $user): ChallengesUser;
+    /**
+     * @param ChallengesUser $user
+     * @return ChallengesUser
+     */
+    public function createUser(ChallengesUser $user): ChallengesUser;
 
     // /**
     //  * @param int $id
