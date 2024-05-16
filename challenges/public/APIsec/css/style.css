@@ -6,17 +6,19 @@ body {
 }
 
 header {
-    background-color: #f8f9fa;
+    background-color: #343a40;
     padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #fff;
 }
+
 header h1 {
     display: inline;
     margin: 0;
-    font-size: 1.5em;
+    font-size: 1.8em;
 }
 
 header nav {
@@ -26,21 +28,30 @@ header nav {
 
 header nav a {
     margin-left: 20px;
-    color: #333;
+    color: #ffc107;
     text-decoration: none;
+    font-weight: bold;
 }
 
-div .border{
-    height: 12.7em;
-    overflow: auto;
-    border: 2px solid #333; /* 線を太くする */
-    border-radius: 10px; /* 4隅を丸角にする */
+header nav a:hover {
+    color: #fff;
+}
+
+h1, .ViewDiary, .News {
+    padding-left: 20px;
+    color: #343a40;
+}
+
+div .border {
+    height: 15em;
+    overflow-y: auto;
+    border: 2px solid #333;
+    border-radius: 10px;
     background-color: #fff;
     margin: 25px;
     color: #333;
-    font-family: 'Helvetica Neue', sans-serif;
     line-height: 1.6;
-    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
 .form-container {
@@ -48,13 +59,14 @@ div .border{
     margin: 50px auto;
     padding: 20px 30px;
     background-color: #fff;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
 }
 
 .form-container label {
     display: block;
     margin-bottom: 5px;
+    color: #333;
 }
 
 .form-container input[type="text"],
@@ -73,39 +85,71 @@ div .border{
     width: 100%;
     padding: 10px;
     border: none;
-    background-color: #4CAF50;
+    background-color: #007bff;
     color: #fff;
     cursor: pointer;
     border-radius: 4px;
 }
 
 .form-container input[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
 }
 
-.diary-list {
+.entry-list {
     list-style-type: none;
     padding: 0;
 }
 
-.diary-entry {
-    background-color: white;
+.entry {
+    background-color: #fff;
     margin: 15px;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.diary-entry h2 {
+.entry h2 {
     margin-top: 0;
-    color: #007BFF;
+    color: #007bff;
+    font-size: 1.5em;
 }
 
-.diary-entry p {
+.entry p {
     margin: 5px 0;
+    color: #555;
 }
 
-.diary-entry em {
+.entry em {
     color: #777;
 }
 
+.pagination {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: #007bff;
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.pagination .current-page {
+    font-weight: bold;
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+}

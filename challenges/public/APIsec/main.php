@@ -1,45 +1,39 @@
 <?php
-include("utils/diaryDataExcerpt.php");
+include("utils/dataExcerpt.php");
+include("utils/newsData.php");
+include("utils/parseJson.php");
 
-// ページ番号を取得
-$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$entry_NewsData = parseJson('json/newsdata.json');
+$entry_DiaryData = parseJson('json/diarydata.json');
 
-// 1ページあたりの日記数
-$diariesPerPage = 10;
+// ニュースページ番号を取得
+$newsPage = isset($_GET['newsPage']) ? (int)$_GET['newsPage'] : 1;
+if ($newsPage < 1) {
+    $newsPage = 1;
+}
+
+// 日記ページ番号を取得
+$diaryPage = isset($_GET['diaryPage']) ? (int)$_GET['diaryPage'] : 1;
+if ($diaryPage < 1) {
+    $diaryPage = 1;
+}
+
+// 1ページあたりのエントリー数
+$perPage = 5;
+
+// ニュースの開始位置
+$newsStart = ($newsPage - 1) * $perPage;
 
 // 日記の開始位置
-$start = ($page - 1) * $diariesPerPage;
+$diaryStart = ($diaryPage - 1) * $perPage;
 
-/**
- * JSONファイルから日記データを読み込み、日記の総数を返す関数。
- *
- * @param string $jsonFilePath JSONファイルのパス
- * @return int 日記の総数
- */
-function countDiaries($jsonFilePath) {
-    // JSONファイルを読み込む
-    if (!file_exists($jsonFilePath)) {
-        return 0;
-    }
+// エントリーの総数を取得
+$totalNews = countEntry($entry_NewsData);
+$totalDiaries = countEntry($entry_DiaryData);
 
-    $jsonData = file_get_contents($jsonFilePath);
-    $diaries = json_decode($jsonData, true);
-
-    // データの有無を確認
-    if (empty($diaries)) {
-        return 0;
-    }
-
-    $count = 0;
-    foreach ($diaries as $diary) {
-        if (!$diary['isPublic'] || $diary['isDeleted']) {
-            continue; // 非公開または削除されたエントリーはカウントしない
-        }
-        $count++;
-    }
-
-    return $count;
-}
+// 総ページ数を計算
+$totalNewsPages = ceil($totalNews / $perPage);
+$totalDiaryPages = ceil($totalDiaries / $perPage);
 ?>
 <!DOCTYPE html>
 <html>
@@ -55,22 +49,42 @@ function countDiaries($jsonFilePath) {
         </nav>
     </header>
     <div id="main-content">
-        <h2>News Update</h2>
-        <p>ここに最新のニュースやアップデートを表示します。</p>
-        <h2>公開日記</h2>
+        <h2 class="News">News Update</h2>
+        <div class="border">
+        <?php
+        displayEntryExcerpt($entry_NewsData, 'title', $newsStart, $perPage);    
+        ?>
+        </div>
+        <nav class="pagination">
+            <?php
+            // ニュースページネーションリンクの表示
+            for ($i = 1; $i <= $totalNewsPages; $i++) {
+                if ($i == $newsPage) {
+                    echo "<span class='current-page'>{$i}</span> ";
+                } else {
+                    echo "<a href='?newsPage={$i}&diaryPage={$diaryPage}'>{$i}</a> ";
+                }
+            }
+            ?>
+        </nav>
+        <h2 class="ViewDiary">公開日記</h2>
         <div class="border">
         <?php
         // 日記のタイトルを表示
-        displayDiariesExcerpt('json/diarydata.json', 'title', $start, $diariesPerPage);
+        displayEntryExcerpt($entry_DiaryData, 'title', $diaryStart, $perPage);
         ?>
         </div>
-        <nav>
-            <?php if ($page > 1): ?>
-                <a href="?page=<?php echo $page - 1; ?>">前へ</a>
-            <?php endif; ?>
-            <?php if ($page * $diariesPerPage < countDiaries('json/diarydata.json')): ?>
-                <a href="?page=<?php echo $page + 1; ?>">次へ</a>
-            <?php endif; ?>
+        <nav class="pagination">
+            <?php
+            // 日記ページネーションリンクの表示
+            for ($i = 1; $i <= $totalDiaryPages; $i++) {
+                if ($i == $diaryPage) {
+                    echo "<span class='current-page'>{$i}</span> ";
+                } else {
+                    echo "<a href='?newsPage={$newsPage}&diaryPage={$i}'>{$i}</a> ";
+                }
+            }
+            ?>
         </nav>
     </div>
 </body>

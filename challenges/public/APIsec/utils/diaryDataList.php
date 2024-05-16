@@ -2,28 +2,16 @@
 /*/
  * JSONファイルから日記データを読み込み、HTMLで表示する関数。
  */
-function displayDiaries($jsonFilePath) {
-    // JSONファイルのパス
-    $jsonFilePath = 'json/diarydata.json';
-
-    // JSONファイルを読み込む
-    if (!file_exists($jsonFilePath)) {
-        echo "ファイルが存在しません。";
-        return;
-    }
-
-    $jsonData = file_get_contents($jsonFilePath);
-    $diaries = json_decode($jsonData, true);
-
+function displayDiariesList($entry_data) {
     // データの有無を確認
-    if (empty($diaries)) {
+    if (empty($entry_data)) {
         echo "データが存在しません。";
         return;
     }
 
     // データを表示
     echo "<ul class='diary-list'>";
-    foreach ($diaries as $diary) {
+    foreach ($entry_data as $diary) {
         if (!$diary['isPublic'] || $diary['isDeleted']) {
             continue; // 非公開または削除されたエントリーは表示しない
         }
