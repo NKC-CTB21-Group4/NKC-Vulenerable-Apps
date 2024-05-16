@@ -18,11 +18,11 @@ interface ChallengesUserRepository
      */
     public function findUserOfId(int $id): ChallengesUser;
 
-    // /**
-    //  * @param int $id
-    //  * @throws ChallengesUserNotFoundException
-    //  */
-    // public function deleteUser(int $id): void;
+    /**
+     * @param int $id
+     * @throws ChallengesUserNotFoundException
+     */
+    public function deleteUser(int $id): void;
 
     /**
      * @param ChallengesUser $user
