@@ -15,7 +15,7 @@ function displayEntryList($entry_data, $Id) {
     // データを表示
     echo "<ul class='entry-list'>";
     foreach ($entry_data as $entry) {
-        if ($entry['id'] == $Id && $entry['isPublic'] && !$entry['isDeleted']) {
+        if (($entry['userId'] == $Id || $entry['id'] == $Id) && $entry['isPublic'] && !$entry['isDeleted']) {
             echo "<li class='entry'>";
             echo "<p><strong>ID:</strong> " . htmlspecialchars($entry['id'], ENT_QUOTES, 'UTF-8') . "</p>";
             echo "<p><strong>ユーザーID:</strong> " . htmlspecialchars($entry['userId'], ENT_QUOTES, 'UTF-8') . "</p>";
