@@ -46,6 +46,27 @@ final class ChallengesUser implements JsonSerializable
         $this->deletedAt = null;
     }
 
+    public function setUsername(string $username): void
+    {
+        $this->username = $username;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->securePassword = password_hash($password,PASSWORD_DEFAULT);
+    }
+
+    public function setIsAdmin(bool $isAdmin): void
+    {
+        $this->isAdmin = $isAdmin;
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,7 +96,7 @@ final class ChallengesUser implements JsonSerializable
     {
         $this->deletedAt = new DateTime('now');
     }
-    public function getDeletedAt():DateTime
+    public function getDeletedAt():?DateTime
     {
         return $this->deletedAt;
     }

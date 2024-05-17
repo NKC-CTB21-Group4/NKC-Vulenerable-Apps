@@ -9,6 +9,7 @@ use App\Application\Actions\Challenges\User\ListChallengesUsersAction;
 use App\Application\Actions\Challenges\User\ViewChallengesUserAction;
 use App\Application\Actions\Challenges\User\CreateChallengesUsersAction;
 use App\Application\Actions\Challenges\User\DeleteChallengesUsersAction;
+use App\Application\Actions\Challenges\User\UpdateChallengesUsersAction;
 
 use App\Infrastructure\Persistence\Challenges\User\DatabaseChallengesUserRepository;
 
@@ -45,6 +46,7 @@ return function (App $app) {
             $group->get('', ListChallengesUsersAction::class);
             $group->post('',CreateChallengesUsersAction::class);
             $group->delete('',DeleteChallengesUsersAction::class);
+            $group->put('',UpdateChallengesUsersAction::class);
             $group->get('/{id}', ViewChallengesUserAction::class);
         });
     });
