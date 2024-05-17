@@ -29,6 +29,11 @@ class DatabaseChallengesUserRepository extends EntityRepository implements Chall
         $this->_em->flush();
     }
 
+    private function isDeleted($user)
+    {
+        return $user->getDeletedAt() !== null;  
+    }
+
     // /**
     //  * {@inheritdoc}
     //  */
@@ -53,7 +58,7 @@ class DatabaseChallengesUserRepository extends EntityRepository implements Chall
         /** @var ChallengesUser $user */
         $user = parent::find((string) $id);
 
-        if ($user === null) {
+        if ($user === null || $this->isDeleted($user)) {
             throw new ChallengesUserNotFoundException();
         }
 
@@ -65,7 +70,9 @@ class DatabaseChallengesUserRepository extends EntityRepository implements Chall
      */
     public function findAll(): array
     {
-        return parent::findAll();
+        return array_filter(parent::findAll(),function($user) {
+            return !$this->isDeleted($user);
+        });
     }
 
     // /**
@@ -90,7 +97,7 @@ class DatabaseChallengesUserRepository extends EntityRepository implements Chall
         }
 
         //論理削除のために、削除フラグを設定する例
-        $user->setDeleted(true);
+        $user->setDeletedAt();
         $this->_em->flush();
     }
 
@@ -114,4 +121,6 @@ class DatabaseChallengesUserRepository extends EntityRepository implements Chall
 
     //     return $existingUser;
     // }
+
+    
 }

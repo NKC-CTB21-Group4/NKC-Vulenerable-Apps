@@ -29,11 +29,11 @@ final class ChallengesUser implements JsonSerializable
     #[Column(name: 'is_admin', type: 'boolean')]
     private bool $isAdmin;
 
-    #[Column(name: "is_deleted",type: 'boolean')]
-    private bool $isDeleted;
-
-    #[Column(name: "registered_at", type: "datetime", nullable: false)]
+    #[Column(name: 'registered_at', type: 'datetime', nullable: false)]
     private DateTime $registeredAt;
+
+    #[Column(name: 'deleted_at', type: 'datetime', nullable: true)]
+    private ?DateTime $deletedAt;
 
 
     public function __construct(string $username, string $email, string $password, bool $isAdmin)
@@ -43,7 +43,7 @@ final class ChallengesUser implements JsonSerializable
         $this->securePassword = password_hash($password,PASSWORD_DEFAULT);
         $this->isAdmin = $isAdmin;
         $this->registeredAt = new DateTime('now');
-        $this->isDeleted = false;
+        $this->deletedAt = null;
     }
 
     public function getId(): ?int
@@ -71,9 +71,13 @@ final class ChallengesUser implements JsonSerializable
         return $this->isAdmin;
     }
 
-    public function setDeleted($boolean):void
+    public function setDeletedAt():void
     {
-        $this->isDeleted = $boolean;
+        $this->deletedAt = new DateTime('now');
+    }
+    public function getDeletedAt():DateTime
+    {
+        return $this->deletedAt;
     }
 
     #[\ReturnTypeWillChange]
