@@ -53,6 +53,7 @@ return function (App $app) {
             $group->put('',UpdateChallengesUsersAction::class);
             $group->get('/{id}', ViewChallengesUserAction::class);
         });
+
         $group->group('/news', function (Group $group) {
             $group->get('',ListChallengesNewsAction::class);
             $group->get('/{id}',ViewChallengesNewsAction::class);
@@ -60,5 +61,14 @@ return function (App $app) {
             $group->delete('',DeleteChallengesNewsAction::class);
             $group->put('',UpdateChallengesNewsAction::class);
         });
+
+        // $group->group('/users/{userId}/diary', function (Group $group) {
+        //     $group->put('/{diaryId}', UpdateChallengesUsersDiaryAction::class);
+        //     $group->post('', CreateChallengesUsersDiaryAction::class);
+        //     $group->delete('/{diaryId}', DeleteChallengesUsersDiaryAction::class);
+        //     $group->get('/{diaryId}', ViewChallengesUsersDiaryAction::class);
+        //     $group->get('', ListChallengesUsersDiaryAction::class);
+        // });
+            
     });
 };
