@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\Table;
 use JsonSerializable;
 
 #[Entity, Table(name: 'challenges_users')]
-final class ChallengesUser implements JsonSerializable
+class ChallengesUser implements JsonSerializable
 {
     #[Id, GeneratedValue, Column(type: 'integer')]
     private ?int $id = null;

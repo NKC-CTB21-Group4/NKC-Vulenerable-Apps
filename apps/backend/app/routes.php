@@ -11,7 +11,11 @@ use App\Application\Actions\Challenges\User\CreateChallengesUsersAction;
 use App\Application\Actions\Challenges\User\DeleteChallengesUsersAction;
 use App\Application\Actions\Challenges\User\UpdateChallengesUsersAction;
 
-use App\Infrastructure\Persistence\Challenges\User\DatabaseChallengesUserRepository;
+use App\Application\Actions\Challenges\News\ListChallengesNewsAction;
+use App\Application\Actions\Challenges\News\ViewChallengesNewsAction;
+use App\Application\Actions\Challenges\News\CreateChallengesNewsAction;
+use App\Application\Actions\Challenges\News\DeleteChallengesNewsAction;
+use App\Application\Actions\Challenges\News\UpdateChallengesNewsAction;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -48,6 +52,13 @@ return function (App $app) {
             $group->delete('',DeleteChallengesUsersAction::class);
             $group->put('',UpdateChallengesUsersAction::class);
             $group->get('/{id}', ViewChallengesUserAction::class);
+        });
+        $group->group('/news', function (Group $group) {
+            $group->get('',ListChallengesNewsAction::class);
+            $group->get('/{id}',ViewChallengesNewsAction::class);
+            $group->post('',CreateChallengesNewsAction::class);
+            $group->delete('',DeleteChallengesNewsAction::class);
+            $group->put('',UpdateChallengesNewsAction::class);
         });
     });
 };
