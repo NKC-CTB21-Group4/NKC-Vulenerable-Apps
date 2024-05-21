@@ -1,5 +1,5 @@
 <?php
-
+include("utils/header.php");
 ?><!DOCTYPE html>
 <html>
 <link href="css/style.css" rel="stylesheet">
@@ -7,12 +7,7 @@
     <title>日記作成</title>
 </head>
 <body>
-    <header>
-        <h1>日記サイト</h1>
-        <nav>
-            <a href="register.php">新規登録</a> | <a href="login.php">ログイン</a>
-        </nav>
-    </header>
+<?php echo generate_header() ?>
     <div class="form-container">
         <h2>新しい日記を作成</h2>
         <form method="post" action="api/createDiary.php">

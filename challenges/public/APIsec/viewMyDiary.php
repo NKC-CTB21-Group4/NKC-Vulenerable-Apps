@@ -2,6 +2,7 @@
 session_start();
 include("utils/viewDataList.php");
 include("utils/parseJson.php");
+include("utils/header.php");
 
 // ダミーのユーザーID。実際にはログイン情報から取得する。
 $userId = $_SESSION['user_id'] ?? 101; // ここではデフォルト値を1に設定
@@ -21,9 +22,13 @@ $PerPage = 5;
 $start = ($page - 1) * $PerPage;
 
 // 該当ユーザーの日記のみをフィルタリング
+// 該当ユーザーの日記のみをフィルタリング
 $userDiaries = array_filter($entry_DiaryData, function($entry) use ($userId) {
     return $entry['userId'] == $userId;
 });
+
+// フィルタリング後の配列のキーをリセット
+$userDiaries = array_values($userDiaries);
 
 // 日記の総数を取得
 $totalDiaries = count($userDiaries);
@@ -41,12 +46,7 @@ $displayDiaries = array_slice($userDiaries, $start, $PerPage);
     <title>私の日記</title>
 </head>
 <body>
-    <header>
-        <h1>日記サイト</h1>
-        <nav>
-            <a href="register.php">新規登録</a> | <a href="login.php">ログイン</a>
-        </nav>
-    </header>
+    <?php echo generate_header() ?>
     <div id="main-content">
         <h2 class="ViewDiary">私の日記</h2>
         <div class="border">

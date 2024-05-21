@@ -10,11 +10,11 @@
     },
     {
       "id": 2,
-      "userId": 102,
+      "userId": 101,
       "title": "新しいプロジェクト",
       "content": "新しいプロジェクトが始まり、チームでミーティングをしました。",
       "date": "2024-05-13T09:00:00Z",
-      "isPublic": false,
+      "isPublic": true,
       "isDeleted": false
     },
     {

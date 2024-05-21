@@ -1,6 +1,7 @@
 <?php
 include("utils/viewDataList.php");
 include("utils/parseJson.php");
+include("utils/header.php");
 
 $entry_DiaryData = parseJson('json/diarydata.json');
 
@@ -14,12 +15,7 @@ $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
     <title>ニュース詳細</title>
 </head>
 <body>
-    <header>
-        <h1>日記サイト</h1>
-        <nav>
-            <a href="register.php">新規登録</a> | <a href="main.php">メインページ</a> 
-        </nav>
-    </header>
+    <?php echo generate_header() ?>
     <div id="main-content">
         <?php
         if ($id > 0) {

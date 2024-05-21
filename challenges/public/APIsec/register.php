@@ -1,4 +1,5 @@
 <?php
+include("utils/header.php");
 // ユーザー名、メールアドレス、パスワードを取得
 $username = htmlspecialchars($_POST['username']);
 $email = htmlspecialchars($_POST['email']);
@@ -14,12 +15,7 @@ $password = htmlspecialchars($_POST['password']);
     <title>新規登録</title>
 </head>
 <body>
-    <header>
-    <h1>日記サイト</h1>
-        <nav>
-            <a href="login.php">ログイン</a> | <a href="main.php">メインページ</a>
-        </nav>
-    </header>
+    <?php echo generate_header() ?>
     <div class="form-container">
     <form action="register.php" method="post">
         <label for="username">ユーザー名:</label><br>

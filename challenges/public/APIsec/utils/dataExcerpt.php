@@ -8,7 +8,7 @@
  * @param int $limit 表示件数
  * @param string $linkPrefix リンク先のページのパス
  */
-function displayEntryExcerpt($entry_data, $field, $start = 0, $limit = 10, $linkPrefix = 'viewDiary.php?id=') {  
+function displayEntryExcerpt($entry_data, $content, $start = 0, $limit = 10, $linkPrefix = 'viewDiary.php?id=') {  
     // データの有無を確認
     if (empty($entry_data)) {
         echo "データが存在しません。";
@@ -28,10 +28,10 @@ function displayEntryExcerpt($entry_data, $field, $start = 0, $limit = 10, $link
             continue; // 非公開または削除されたエントリーは表示しない
         }
 
-        if (isset($entry[$field])) {
+        if (isset($entry[$content])) {
             echo "<li class='entry'>";
             echo "<a href='" . htmlspecialchars($linkPrefix, ENT_QUOTES, 'UTF-8') . htmlspecialchars($entry['id'], ENT_QUOTES, 'UTF-8') . "'>";
-            echo htmlspecialchars($entry[$field], ENT_QUOTES, 'UTF-8');
+            echo htmlspecialchars($entry[$content], ENT_QUOTES, 'UTF-8');
             echo "</a>";
             echo "</li>";
             $count++;

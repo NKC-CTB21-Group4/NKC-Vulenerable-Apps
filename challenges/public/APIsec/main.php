@@ -1,7 +1,7 @@
 <?php
 include("utils/dataExcerpt.php");
-include("utils/newsData.php");
 include("utils/parseJson.php");
+include("utils/header.php");
 
 $entry_NewsData = parseJson('json/newsdata.json');
 $entry_DiaryData = parseJson('json/diarydata.json');
@@ -39,12 +39,7 @@ $totalNewsPages = ceil($totalNews / $PerPage);
     <title>日記サイト</title>
 </head>
 <body>
-    <header>
-        <h1>日記サイト</h1>
-        <nav>
-            <a href="register.php">新規登録</a> | <a href="login.php">ログイン</a>
-        </nav>
-    </header>
+    <?php echo generate_header() ?>
     <div id="main-content">
         <h2 id="news-section" class="News">News Update</h2>
         <div class="border">

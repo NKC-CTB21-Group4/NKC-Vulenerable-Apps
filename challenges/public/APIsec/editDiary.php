@@ -1,4 +1,5 @@
 <?php
+include("utils/header.php");
 // ダミーデータ
 $diary = [
     'id' => 1,
@@ -15,12 +16,7 @@ $diary = [
     <title>日記編集</title>
 </head>
 <body>
-<header>
-    <h1>日記サイト</h1>
-        <nav>
-            <a href="register.php">新規登録</a> | <a href="login.php">ログイン</a>
-        </nav>
-    </header>
+<?php echo generate_header() ?>
     <div class="form-container">
         <h2>日記を編集</h2>
         <form method="post" action="api/editDiary.php?id=<?php echo htmlspecialchars($diary['id'], ENT_QUOTES, 'UTF-8'); ?>">
