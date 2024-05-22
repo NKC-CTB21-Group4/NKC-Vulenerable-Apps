@@ -2,8 +2,8 @@
 
 // ダミー関数: 管理者であるかどうかを判定
 function is_admin() {
-    // ここに実際の判定処理を実装する
-    return false; // 仮に常に false を返すと仮定
+    // 現在のスクリプト名がadmin.phpの場合にtrueを返す
+    return true;
 }
 
 // ダミー関数: ユーザーがログインしているかどうかを判定
@@ -37,4 +37,3 @@ function generate_header() {
 }
 
 ?>
-

@@ -19,6 +19,7 @@ $diary = [
 <?php echo generate_header() ?>
     <div class="form-container">
         <h2>日記を編集</h2>
+        <?php //putmethodを使う?>
         <form method="post" action="api/editDiary.php?id=<?php echo htmlspecialchars($diary['id'], ENT_QUOTES, 'UTF-8'); ?>">
             <label for="title">タイトル:</label>
             <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($diary['title'], ENT_QUOTES, 'UTF-8'); ?>" required>
@@ -28,6 +29,7 @@ $diary = [
 
             <input type="submit" value="更新">
         </form>
+        <?php //deletemethodを使う?>
         <form method="post" action="api/deleteDiary.php?id=<?php echo htmlspecialchars($diary['id'], ENT_QUOTES, 'UTF-8'); ?>" onsubmit="return confirm('この日記を削除してもよろしいですか？');">
             <input type="submit" value="削除" class="delete-button">
         </form>
