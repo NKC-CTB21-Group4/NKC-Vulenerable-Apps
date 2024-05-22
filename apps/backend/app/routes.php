@@ -17,6 +17,12 @@ use App\Application\Actions\Challenges\News\CreateChallengesNewsAction;
 use App\Application\Actions\Challenges\News\DeleteChallengesNewsAction;
 use App\Application\Actions\Challenges\News\UpdateChallengesNewsAction;
 
+use App\Application\Actions\Challenges\Diary\ListChallengesDiaryAction;
+use App\Application\Actions\Challenges\Diary\ViewChallengesDiaryAction;
+use App\Application\Actions\Challenges\Diary\CreateChallengesDiaryAction;
+use App\Application\Actions\Challenges\Diary\DeleteChallengesDiaryAction;
+use App\Application\Actions\Challenges\Diary\UpdateChallengesDiaryAction;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -62,13 +68,13 @@ return function (App $app) {
             $group->put('',UpdateChallengesNewsAction::class);
         });
 
-        // $group->group('/users/{userId}/diary', function (Group $group) {
-        //     $group->put('/{diaryId}', UpdateChallengesUsersDiaryAction::class);
-        //     $group->post('', CreateChallengesUsersDiaryAction::class);
-        //     $group->delete('/{diaryId}', DeleteChallengesUsersDiaryAction::class);
-        //     $group->get('/{diaryId}', ViewChallengesUsersDiaryAction::class);
-        //     $group->get('', ListChallengesUsersDiaryAction::class);
-        // });
+        $group->group('/diary', function (Group $group) {
+            $group->put('', UpdateChallengesDiaryAction::class);
+            $group->post('', CreateChallengesDiaryAction::class);
+            $group->delete('', DeleteChallengesDiaryAction::class);
+            $group->get('/{id}', ViewChallengesDiaryAction::class);
+            $group->get('', ListChallengesDiaryAction::class);
+        });
             
     });
 };
