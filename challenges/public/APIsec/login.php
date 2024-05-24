@@ -2,6 +2,7 @@
 include("utils/header.php");
 session_start();
 include("utils/dataRequest.php");
+include("utils/messageBox.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // メールアドレスとパスワードを取得
@@ -46,15 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="toast" id="toast">
                 <p><?php echo $_SESSION['message']; unset($_SESSION['message']); ?></p>
             </div>
-            <script>
-                window.onload = function() {
-                    var toast = document.getElementById('toast');
-                    toast.style.display = 'block';
-                    setTimeout(function() {
-                        toast.style.display = 'none';
-                    }, 5000); // 5秒後にメッセージを消す
-                }
-            </script>
+            <?php ?>
         <?php endif; ?>
         <form action="" method="post">
             <label for="email">メールアドレス:</label><br>

@@ -1,27 +1,32 @@
 <?php
 include("utils/viewDataList.php");
-include("utils/parseJson.php");
 include("utils/header.php");
+include("utils/dataRequest.php");
 
-$entry_DiaryData = parseJson('json/diarydata.json');
-
-// URLのクエリパラメータからIDを取得
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+// DiaryAPIインスタンスの生成
+$diaryAPI = new DiaryAPI();
+
+// APIから日記データを取得
+$diaryData = $diaryAPI->sendGetRequest('');
+
 ?>
 <!DOCTYPE html>
 <html>
-<link href="css/style.css" rel="stylesheet">
 <head>
-    <title>ニュース詳細</title>
+    <title>日記詳細</title>
+    <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
     <?php echo generate_header() ?>
     <div id="main-content">
         <?php
-        if ($id > 0) {
-            displayEntryList($entry_DiaryData, $id);
+        if (!empty($diaryData)) {
+            // 日記データが空でない場合は、それを表示する
+            displayDiaryEntries($diaryData,$id);
         } else {
-            echo "IDが無効です。";
+            echo "日記データが見つかりませんでした。";
         }
         ?>
     </div>

@@ -1,3 +1,4 @@
+/* 現在のCSS */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -102,6 +103,31 @@ div .border {
 
 .form-container .delete-button:hover {
     background-color: #d32f2f;
+}
+
+/* 新しく追加されたCSS */
+.form-container.diary-form-container {
+    width: 600px; /* より大きな幅に設定 */
+    margin: 50px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.form-container.diary-form-container textarea {
+    height: 300px; /* 大きな画面で入力できるように高さを設定 */
+}
+
+.form-container select {
+    width: calc(100% - 22px); /* 幅を設定 */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #fff;
+    color: #333;
 }
 
 .entry-list {

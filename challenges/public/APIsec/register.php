@@ -9,9 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = htmlspecialchars($_POST['email']);
     $password = htmlspecialchars($_POST['password']);
 
-    // APIエンドポイント
-    $endpoint = 'api/users';
-
     // POSTデータを配列に
     $data = array(
         'username' => $username,
@@ -19,10 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'password' => $password
     );
 
-    $response = sendRequest($endpoint, $data);
+    $usersAPI = new UsersAPI();
+    $responsePost = $usersAPI->sendPostRequest('',$data);
     
     // レスポンスに応じた処理
-    if ($response) {
+    if ($responsePost) {
         $_SESSION['message'] = "ユーザー登録が成功しました。ログインしてください。";
         header("Location: /APIsec/login.php");
         exit();
