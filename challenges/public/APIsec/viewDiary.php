@@ -2,15 +2,15 @@
 include("utils/viewDataList.php");
 include("utils/header.php");
 include("utils/dataRequest.php");
+include("utils/parseJson.php");
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
+
 // DiaryAPIインスタンスの生成
 $diaryAPI = new DiaryAPI();
-
 // APIから日記データを取得
-$diaryData = $diaryAPI->sendGetRequest('');
-
+$diaryData = $diaryAPI->sendGetRequest($id);
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,7 +24,7 @@ $diaryData = $diaryAPI->sendGetRequest('');
         <?php
         if (!empty($diaryData)) {
             // 日記データが空でない場合は、それを表示する
-            displayDiaryEntries($diaryData,$id);
+            displayEntryList($diaryData,$id);
         } else {
             echo "日記データが見つかりませんでした。";
         }
