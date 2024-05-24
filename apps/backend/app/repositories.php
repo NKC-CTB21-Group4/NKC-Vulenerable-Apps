@@ -7,9 +7,13 @@ use App\Infrastructure\Persistence\User\InMemoryUserRepository;
 use App\Domain\Challenges\User\ChallengesUserRepository;
 use App\Domain\Challenges\News\ChallengesNewsRepository;
 use App\Domain\Challenges\Diary\ChallengesDiaryRepository;
+use App\Domain\Challenges\Auth\ChallengesAuthTokenRepository;
 use App\Infrastructure\Persistence\Challenges\User\DatabaseChallengesUserRepository;
 use App\Infrastructure\Persistence\Challenges\News\DatabaseChallengesNewsRepository;
 use App\Infrastructure\Persistence\Challenges\Diary\DatabaseChallengesDiaryRepository;
+use App\Infrastructure\Persistence\Challenges\Auth\DatabaseChallengesAuthTokenRepository;
+use App\Infrastructure\Persistence\Challenges\Auth\ChallengesJwtService;
+
 
 
 use DI\ContainerBuilder;
@@ -21,5 +25,7 @@ return function (ContainerBuilder $containerBuilder) {
         ChallengesUserRepository::class => \DI\autowire(DatabaseChallengesUserRepository::class),
         ChallengesNewsRepository::class => \DI\autowire(DatabaseChallengesNewsRepository::class),
         ChallengesDiaryRepository::class => \DI\autowire(DatabaseChallengesDiaryRepository::class),
+        ChallengesAuthTokenRepository::class => \DI\autowire(DatabaseChallengesAuthTokenRepository::class),
+        ChallengesJwtMiddleware::class => \DI\create(ChallengesJwtMiddleware::class),
     ]);
 };

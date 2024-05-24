@@ -5,6 +5,11 @@ declare(strict_types=1);
 use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
 
+use App\Application\Middleware\Challenges\ChallengesJwtMiddleware;
+
+use App\Application\Actions\Challenges\Auth\ChallengesGenerateTokenAction;
+use App\Application\Actions\Challenges\Auth\ChallengesRevokeTokenAction;
+
 use App\Application\Actions\Challenges\User\ListChallengesUsersAction;
 use App\Application\Actions\Challenges\User\ViewChallengesUserAction;
 use App\Application\Actions\Challenges\User\CreateChallengesUsersAction;
@@ -50,6 +55,16 @@ return function (App $app) {
         $group->get('', function (Request $request, Response $response) {
             // ここにルート処理を書く
             return $response;
+        });
+
+
+        $group->group('/auth',function (Group $group){
+            $group->post('/token',ChallengesGenerateTokenAction::class);
+            $group->get('/test',function (Request $request, Response $response) {
+                $response->getBody()->write('Authentication successful');
+                return $response;
+            })->add(ChallengesJwtMiddleware::class);
+            $group->post('/revoke-token',ChallengesRevokeTokenAction::class);
         });
 
         $group->group('/users', function (Group $group) {
