@@ -4,14 +4,16 @@ ob_start(); // 出力バッファリングを開始
 include("../utils/dataExcerpt.php");
 include("../utils/parseJson.php");
 include("../utils/header.php");
+include("../utils/dataRequest.php");
 
 if (!is_admin()) {
     header("Location: /APIsec/main.php");
     exit();
 }
 
-$entry_NewsData = parseJson('../json/newsdata.json');
-$entry_UserData = parseJson('../json/userdata.json');
+
+$newsAPI = new NewsAPI();
+$newsResponseGet = $newsAPI->sendGetRequest('');
 
 // Newsのページ番号を取得
 $newspage = isset($_GET['news-page']) ? (int)$_GET['news-page'] : 1;
@@ -19,14 +21,14 @@ if ($newspage < 1) {
     $newspage = 1;
 }
 
-// 1ページあたりのエントリー数
+// 1ページあたりのエントリ数
 $PerPage = 5;
 
-// エントリーの開始位置
+// Newsの開始位置
 $newsStart = ($newspage - 1) * $PerPage;
 
-// エントリーの総数を取得
-$totalNews = countEntry($entry_NewsData);
+// Newsの総数を取得
+$totalNews = countEntry($newsResponseGet["data"]);
 
 // 総ページ数を計算
 $totalNewsPages = ceil($totalNews / $PerPage);
@@ -49,8 +51,8 @@ $totalNewsPages = ceil($totalNews / $PerPage);
         <h2 id="news-section" class="News">News編集</h2>
         <div class="border">
         <?php
-        // Newsのタイトルを表示
-        displayEntryExcerpt($entry_NewsData, 'title', $newsStart, $PerPage, 'editNews.php?id=');
+        // Newsのタイトルを表示"
+        displayEntryExcerpt($newsResponseGet["data"], 'title', $newsStart, $PerPage, 'editNews.php?id=');
         ?>
         </div>
         <nav class="pagination">

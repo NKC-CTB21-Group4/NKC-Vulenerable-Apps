@@ -1,27 +1,31 @@
 <?php
 include("utils/viewDataList.php");
-include("utils/parseJson.php");
 include("utils/header.php");
+include("utils/dataRequest.php");
+include("utils/parseJson.php");
 
-$entry_NewsData = parseJson('json/newsdata.json');
-
-// URLのクエリパラメータからIDを取得
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+// NewsAPIインスタンスの生成
+$newsAPI = new NewsAPI();
+// APIからニュースデータを取得
+$newsData = $newsAPI->sendGetRequest($id);
 ?>
 <!DOCTYPE html>
 <html>
-<link href="css/style.css" rel="stylesheet">
 <head>
     <title>ニュース詳細</title>
+    <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
     <?php echo generate_header() ?>
     <div id="main-content">
         <?php
-        if ($id > 0) {
-            displayEntryList($entry_NewsData, $id);
+        if (!empty($newsData)) {
+            // ニュースデータが空でない場合は、それを表示する
+            displayEntryList($newsData, $id);
         } else {
-            echo "IDが無効です。";
+            echo "ニュースデータが見つかりませんでした。";
         }
         ?>
     </div>
