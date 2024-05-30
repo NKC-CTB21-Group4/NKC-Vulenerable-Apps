@@ -69,6 +69,21 @@ class DatabaseChallengesUserRepository extends EntityRepository implements Chall
         return $user;
     }
 
+    public function getIsAdminOfId(int $id):bool
+    {
+        $user = parent::find((string) $id);
+
+        if ($user === null || $this->isDeleted($user)) {
+            throw new ChallengesUserNotFoundException();
+        }
+        return $user->getIsAdmin();
+    }
+
+    public function getIsAdmin(ChallengesUser $user):bool
+    {
+        return $user->getIsAdmin();
+    }
+
     /**
      * {@inheritdoc}
      */
