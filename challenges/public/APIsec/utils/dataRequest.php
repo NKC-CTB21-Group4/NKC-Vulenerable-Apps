@@ -43,17 +43,18 @@ class RequestSender {
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($http_code == 201 || $http_code == 200) {
+        if ($http_code == 200 || $http_code == 201) {
             return json_decode($response, true);
         } else {
             return false;
         }
     }
 
-    public function sendDeleteRequest($endpoint) {
+    public function sendDeleteRequest($endpoint, $data) {
         $url = $this->baseURL . ($endpoint ? '/' . $endpoint : ''); // 空文字列の場合は / を付与しない
         $ch = curl_init($url);
         
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
@@ -64,7 +65,7 @@ class RequestSender {
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($http_code == 201 || $http_code == 204) {
+        if ($http_code == 200 || $http_code == 201) {
             return json_decode($response, true);
         } else {
             return false;

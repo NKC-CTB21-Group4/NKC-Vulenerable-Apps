@@ -37,17 +37,17 @@ $totalUserPages = ceil($totalUsers / $PerPage);
 <link href="../css/style.css" rel="stylesheet">
 <link href="../css/admin.css" rel="stylesheet">
 <head>
-    <title>ユーザー一覧</title>
+    <title>管理者用ページ</title>
 </head>
 <body>
     <?php echo generate_header() ?>
     <div id="main-content">
-        <h2 class="Admin">ユーザー一覧</h2>
+        <h2 class="Admin">ユーザ一覧</h2>
         <div class="admin-links">
-            <a href="admin.php">管理者メインページ</a> |
+            <a href="Admin.php">管理者メインページ</a> |
             <a href="editNews.php">News編集ページ</a>
         </div>
-        <h2 id="user-section" class="Users">ユーザー一覧</h2>
+        <h2 id="user-section" class="Users">ユーザ一覧</h2>
         <div class="border">
         <?php
         // ユーザーの情報を表示

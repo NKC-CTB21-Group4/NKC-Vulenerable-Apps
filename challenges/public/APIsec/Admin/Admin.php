@@ -45,8 +45,7 @@ $totalNewsPages = ceil($totalNews / $PerPage);
     <div id="main-content">
         <h2 class="Admin">管理者メインページ</h2>
         <div class="admin-links">
-            <a href="viewUserList.php">ユーザー一覧表示ページ</a> |
-            <a href="editNews.php">News編集ページ</a>
+        <a href="viewUserList.php">ユーザー一覧表示ページ</a>
         </div>
         <h2 id="news-section" class="News">News編集</h2>
         <div class="border">

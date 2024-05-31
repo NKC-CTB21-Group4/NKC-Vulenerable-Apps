@@ -22,8 +22,8 @@ $newsData = $newsAPI->sendGetRequest($id);
     <div id="main-content">
         <?php
         if (!empty($newsData)) {
-            // ニュースデータが空でない場合は、それを表示する
-            displayEntryList($newsData, $id);
+            // ニュースデータが空でない場合は、それを表示する    
+            DisplayData::displayNews(array($newsData['data']));
         } else {
             echo "ニュースデータが見つかりませんでした。";
         }

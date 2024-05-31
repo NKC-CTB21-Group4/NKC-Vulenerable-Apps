@@ -4,7 +4,7 @@ include("../utils/dataRequest.php");
 include("../utils/messageBox.php");
 
 // 仮定のuserId
-$userId = 1;
+$userId = 2;
 
 // フォームデータの受け取りと処理
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

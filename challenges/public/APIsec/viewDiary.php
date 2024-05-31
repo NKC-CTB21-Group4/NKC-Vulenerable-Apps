@@ -2,7 +2,6 @@
 include("utils/viewDataList.php");
 include("utils/header.php");
 include("utils/dataRequest.php");
-include("utils/parseJson.php");
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
@@ -24,7 +23,7 @@ $diaryData = $diaryAPI->sendGetRequest($id);
         <?php
         if (!empty($diaryData)) {
             // 日記データが空でない場合は、それを表示する
-            displayEntryList($diaryData,$id);
+            DisplayData::displayDiary(array($diaryData['data']));
         } else {
             echo "日記データが見つかりませんでした。";
         }
