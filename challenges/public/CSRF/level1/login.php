@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // データベースに接続
-    $db_path = "../sqlite/example.db";
+    $db_path = "../sqlite/lv1example.db";
     $conn = new SQLite3($db_path);
 
     // 入力されたユーザー名と一致するレコードを検索

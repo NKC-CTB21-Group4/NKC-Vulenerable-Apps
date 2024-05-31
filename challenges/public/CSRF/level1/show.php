@@ -1,5 +1,13 @@
 <?php
 session_start();
+if (!isset($_SESSION['user_name'])) {
+    // ユーザー名がセッションに保存されていない場合、エラーをセット
+    
+       
+    // エラーメッセージを表示するページにリダイレクト
+    header("Location: select.php");
+    exit(); // リダイレクト後にスクリプトの実行を終了
+}
 if(isset($_POST['logout'])) {
     // セッションを破棄してログアウトする
     session_unset();
@@ -8,7 +16,7 @@ if(isset($_POST['logout'])) {
     exit();
 }
 // データベース接続
-$db_path = "../sqlite/example.db";
+$db_path = "../sqlite/lv1example.db";
 $conn = new SQLite3($db_path);
 
 // 投稿を取得するクエリ
@@ -32,7 +40,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>閲覧画面</title>
+    <title>LV.1閲覧画面</title>
     <link rel="stylesheet" href="css/style.css"> <!-- スタイルシートのリンク -->
 </head>
 <body>
@@ -44,9 +52,10 @@ $conn->close();
         <div class="post-container">
             <?php 
              foreach ($posts as $post) {
+                $wrapped_content = nl2br(wordwrap($post['content'], 100, "\n", true));
                 echo "<div>";
                 echo "<h3>タイトル:{$post['title']}</h3>";
-                echo "<h4>{$post['content']}</h4>";
+                echo "<h4>{$wrapped_content}</h4>";  // ここを変更しました
                 echo "<p>投稿者: {$post['username']}(ID: {$post['user_id']})</p>";
                 echo "<p>投稿日時: {$post['created_at']}</p>";
                 // if ($_SESSION['user_id'] == $post['user_id']) {
@@ -66,7 +75,7 @@ $conn->close();
     <input type="submit" value="投稿画面">
 </form>
 <form action="" method="post">
-        <input type="submit" name="logout" value="ログアウト">
+    <input type="submit" name="logout" value="ログアウト">
 </form>
 
 </body>

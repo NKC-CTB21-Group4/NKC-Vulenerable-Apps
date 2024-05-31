@@ -1,3 +1,10 @@
+<?php
+// セッションを開始
+session_start();
+session_unset();
+// セッションを破棄
+session_destroy();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +14,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>選択画面</h1>
+    <h1>LV.1選択画面</h1>
     <a href="select.php">掲示板サイトへ</a>
     
     <!-- ファイルアップロードフォームの追加 -->

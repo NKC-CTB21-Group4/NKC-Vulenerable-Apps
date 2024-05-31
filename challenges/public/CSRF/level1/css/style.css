@@ -85,7 +85,8 @@ input[type="submit"][name="btpostt"]{
 }
    
 hr{
-    width: 55%;
+    width: 60%;
+    border-top: 2px solid skyblue;
 }
 input[type="submit"][name="btdelete"]{
     width: 60px;

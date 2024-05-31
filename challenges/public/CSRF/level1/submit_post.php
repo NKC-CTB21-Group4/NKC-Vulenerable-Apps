@@ -2,47 +2,14 @@
 session_start();
 
 // データベース接続
-$db_path = "../sqlite/example.db";
+$db_path = "../sqlite/lv1example.db";
 $conn = new SQLite3($db_path);
 
-// ログイン処理
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username']) && isset($_POST['password'])) {
-    // ユーザー名とパスワードを取得
-    $username = $_POST['username'];
-    $password = $_POST['password'];
 
-    // ユーザー名を使用してユーザーを検索
-    $stmt = $conn->prepare("SELECT id, username, password FROM users WHERE username = :username");
-    $stmt->bindValue(':username', $username, SQLITE3_TEXT);
-    $result = $stmt->execute();
-
-    // ユーザーが見つかった場合
-    if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-        // パスワードの検証
-        if (password_verify($password, $row['password'])) {
-            // ログイン成功：ユーザーの ID とユーザーネームをセッションに格納
-            $_SESSION['user_id'] = $row['id'];
-            $_SESSION['username'] = $row['username'];
-
-            // ログイン後の処理（例えば、別のページにリダイレクト）
-            header("Location: dashboard.php");
-            exit();
-        } else {
-            // パスワードが間違っている場合の処理
-            $_SESSION['login_error'] = true;
-            header("Location: login.php");
-            exit();
-        }
-    } else {
-        // ユーザーが見つからない場合の処理
-        $_SESSION['login_error'] = true;
-        header("Location: login.php");
-        exit();
-    }
-}
 
 // 投稿処理
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['title']) && isset($_POST['content'])) {
+    
     // セッションからユーザーの ID とユーザーネームを取得
     $userid = $_SESSION['user_id'];
     $username = $_SESSION['user_name'];
@@ -78,3 +45,4 @@ if(isset($_POST['logout'])) {
     exit();
 }
 ?>
+

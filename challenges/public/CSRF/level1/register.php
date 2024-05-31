@@ -3,7 +3,7 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // データベース接続
-    $db_path = "../sqlite/example.db";
+    $db_path = "../sqlite/lv1example.db";
     $conn = new SQLite3($db_path);
 
     $random_id = mt_rand(100000, 999999); // 100000から999999の間のランダムな数

@@ -22,7 +22,7 @@ if(isset($_POST['logout'])) {
     // セッションを破棄してログアウトする
     session_unset();
     session_destroy();
-    header("Location: index.php"); // ログアウト後に最初の画面にリダイレクト
+    header("Location: select.php"); // ログアウト後に最初の画面にリダイレクト
     exit();
 }
 
@@ -35,12 +35,12 @@ $user_name = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>掲示板アプリ</title>
+    <title>LV.1ログイン画面</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>掲示板アプリ</h1>
+        <h1>LV.1掲示板アプリ</h1>
 
         <!-- ログイン中のユーザー名がある場合、それを表示する -->
         <?php if (!empty($user_name)) { ?>
