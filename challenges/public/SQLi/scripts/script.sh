@@ -1,0 +1,1 @@
+sqlite3 tmp.db < script.sql

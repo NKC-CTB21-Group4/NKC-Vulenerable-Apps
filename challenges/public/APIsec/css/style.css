@@ -1,0 +1,241 @@
+/* 現在のCSS */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+header {
+    background-color: #343a40;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #fff;
+}
+
+header h1 {
+    display: inline;
+    margin: 0;
+    font-size: 1.8em;
+}
+
+header nav {
+    display: inline;
+    float: right;
+}
+
+header nav a {
+    margin-left: 20px;
+    color: #ffc107;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header nav a:hover {
+    color: #fff;
+}
+
+h1, .ViewDiary, .News {
+    padding-left: 20px;
+    color: #343a40;
+}
+
+div .border {
+    height: 15em;
+    overflow-y: auto;
+    border: 2px solid #333;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 25px;
+    color: #333;
+    line-height: 1.6;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.form-container {
+    width: 300px;
+    margin: 50px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"],
+.form-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-container input[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.form-container input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.form-container .delete-button {
+    background-color: #f44336;
+}
+
+.form-container .delete-button:hover {
+    background-color: #d32f2f;
+}
+
+/* 新しく追加されたCSS */
+.form-container.diary-form-container {
+    width: 600px; /* より大きな幅に設定 */
+    margin: 50px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.form-container.diary-form-container textarea {
+    height: 300px; /* 大きな画面で入力できるように高さを設定 */
+}
+
+.form-container select {
+    width: calc(100% - 22px); /* 幅を設定 */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #fff;
+    color: #333;
+}
+
+/* editNews.phpのスタイル*/
+/* 更新ボタンのスタイル */
+.update-button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.update-button:hover {
+    background-color: #45a049;
+}
+
+/* 削除ボタンのスタイル */
+.delete-button {
+    background-color: #f44336; /* Red */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.delete-button:hover {
+    background-color: #d32f2f;
+}
+
+/* ここまで*/
+.entry-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.entry {
+    background-color: #fff;
+    margin: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.entry h2 {
+    margin-top: 0;
+    color: #007bff;
+    font-size: 1.5em;
+}
+
+.entry p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.entry em {
+    color: #777;
+}
+
+.pagination {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: #007bff;
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.pagination .current-page {
+    font-weight: bold;
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.toast {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}

@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+// ログイン済みの場合はリダイレクト
+if (isset($_SESSION['username'])) {
+    header("Location: level4.php");
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -14,7 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($row) {
         $_SESSION['username'] = $row['username'];
-        header("Location: success1.php");
+        if ($row['username'] == 'adminuser') {
+            $_SESSION['admin'] = true;
+        }
+        header("Location: level4.php");
         exit();
     } else {
         echo "Invalid username or password.";
