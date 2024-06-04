@@ -37,4 +37,12 @@ interface ChallengesUserRepository
     //  * @throws ChallengesUserNotFoundException
     //  */
     // public function updateUser(int $id, ChallengesUser $user): ChallengesUser;
+
+    /**
+     * @param string $email
+     * @param string $password
+     * @return ChallengesUser
+     * @throws ChallengesUserAuthenticationFailureException
+     */
+    public function findByEmailAndPassword(string $email, string $password): ChallengesUser;
 }

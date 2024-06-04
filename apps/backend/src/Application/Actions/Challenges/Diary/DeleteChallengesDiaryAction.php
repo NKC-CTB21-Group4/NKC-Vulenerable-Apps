@@ -14,10 +14,6 @@ class DeleteChallengesDiaryAction extends ChallengesDiaryAction
     {
         $data = $this->getFormData();
 
-        if (empty($data['userId']) || empty($data['diaryId'])) {
-            $this->logger->info("Diary deletion failed due to invalid input");
-            return $this->respondWithData('Invalid input', 400);
-        }
 
         $userId = (int) $data['userId'];
         $diaryId = (int) $data['diaryId'];
@@ -30,7 +26,6 @@ class DeleteChallengesDiaryAction extends ChallengesDiaryAction
             return $this->respondWithData('User not found', 404);
         }
 
-        // ニュースが存在するか確認し、ユーザーが一致するか確認
         $diary = $this->diaryRepository->findDiaryOfId($diaryId);
         if ($diary->getUser()->getId() !== $user->getId()) {
             $this->logger->info("User with id `${userId}` is not authorized to delete diary with id `${diaryId}`.");
@@ -43,5 +38,14 @@ class DeleteChallengesDiaryAction extends ChallengesDiaryAction
         $this->logger->info("Diary of id `${diaryId}` was deleted by user with id `${userId}`.");
 
         return $this->respondWithData(['message' => 'Diary deleted successfully']);
+    }
+
+    private function hasInvalidInput(array $data):bool
+    {
+        if (empty($data['userId']) || empty($data['diaryId'])) {
+            $this->logger->info("Diary deletion failed due to invalid input");
+            return true;
+        }
+        return false;
     }
 }

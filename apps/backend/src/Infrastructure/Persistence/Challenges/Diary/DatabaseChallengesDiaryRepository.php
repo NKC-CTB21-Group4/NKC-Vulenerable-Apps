@@ -40,6 +40,18 @@ class DatabaseChallengesDiaryRepository extends EntityRepository implements Chal
 
         return $diary;
     }
+    
+    public function findByUserId(int $userId): array
+    {
+        // ユーザーIDに関連付けられた日記エントリーを検索
+        $queryBuilder = $this->createQueryBuilder('d')
+        ->andWhere('d.user_id = :user_id')
+        ->andWhere('d.deleted_at IS NULL')
+        ->setParameter('user_id', $userId)
+        ->getQuery();
+
+        return $queryBuilder->getResult();
+    }
 
     /**
      * {@inheritdoc}
@@ -58,6 +70,11 @@ class DatabaseChallengesDiaryRepository extends EntityRepository implements Chal
       return array_filter(parent::findAll(),function($diary) {
         return !$this->isDeleted($diary);
     });
+    }
+
+    public function findAllPublicDiaries(): array
+    {
+        return parent::findBy(['isPublic' => true]);
     }
 
     /**

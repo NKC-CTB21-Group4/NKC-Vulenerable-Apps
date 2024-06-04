@@ -23,4 +23,13 @@ abstract class ChallengesDiaryAction extends Action
         $this->diaryRepository = $diaryRepository;
         $this->userRepository = $userRepository;
     }
+    protected function getUserFromToken(): ?array
+    {
+        return $this->$request->getAttribute('token')['user'] ?? null;
+    }
+
+    protected function isAuthorized(int $userId, int $resourceOwnerId): bool
+    {
+        return $userId === $resourceOwnerId;
+    }
 }

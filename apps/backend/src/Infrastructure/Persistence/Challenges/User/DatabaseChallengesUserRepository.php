@@ -42,13 +42,17 @@ class DatabaseChallengesUserRepository extends EntityRepository implements Chall
     //     return $this->findOneBy(['username' => $username]);
     // }
 
-    // /**
-    //  * {@inheritdoc}
-    //  */
-    // public function findByEmail(string $email): ?ChallengesUser
-    // {
-    //     return $this->findOneBy(['email' => $email]);
-    // }
+    /**
+     * {@inheritdoc}
+     */
+    public function findByEmail(string $email): ChallengesUser
+    {
+        $user = parent::findOneBy(['email' => $email]);
+        if ($user === null || $this->isDeleted($user)) {
+            throw new ChallengesUserNotFoundException();
+        }
+        return $user;
+    }
 
     // /**
     //  * {@inheritdoc}
@@ -63,6 +67,21 @@ class DatabaseChallengesUserRepository extends EntityRepository implements Chall
         }
 
         return $user;
+    }
+
+    public function getIsAdminOfId(int $id):bool
+    {
+        $user = parent::find((string) $id);
+
+        if ($user === null || $this->isDeleted($user)) {
+            throw new ChallengesUserNotFoundException();
+        }
+        return $user->getIsAdmin();
+    }
+
+    public function getIsAdmin(ChallengesUser $user):bool
+    {
+        return $user->getIsAdmin();
     }
 
     /**
@@ -99,6 +118,20 @@ class DatabaseChallengesUserRepository extends EntityRepository implements Chall
         //論理削除のために、削除フラグを設定する例
         $user->setDeletedAt();
         $this->_em->flush();
+    }
+
+    public function findByEmailAndPassword(string $email, string $password): ChallengesUser {
+
+        $user = parent::findOneBy(['email' => $email]);
+        if ($user === null || $this->isDeleted($user)) {
+            throw new ChallengesUserNotFoundException();
+        }
+
+        if ($email !== $user->getEmail() ||  !password_verify($password,$user->getSecurePassword())) {
+            throw new ChallengesUserNotFoundException();
+        }
+
+        return $user;
     }
 
     // /**

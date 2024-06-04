@@ -5,6 +5,11 @@ declare(strict_types=1);
 use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
 
+use App\Application\Middleware\Challenges\ChallengesJwtMiddleware;
+
+use App\Application\Actions\Challenges\Auth\ChallengesGenerateTokenAction;
+use App\Application\Actions\Challenges\Auth\ChallengesRevokeTokenAction;
+
 use App\Application\Actions\Challenges\User\ListChallengesUsersAction;
 use App\Application\Actions\Challenges\User\ViewChallengesUserAction;
 use App\Application\Actions\Challenges\User\CreateChallengesUsersAction;
@@ -18,7 +23,12 @@ use App\Application\Actions\Challenges\News\DeleteChallengesNewsAction;
 use App\Application\Actions\Challenges\News\UpdateChallengesNewsAction;
 
 use App\Application\Actions\Challenges\Diary\ListChallengesDiaryAction;
+use App\Application\Actions\Challenges\Diary\ListPublicChallengesDiaryAction;
+use App\Application\Actions\Challenges\Diary\ListMyChallengesDiaryAction;
 use App\Application\Actions\Challenges\Diary\ViewChallengesDiaryAction;
+use App\Application\Actions\Challenges\Diary\ViewPublicChallengesDiaryAction;
+use App\Application\Actions\Challenges\Diary\ViewMyChallengesDiaryAction;
+
 use App\Application\Actions\Challenges\Diary\CreateChallengesDiaryAction;
 use App\Application\Actions\Challenges\Diary\DeleteChallengesDiaryAction;
 use App\Application\Actions\Challenges\Diary\UpdateChallengesDiaryAction;
@@ -52,28 +62,53 @@ return function (App $app) {
             return $response;
         });
 
+
+        $group->group('/auth',function (Group $group){
+            $group->post('/token',ChallengesGenerateTokenAction::class);
+            $group->get('/test',function (Request $request, Response $response) {
+                $response->getBody()->write('Authentication successful');
+                return $response;
+            })->add(ChallengesJwtMiddleware::class);
+            $group->post('/revoke-token',ChallengesRevokeTokenAction::class);
+        });
+
         $group->group('/users', function (Group $group) {
-            $group->get('', ListChallengesUsersAction::class);
-            $group->post('',CreateChallengesUsersAction::class);
-            $group->delete('',DeleteChallengesUsersAction::class);
-            $group->put('',UpdateChallengesUsersAction::class);
-            $group->get('/{id}', ViewChallengesUserAction::class);
+            // adminのみ
+            $group->get('', ListChallengesUsersAction::class)->add(ChallengesJwtMiddleware::class);
+
+            // 認証必須 adminは自由
+            $group->delete('',DeleteChallengesUsersAction::class)->add(ChallengesJwtMiddleware::class);
+            $group->put('',UpdateChallengesUsersAction::class)->add(ChallengesJwtMiddleware::class);
+            $group->get('/{id}', ViewChallengesUserAction::class)->add(ChallengesJwtMiddleware::class);
+
+            // public
+            $group->post('',CreateChallengesUsersAction::class);        
         });
 
         $group->group('/news', function (Group $group) {
-            $group->get('',ListChallengesNewsAction::class);
-            $group->get('/{id}',ViewChallengesNewsAction::class);
-            $group->post('',CreateChallengesNewsAction::class);
-            $group->delete('',DeleteChallengesNewsAction::class);
-            $group->put('',UpdateChallengesNewsAction::class);
+            // admin
+            $group->post('',CreateChallengesNewsAction::class)->add(ChallengesJwtMiddleware::class);
+            $group->delete('',DeleteChallengesNewsAction::class)->add(ChallengesJwtMiddleware::class);
+            $group->put('',UpdateChallengesNewsAction::class)->add(ChallengesJwtMiddleware::class);
+            $group->get('',ListChallengesNewsAction::class)->add(ChallengesJwtMiddleware::class);
+            $group->get('/{id}',ViewChallengesNewsAction::class)->add(ChallengesJwtMiddleware::class);
+
+            //public は公開されているもののみ
+
         });
 
         $group->group('/diary', function (Group $group) {
-            $group->put('', UpdateChallengesDiaryAction::class);
-            $group->post('', CreateChallengesDiaryAction::class);
-            $group->delete('', DeleteChallengesDiaryAction::class);
-            $group->get('/{id}', ViewChallengesDiaryAction::class);
-            $group->get('', ListChallengesDiaryAction::class);
+            //auth
+            $group->put('', UpdateChallengesDiaryAction::class)->add(ChallengesJwtMiddleware::class);
+            $group->post('', CreateChallengesDiaryAction::class)->add(ChallengesJwtMiddleware::class);
+            $group->delete('', DeleteChallengesDiaryAction::class)->add(ChallengesJwtMiddleware::class);
+            $group->get('/my-diary',ListMyChallengesDiaryAction::class)->add(ChallengesJwtMiddleware::class);
+            $group->get('/my-diary/{id}',ViewMyChallengesDiaryAction::class)->add(ChallengesJwtMiddleware::class);
+
+            //publicは、公開されているもののみ /privateは、認証されている場合
+            $group->get('/{id}', ViewPublicChallengesDiaryAction::class);
+            $group->get('', ListPublicChallengesDiaryAction::class);
+
         });
             
     });
