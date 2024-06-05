@@ -27,5 +27,6 @@ $container = $containerBuilder->build();
 
 // Retrieve EntityManager from DI container
 $entityManager = $container->get(EntityManager::class);
+$mainEntityManager = $container->get(MainEntityManager::class);
 
-return ConsoleRunner::createHelperSet($entityManager);
+return ConsoleRunner::createHelperSet($mainEntityManager);

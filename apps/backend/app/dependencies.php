@@ -37,15 +37,29 @@ return function (ContainerBuilder $containerBuilder) {
             $settings = $c->get(SettingsInterface::class);
             $doctrineSettings = $settings->get('doctrine');
 
-            $cache = new FilesystemCache('/tmp');;
+            $cache = new FilesystemCache('/tmp');
             $config = Setup::createAttributeMetadataConfiguration(
-                $doctrineSettings['metadata_dirs'],
+                $doctrineSettings['metadata_dirs']['challenges'],
                 $doctrineSettings['dev_mode'],
                 null,
                 $cache
             );
 
-            return EntityManager::create($doctrineSettings['connection'], $config);
+            return EntityManager::create($doctrineSettings['connection']['challenges'], $config);
         },
+        MainEntityManager::class => function (ContainerInterface $c): EntityManager {
+            $settings = $c->get(SettingsInterface::class);
+            $doctrineSettings = $settings->get('doctrine');
+
+            $cache = new FilesystemCache('/tmp');
+            $config = Setup::createAttributeMetadataConfiguration(
+                $doctrineSettings['metadata_dirs']['main'],
+                $doctrineSettings['dev_mode'],
+                null,
+                $cache
+            );
+
+            return EntityManager::create($doctrineSettings['connection']['main'], $config);
+        }
     ]);
 };

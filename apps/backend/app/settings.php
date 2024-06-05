@@ -29,7 +29,10 @@ return function (ContainerBuilder $containerBuilder) {
                     // List of paths where Doctrine will search for metadata.
                     // Metadata can be either YML/XML files or PHP classes annotated
                     // with comments or PHP8 attributes.
-                    'metadata_dirs' => [__DIR__ . '/../src/Domain/Challenges'],
+                    'metadata_dirs' => [
+                        'challenges' => [__DIR__ . '/../src/Domain/Challenges'],
+                        'main' => [__DIR__ . '/../src/Domain/Main']
+                    ],
 
                     'cache_dir' => __DIR__ . '/../var/cache/doctrine',
         
@@ -39,13 +42,24 @@ return function (ContainerBuilder $containerBuilder) {
                     // Refer to the Doctrine documentation to see the full list
                     // of valid parameters: https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/configuration.html
                     'connection' => [
-                        'driver' => 'pdo_mysql',
-                        'host' => 'db',
-                        'port' => 3306,
-                        'dbname' => 'challenges',
-                        'user' => 'challenges_user',
-                        'password' => 'secret',
-                        'charset' => 'utf8mb4'
+                        'challenges' => [
+                                'driver' => 'pdo_mysql',
+                                'host' => 'db',
+                                'port' => 3306,
+                                'dbname' => 'challenges',
+                                'user' => 'challenges_user',
+                                'password' => 'secret',
+                                'charset' => 'utf8mb4'
+                            ],
+                        'main' => [
+                            'driver' => 'pdo_mysql',
+                            'host' => 'db',
+                            'port' => 3306,
+                            'dbname' => 'main',
+                            'user' => 'main_user',
+                            'password' => 'secret',
+                            'charset' => 'utf8mb4'
+                        ]
                     ]
                 ]
             ]);
