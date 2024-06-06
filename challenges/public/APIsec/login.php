@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // レスポンスに応じた処理
     if ($response !== false) {
         $_SESSION['message'] = "ログインに成功しました。";
-        header('Location: dashboard.php'); // ダッシュボードなどのリダイレクト先に変更してください
+        header('Location: main.php'); // ダッシュボードなどのリダイレクト先に変更してください
         exit();
     } else {
         $_SESSION['message'] = "ログインに失敗しました。";
