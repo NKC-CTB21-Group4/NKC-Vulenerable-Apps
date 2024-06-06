@@ -1,0 +1,25 @@
+/* Content.css */
+
+.content-wrapper {
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .content-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .content-text {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .no-content {
+    font-size: 16px;
+    color: #999;
+  }
+  
