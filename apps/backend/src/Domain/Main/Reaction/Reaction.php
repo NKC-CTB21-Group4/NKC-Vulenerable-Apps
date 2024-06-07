@@ -53,6 +53,10 @@ class Reaction implements JsonSerializable
     {
         return $this->post;
     }
+    public function getPostId(): int
+    {
+        return $this->post->getId();
+    }
 
     public function isFav(): bool
     {
