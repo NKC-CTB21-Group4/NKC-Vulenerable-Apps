@@ -17,4 +17,11 @@ interface UserRepository
      * @throws UserNotFoundException
      */
     public function findUserOfId(int $id): User;
+
+    /**
+     * @param User $user
+     * @return User
+     * @throws UserCreateFailedException
+     */
+    public function createUser(User $user):User;
 }
