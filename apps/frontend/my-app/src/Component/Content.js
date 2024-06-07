@@ -1,17 +1,10 @@
 import React from 'react';
+import './Content.css'; // CSS ファイルをインポート
 
-function Content({ contentData}) {
+function Content({ content }) {
   return (
-    <div>
-      {contentData.length > 0 ? (
-        contentData.map((item) => (
-          <div>
-            <p>{item.content}</p>
-          </div>
-        ))
-      ) : (
-        <div>No content available</div>
-      )}
+    <div className="content-item">
+      <p className="content-text">{content}</p>
     </div>
   );
 }
