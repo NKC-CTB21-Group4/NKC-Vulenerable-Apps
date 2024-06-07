@@ -66,6 +66,11 @@ class Reaction implements JsonSerializable
     {
         return $this->isFav;
     }
+    public function toggleFav():bool
+    {
+        $this->isFav = !$this->isFav;
+        return $this->isFav;
+    }
 
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): array
