@@ -48,6 +48,10 @@ class Reaction implements JsonSerializable
     {
         return $this->user;
     }
+    public function getUserId():int
+    {
+        return $this->user->getId();
+    }
 
     public function getPost(): Post
     {
