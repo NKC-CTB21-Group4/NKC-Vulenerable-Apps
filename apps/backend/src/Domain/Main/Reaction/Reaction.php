@@ -48,14 +48,27 @@ class Reaction implements JsonSerializable
     {
         return $this->user;
     }
+    public function getUserId():int
+    {
+        return $this->user->getId();
+    }
 
     public function getPost(): Post
     {
         return $this->post;
     }
+    public function getPostId(): int
+    {
+        return $this->post->getId();
+    }
 
     public function isFav(): bool
     {
+        return $this->isFav;
+    }
+    public function toggleFav():bool
+    {
+        $this->isFav = !$this->isFav;
         return $this->isFav;
     }
 
