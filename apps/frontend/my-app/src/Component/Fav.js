@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 function Fav({ postid }) {
-    const [favorites, setFavorites] = useState(0);
-    const [state,setState] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [favorites, setFavorites] = useState({});
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -13,18 +11,17 @@ function Fav({ postid }) {
                 const response = await fetch(`http://backend:8080/api/favorite/posts/${postid}`);
                 const json = await response.json();
                 setFavorites(json.data);
+                //json.data.cickedを判定しクリックされていたらいいね数のアイコンを変える。
             } catch (err) {
                 setError('Failed to fetch favorites');
             } finally {
                 setLoading(false);
             }
         };
-
         fetchFavorites();
-    }, [postid]);
+    }, []);
 
     const handleFavoriteClick = async () => {
-        setLoading(true);
         setError(null);
         try {
             // Simulate an async API call to update favorites
@@ -32,7 +29,7 @@ function Fav({ postid }) {
                 method: 'POST',
             });
             const json = await response.json();
-            setFavorites(json.fav);
+            setFavorites({fav:json.data.clicked ? favorites.fav + 1 : favorites.fav - 1, clicked:json.data.clicked});
         } catch (err) {
             setError('Failed to update favorites');
         } finally {
@@ -42,11 +39,14 @@ function Fav({ postid }) {
 
     return (
         <div>
-            <span onClick={handleFavoriteClick} style={{ cursor: 'pointer' }}>
+            <span onClick={handleFavoriteClick} 
+                style={{cursor: 'pointer', 
+                        color: favorites.clicked ? 'red' : 'white',
+                }}
+            >
                 ❤️
             </span>
-            <span>{favorites}</span>
-            {loading && <span>Loading...</span>}
+            <span>{favorites.fav}</span>
             {error && <span>{error}</span>}
         </div>
     );
