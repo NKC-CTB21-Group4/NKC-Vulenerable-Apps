@@ -1,0 +1,24 @@
+.userinfo-container {
+  display: flex;
+  align-items: center; /* アイテムを垂直方向に中央揃え */
+  padding: 10px;
+  justify-content: flex-end;
+}
+
+.userinfo-icon {
+  width: 30px; /* 必要に応じて幅を調整 */
+  height: 30px; /* 必要に応じて高さを調整 */
+  border-radius: 50%;
+  margin-right: 10px; /* 画像とテキストの間のスペース */
+}
+
+
+.userinfoname{
+  font-size: 25px;
+  font-weight: bold;
+}
+.userinfoid {
+  font-size: 15px; /* フォントサイズを設定 */
+  padding: 10px;
+  margin-top: 8px;
+}
