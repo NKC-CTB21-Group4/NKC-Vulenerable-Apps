@@ -6,19 +6,29 @@
 }
 
 .userinfo-icon {
-  width: 30px; /* 必要に応じて幅を調整 */
-  height: 30px; /* 必要に応じて高さを調整 */
+  width: 1.5em; /* 必要に応じて幅を調整 */
+  height: 1.5em; /* 必要に応じて高さを調整 */
   border-radius: 50%;
-  margin-right: 10px; /* 画像とテキストの間のスペース */
+  margin-right: 0.5em; /* 画像とテキストの間のスペース */
+  line-height: 1.2;
 }
 
+.userinfo-text {
+  display: flex;
+  flex-direction: column; /* ユーザーネームとユーザーIDを縦方向に配置 */
+  margin-top: 1em;
+  text-align: left;
+  
+}
 
-.userinfoname{
-  font-size: 25px;
+.userinfoname {
+  font-size: 1em;
   font-weight: bold;
+  font-family: 'Arial', 'Helvetica', sans-serif; /* 統一フォントファミリを設定 */
+  line-height: 0; /* 行の高さを設定 */
 }
+
 .userinfoid {
-  font-size: 15px; /* フォントサイズを設定 */
-  padding: 10px;
-  margin-top: 8px;
+  font-size: 0.75em; /* フォントサイズを設定 */
+  padding-top: 0.5em;
 }
