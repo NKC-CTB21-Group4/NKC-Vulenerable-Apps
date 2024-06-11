@@ -8,7 +8,7 @@
     use Psr\Log\LoggerInterface;
     use App\Domain\Main\User\UserRepository;
 
-    abstract class useAction extends Action
+    abstract class UseAction extends Action
     {
         protected UserRepository $userRepository;
 
@@ -17,7 +17,7 @@
             UserRepository $userRepository;
         ){
             parent::__construct($logger);
-            $this->userRepository = $userRepository;
+            $this-> = $userRepository;
         }
     }
 ?>
