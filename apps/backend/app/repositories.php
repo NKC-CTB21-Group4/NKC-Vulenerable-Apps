@@ -3,7 +3,10 @@
 declare(strict_types=1);
 
 use App\Domain\User\UserRepository;
+use App\Domain\Main\Post\PostRepository;
 use App\Infrastructure\Persistence\User\InMemoryUserRepository;
+use App\Infrastructure\Persistence\Main\Post\DatabasePostRepository;
+
 use App\Domain\Challenges\User\ChallengesUserRepository;
 use App\Domain\Challenges\News\ChallengesNewsRepository;
 use App\Domain\Challenges\Diary\ChallengesDiaryRepository;
@@ -22,6 +25,7 @@ return function (ContainerBuilder $containerBuilder) {
     // Here we map our UserRepository interface to its in memory implementation
     $containerBuilder->addDefinitions([
         UserRepository::class => \DI\autowire(InMemoryUserRepository::class),
+        PostRepository::class => \DI\autowire(DatabasePostRepository::class),
         ChallengesUserRepository::class => \DI\autowire(DatabaseChallengesUserRepository::class),
         ChallengesNewsRepository::class => \DI\autowire(DatabaseChallengesNewsRepository::class),
         ChallengesDiaryRepository::class => \DI\autowire(DatabaseChallengesDiaryRepository::class),
