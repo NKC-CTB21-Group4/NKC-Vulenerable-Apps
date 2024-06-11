@@ -11,7 +11,6 @@ function Fav({ postid }) {
                 const response = await fetch(`http://backend:8080/api/favorite/posts/${postid}`);
                 const json = await response.json();
                 setFavorites(json.data);
-                //json.data.cickedを判定しクリックされていたらいいね数のアイコンを変える。
             } catch (err) {
                 setError('Failed to fetch favorites');
             } finally {
