@@ -21,7 +21,14 @@ interface UserRepository
     /**
      * @param User $user
      * @return User
-     * @throws UserCreateFailedException
      */
-    public function createUser(User $user):User;
+    public function createUser(User $user): User;
+
+    /**
+     *  @param User $user 
+     *  @return void
+     *  @throws UserNotFoundException
+     *  @throws UserDeleteFailedException
+     */
+    public function deleteUser(int $id) : void;
 }
