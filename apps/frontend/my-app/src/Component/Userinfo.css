@@ -5,30 +5,12 @@
   justify-content: flex-end;
 }
 
-.userinfo-icon {
-  width: 1.5em; /* 必要に応じて幅を調整 */
-  height: 1.5em; /* 必要に応じて高さを調整 */
-  border-radius: 50%;
-  margin-right: 0.5em; /* 画像とテキストの間のスペース */
-  line-height: 1.2;
-}
-
 .userinfo-text {
   display: flex;
   flex-direction: column; /* ユーザーネームとユーザーIDを縦方向に配置 */
-  margin-top: 1em;
+  margin-top: 0.6em;
   text-align: left;
-  
 }
 
-.userinfoname {
-  font-size: 1em;
-  font-weight: bold;
-  font-family: 'Arial', 'Helvetica', sans-serif; /* 統一フォントファミリを設定 */
-  line-height: 0; /* 行の高さを設定 */
-}
 
-.userinfoid {
-  font-size: 0.75em; /* フォントサイズを設定 */
-  padding-top: 0.5em;
-}
+
