@@ -1,12 +1,12 @@
 /* Userid.css */
 
 .userid-container {
-    padding: 5px; /* 全体にパディングを追加 */
-    display: inline-block; /* 要素をインラインブロックにして横並びにする */
+    display: inline-block;
+   
   }
   
   .userid {
-    font-size: 15px; /* フォントサイズを設定 */
-     /* 文字色を設定 */
+    font-size: 0.75em; /* フォントサイズを設定 */
+    padding-top: 0.5em;
   }
   
