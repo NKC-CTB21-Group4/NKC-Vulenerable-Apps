@@ -14,14 +14,12 @@ function DeleteButton({ userId, postId}) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+            
             });
 
             if (!response.ok) {
                 throw new Error('Failed to delete the post');
             }
-
-            // 成功した場合の処理
-            onDelete();
         } catch (err) {
             setError('Failed to delete the post');
         } finally {
