@@ -8,13 +8,11 @@ function Fav({ postid }) {
         const fetchFavorites = async () => {
             try {
                 // Simulate fetching favorites from a server
-                const response = await fetch(`http://backend:8080/api/favorite/posts/${postid}`);
+                const response = await fetch(`http://localhost:8080/api/favorite/posts/${postid}`);
                 const json = await response.json();
                 setFavorites(json.data);
             } catch (err) {
                 setError('Failed to fetch favorites');
-            } finally {
-                setLoading(false);
             }
         };
         fetchFavorites();
@@ -24,15 +22,16 @@ function Fav({ postid }) {
         setError(null);
         try {
             // Simulate an async API call to update favorites
-            const response = await fetch(`http://backend:8080/api/favorite/posts/${postid}`, {
+            const response = await fetch(`http://localhost:8080/api/favorite/posts/${postid}`, {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             });
             const json = await response.json();
             setFavorites({fav:json.data.clicked ? favorites.fav + 1 : favorites.fav - 1, clicked:json.data.clicked});
         } catch (err) {
             setError('Failed to update favorites');
-        } finally {
-            setLoading(false);
         }
     };
 
