@@ -4,20 +4,20 @@
 
     namespace App\Application\Actions\Main\User;
 
-    use App\Applications\Actions\Action;
+    use App\Application\Actions\Action;
     use Psr\Log\LoggerInterface;
     use App\Domain\Main\User\UserRepository;
 
-    abstract class UseAction extends Action
+    abstract class UserAction extends Action
     {
         protected UserRepository $userRepository;
 
         public function __construct(
             LoggerInterface $logger,
-            UserRepository $userRepository;
+            UserRepository $userRepository
         ){
             parent::__construct($logger);
-            $this-> = $userRepository;
+            $this->userRepository = $userRepository;
         }
     }
 ?>

@@ -60,19 +60,19 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
 
     public function deleteUser(int $id) :void 
     {
-        $user = findUserOfId($id);
+        $user = $this->findUserOfId($id);
 
         /*$userがnullの場合 */
         if($user === null){
             throw new UserNotFoundException();
         }
-        elseif(isdeletedAtSet($user)){
+        elseif($this->isdeletedAtSet($user)){
             /*値あり（既に削除されている） */
             throw new UserDeleteFailedException();
         }
         else{
             /*null（削除されていない） */
-            $user -> setDeletedAt($user);
+            $user->setDeletedAt(new \DateTime());
         }
 
         $this->_em->flush();
