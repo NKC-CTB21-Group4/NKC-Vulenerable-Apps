@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 use App\Domain\Main\User\UserRepository;
+use App\Domain\Main\Post\PostRepository;
 use App\Infrastructure\Persistence\Main\User\InMemoryUserRepository;
 use App\Infrastructure\Persistence\Main\User\DatabaseUserRepository;
+use App\Infrastructure\Persistence\Main\Post\DatabasePostRepository;
 use Psr\Container\ContainerInterface;
 use App\Domain\Challenges\Main\User\ChallengesUserRepository;
 use App\Domain\Challenges\News\ChallengesNewsRepository;
@@ -26,6 +28,7 @@ return function (ContainerBuilder $containerBuilder) {
         UserRepository::class => function(ContainerInterface $c): UserRepository{
             return new DatabaseUserRepository($c->get(MainEntityManager::class));
         },
+        PostRepository::class => \DI\autowire(DatabasePostRepository::class),
         ChallengesUserRepository::class => \DI\autowire(DatabaseChallengesUserRepository::class),
         ChallengesNewsRepository::class => \DI\autowire(DatabaseChallengesNewsRepository::class),
         ChallengesDiaryRepository::class => \DI\autowire(DatabaseChallengesDiaryRepository::class),
