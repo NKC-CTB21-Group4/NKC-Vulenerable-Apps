@@ -1,0 +1,16 @@
+.userinfo-container {
+  display: flex;
+  align-items: center; /* アイテムを垂直方向に中央揃え */
+  padding: 10px;
+  justify-content: flex-end;
+}
+
+.userinfo-text {
+  display: flex;
+  flex-direction: column; /* ユーザーネームとユーザーIDを縦方向に配置 */
+  margin-top: 0.6em;
+  text-align: left;
+}
+
+
+
