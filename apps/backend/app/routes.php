@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Application\Actions\Main\User\ViewUserAction;
 use App\Application\Actions\User\ListUsersAction;
+use App\Application\Actions\Main\Post\ViewPostAction;
 
 use App\Application\Middleware\Challenges\ChallengesJwtMiddleware;
 
@@ -53,6 +54,9 @@ return function (App $app) {
     $app->group('/users', function (Group $group) {
         $group->get('', ListUsersAction::class);
         $group->get('/{id}', ViewUserAction::class);
+        $group->group('/{userId}/posts', function (Group $group) {
+            $group->get('/{postId}', ViewPostAction::class);
+        });
     });
     
     // challenges用のAPIエンドポイント
