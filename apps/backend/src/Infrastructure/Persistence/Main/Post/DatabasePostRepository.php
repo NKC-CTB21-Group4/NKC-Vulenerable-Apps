@@ -16,7 +16,7 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
 {
   private EntityManager $entityManager;
 
-  public function __construct(EntityManger $entityManager)
+  public function __construct(EntityManager $entityManager)
   {
     $this->entityManger = $entityManager;
     parent::__construct($entityManager, $entityManager->getClassMetadata(Post::class));
