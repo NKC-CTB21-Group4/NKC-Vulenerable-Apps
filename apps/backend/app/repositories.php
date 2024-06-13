@@ -30,7 +30,9 @@ return function (ContainerBuilder $containerBuilder) {
         AuthTokenRepository::class => function (ContainerInterface $c): AuthTokenRepository{
             return new DatabaseAuthTokenRepository($c->get(MainEntityManager::class));
         },
-        JwtMiddleware::class => \DI\create(JwtMiddleware::class),
+        JwtMiddleware::class => function (ContainerInterface $c): JwtMiddleware {
+            return new JwtMiddleware($c->get(MainEntityManager::class));
+        },
         ChallengesUserRepository::class => \DI\autowire(DatabaseChallengesUserRepository::class),
         ChallengesNewsRepository::class => \DI\autowire(DatabaseChallengesNewsRepository::class),
         ChallengesDiaryRepository::class => \DI\autowire(DatabaseChallengesDiaryRepository::class),
