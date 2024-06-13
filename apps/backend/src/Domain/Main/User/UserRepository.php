@@ -31,4 +31,11 @@ interface UserRepository
      *  @throws UserDeleteFailedException
      */
     public function deleteUser(int $id) : void;
+
+    /**
+     * @param string $email
+     * @param string $password
+     * @return User
+     */
+    public function findByEmailAndPassword(string $email, string $password): User;
 }
