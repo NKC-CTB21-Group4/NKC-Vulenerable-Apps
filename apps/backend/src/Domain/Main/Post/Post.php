@@ -77,7 +77,7 @@ class Post implements JsonSerializable
     {
         return [
             'id' => $this->id,
-            'author' => $this->author->getId(),
+            'author_id' => $this->author->getId(),
             'author_name' =>$this->author->getUsername(),
             'content' => $this->content,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
