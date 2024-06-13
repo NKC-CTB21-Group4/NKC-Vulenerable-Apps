@@ -28,7 +28,9 @@ return function (ContainerBuilder $containerBuilder) {
         UserRepository::class => function(ContainerInterface $c): UserRepository{
             return new DatabaseUserRepository($c->get(MainEntityManager::class));
         },
-        PostRepository::class => \DI\autowire(DatabasePostRepository::class),
+        PostRepository::class => function(ContainerInterface $c): PostRepository{
+            return new DatabasePostRepository($c->get(MainEntityManager::class));
+        },
         ChallengesUserRepository::class => \DI\autowire(DatabaseChallengesUserRepository::class),
         ChallengesNewsRepository::class => \DI\autowire(DatabaseChallengesNewsRepository::class),
         ChallengesDiaryRepository::class => \DI\autowire(DatabaseChallengesDiaryRepository::class),
