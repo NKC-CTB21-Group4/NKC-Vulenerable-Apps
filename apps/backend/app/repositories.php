@@ -5,9 +5,11 @@ declare(strict_types=1);
 use App\Domain\Main\User\UserRepository;
 use App\Domain\Main\Auth\AuthTokenRepository;
 use App\Domain\Main\Post\PostRepository;
+use App\Domain\Main\Reaction\ReactionRepository;
 use App\Infrastructure\Persistence\Main\User\InMemoryUserRepository;
 use App\Infrastructure\Persistence\Main\User\DatabaseUserRepository;
 use App\Infrastructure\Persistence\Main\Auth\DatabaseAuthTokenRepository;
+use App\Infrastructure\Persistence\Main\Reaction\DatabaseReactionRepository;
 
 use App\Infrastructure\Persistence\Main\Post\DatabasePostRepository;
 use Psr\Container\ContainerInterface;
@@ -38,6 +40,9 @@ return function (ContainerBuilder $containerBuilder) {
         },
         PostRepository::class => function(ContainerInterface $c): PostRepository{
             return new DatabasePostRepository($c->get(MainEntityManager::class));
+        },
+        ReactionRepository::class => function(ContainerInterface $c):ReactionRepository{
+            return new DatabaseReactionRepository($c->get(MainEntityManager::class));
         },
         ChallengesUserRepository::class => \DI\autowire(DatabaseChallengesUserRepository::class),
         ChallengesNewsRepository::class => \DI\autowire(DatabaseChallengesNewsRepository::class),
