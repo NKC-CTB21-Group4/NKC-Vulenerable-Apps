@@ -10,6 +10,7 @@ use App\Application\Actions\Main\Auth\RevokeTokenAction;
 
 
 use App\Application\Actions\Main\Post\ViewPostAction;
+use App\Application\Actions\Main\Post\ListUserPostsAction;
 use App\Application\Actions\Main\Post\CreatePostAction;
 use App\Application\Actions\Main\Post\DeletePostAction;
 use App\Application\Actions\Main\Post\ListRecommendPostsAction;
@@ -66,6 +67,7 @@ return function (App $app) {
         $group->post('', CreateUserAction::class);
         $group->get('/{id}', ViewUserAction::class);
         $group->group('/{userId}/posts', function (Group $group) {
+            $group->get('',ListUserPostsAction::class);
             $group->post('',CreatePostAction::class)->add(JwtMiddleware::class);
             $group->get('/{postId}', ViewPostAction::class);
             $group->delete('/{postId}',DeletePostAction::class)->add(JwtMiddleware::class);
