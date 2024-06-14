@@ -26,6 +26,7 @@ class CreatePostAction extends PostAction
     if($invalidResponse !== null){
       return $invalidResponse;
     }
+    $user = $this->userRepository->findUserOfId($user->id);
 
     $post = new Post($user,$data['content']);
 
@@ -33,11 +34,11 @@ class CreatePostAction extends PostAction
 
     $this->logger->info("Post created successfully");
 
-    return $this->respondWithData($news, 201);    
+    return $this->respondWithData($post, 201);    
 
   }
 
-  private function validateInputData(array $data): Response
+  private function validateInputData(array $data): ?Response
   {
       if (empty($data['content'])) {
         $this->logger->info("Post creation failed due to invalid input");

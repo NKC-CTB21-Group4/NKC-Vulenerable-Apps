@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use App\Domain\Main\Post\PostRepository;
 use App\Domain\Main\User\UserRepository;
 use App\Domain\Main\User\User;
+use Psr\Http\Message\ResponseInterface as Response;
 
 abstract class PostAction extends Action
 {
@@ -25,14 +26,16 @@ abstract class PostAction extends Action
     $this->userRepository = $userRepository;
   }
 
-  protected function getUserFromToken(): ?array
+  protected function getUserFromToken():?object
   {
-      return $this->$request->getAttribute('token')['user'] ?? null;
+      return (object)$this->request->getAttribute('token')['user'] ?? null;
   }
 
-  protected function checkUserAuthorization(User $user): ?Response
+  protected function checkUserAuthorization(?object $user): ?Response
     {
+      if($user === null)return $this->respondWithData('Unauthorized', 403);
         $userId = (int) $this->resolveArg('userId');
+        $user = $this->userRepository->findUserOfId($user->id);
         if ($user->getId() !== $userId) {
             return $this->respondWithData('Unauthorized', 403);
         }
