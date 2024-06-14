@@ -11,6 +11,7 @@ use App\Application\Actions\Main\Auth\RevokeTokenAction;
 
 use App\Application\Actions\Main\Post\ViewPostAction;
 use App\Application\Actions\Main\Post\CreatePostAction;
+use App\Application\Actions\Main\Post\DeletePostAction;
 use App\Application\Middleware\Challenges\ChallengesJwtMiddleware;
 use App\Application\Middleware\Main\JwtMiddleware;
 
@@ -63,7 +64,8 @@ return function (App $app) {
         $group->get('/{id}', ViewUserAction::class);
         $group->group('/{userId}/posts', function (Group $group) {
             $group->post('',CreatePostAction::class)->add(JwtMiddleware::class);
-            $group->get('/{postId}', ViewUserPostAction::class);
+            $group->get('/{postId}', ViewPostAction::class);
+            $group->delete('/{postId}',DeletePostAction::class)->add(JwtMiddleware::class);
         });
     });
 
