@@ -40,11 +40,12 @@ function Fav({ postid }) {
             <span onClick={handleFavoriteClick} 
                 style={{cursor: 'pointer', 
                         color: favorites.clicked ? 'red' : 'white',
+                        
                 }}
             >
-                ❤️
+                ♥
             </span>
-            <span>{favorites.fav}</span>
+            <span style={{color: 'black'}}>{favorites.fav}</span>
             {error && <span>{error}</span>}
         </div>
     );
