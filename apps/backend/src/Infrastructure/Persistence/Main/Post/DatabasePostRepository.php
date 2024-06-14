@@ -61,7 +61,7 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
 
   public function delete(int $id):void 
   {
-    $post = findPostOfId($id);
+    $post = $this->findPostOfId($id);
     $post->setDeletedAt();
     $this->_em->flush();
   }
