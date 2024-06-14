@@ -16,6 +16,7 @@ use App\Application\Actions\Main\Post\DeletePostAction;
 use App\Application\Actions\Main\Post\ListRecommendPostsAction;
 use App\Application\Middleware\Challenges\ChallengesJwtMiddleware;
 use App\Application\Middleware\Main\JwtMiddleware;
+use App\Application\Actions\Main\Reaction\HandleFavoriteAction;
 
 use App\Application\Actions\Challenges\Auth\ChallengesGenerateTokenAction;
 use App\Application\Actions\Challenges\Auth\ChallengesRevokeTokenAction;
@@ -61,6 +62,10 @@ return function (App $app) {
     });
     
     $app->get('/posts',ListRecommendPostsAction::class);
+
+    $app->group('/favorite/posts',function(Group $group){
+        $group->post('/{postId}',HandleFavoriteAction::class)->add(JwtMiddleware::class);
+    });
 
     $app->group('/users', function (Group $group) {
         $group->get('', ListUsersAction::class);

@@ -6,6 +6,8 @@ namespace App\Infrastructure\Persistence\Main\Reaction;
 
 use App\Domain\Main\Reaction\Reaction;
 use App\Domain\Main\Reaction\ReactionRepository;
+use App\Domain\Main\User\User;
+use App\Domain\Main\Post\Post;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -20,10 +22,11 @@ class DatabaseReactionRepository extends EntityRepository implements ReactionRep
     parent::__construct($entityManager,$entityManager->getClassMetadata(Reaction::class));
   }
 
-  public function save(Reaction $reaction):void
+  public function save(Reaction $reaction):bool
   {
     $this->_em->persist($reaction);
     $this->_em->flush();
+    return $reaction->isFav();
   }
 
   public function getFavsCountByPostId(int $id): int
@@ -38,7 +41,7 @@ class DatabaseReactionRepository extends EntityRepository implements ReactionRep
   public function togglePostFav(User $user,Post $post):bool
   {
     $reaction = $this->findReactionByUserIdAndPostId($user->getId(),$post->getId());
-    $result = !$reaction ? $this->createReaction(new Reaction($user,$post,true)) : $reaction->toggleFav();
+    $result = !$reaction ? $this->createReaction(new Reaction($user,$post,true)) : $this->save($reaction->toggleFav());
     return $result;
   }
 
