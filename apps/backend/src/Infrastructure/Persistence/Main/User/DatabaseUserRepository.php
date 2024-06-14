@@ -77,5 +77,17 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
 
         $this->_em->flush();
     }
+    public function findByEmailAndPassword(string $email, string $password): User {
 
+        $user = parent::findOneBy(['email' => $email]);
+        if ($user === null || $this->isdeletedAtSet($user)) {
+            throw new UserNotFoundException();
+        }
+
+        if ($email !== $user->getEmail() ||  !password_verify($password,$user->getSecurePassword())) {
+            throw new UserNotFoundException();
+        }
+
+        return $user;
+    }
 }

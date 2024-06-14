@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 use App\Application\Actions\Main\User\ViewUserAction;
 use App\Application\Actions\User\ListUsersAction;
+use App\Application\Actions\Main\Auth\GenerateTokenAction;
+use App\Application\Actions\Main\Auth\RevokeTokenAction;
+
+
 use App\Application\Actions\Main\Post\ViewPostAction;
 use App\Application\Actions\Main\Post\CreatePostAction;
-
 use App\Application\Middleware\Challenges\ChallengesJwtMiddleware;
+use App\Application\Middleware\Main\JwtMiddleware;
 
 use App\Application\Actions\Challenges\Auth\ChallengesGenerateTokenAction;
 use App\Application\Actions\Challenges\Auth\ChallengesRevokeTokenAction;
@@ -55,10 +59,15 @@ return function (App $app) {
     $app->group('/users', function (Group $group) {
         $group->get('', ListUsersAction::class);
         $group->get('/{id}', ViewUserAction::class);
-        $group->group('/{userId}/posts', function (Group $group) {
-            $group->post('',CreatePostAction::class);
-            $group->get('/{postId}', ViewPostAction::class);
-        });
+    });
+
+    $app->group('/auth',function (Group $group){
+        $group->post('/token',GenerateTokenAction::class);
+        $group->get('/test',function (Request $request,Response $response){
+            $response->getBody()->write('Authentication successful');
+            return $response;
+        })->add(JwtMiddleware::class);
+        $group->post('/revoke-token',RevokeTokenAction::class);
     });
     
     // challenges用のAPIエンドポイント
