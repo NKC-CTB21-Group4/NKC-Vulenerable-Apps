@@ -29,7 +29,7 @@ interface PostRepository
      * @return Post
      * @throws PostCreateFailedException
      */
-    public function createPost(Post $post): Post;
+    public function create(Post $post): Post;
 
     /**
      * @param int $postId
@@ -37,5 +37,5 @@ interface PostRepository
      * @throws PostNotFoundException
      * @throws PostDeleteFailedException
      */
-    public function deletePost(int $postId):void;
+    public function delete(int $postId):void;
 }
