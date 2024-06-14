@@ -52,14 +52,14 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
     return $post;
   }
 
-  public function createPost(Post $post):Post
+  public function create(Post $post):Post
   {
     $this->_em->persist($post);
     $this->_em->flush();
     return $post;
   }
 
-  public function deletePost(int $id):void 
+  public function delete(int $id):void 
   {
     $post = findPostOfId($id);
     $post->setDeletedAt();
