@@ -59,6 +59,10 @@ return function (App $app) {
     $app->group('/users', function (Group $group) {
         $group->get('', ListUsersAction::class);
         $group->get('/{id}', ViewUserAction::class);
+        $group->group('/{userId}/posts', function (Group $group) {
+            $group->post('',CreatePostAction::class)->add(JwtMiddleware::class);
+            $group->get('/{postId}', ViewUserPostAction::class);
+        });
     });
 
     $app->group('/auth',function (Group $group){
