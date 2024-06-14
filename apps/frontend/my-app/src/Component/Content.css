@@ -1,21 +1,19 @@
-/* Content.css */
-
-.content-wrapper {
-    padding: 20px;
-    background-color: #f9f9f9;
-  }
-  
+/* Content.css */  
   .content-item {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fff;
+    
+    /* border: 1px solid #ddd;
+    border-radius: 5px; 
+    background-color: #fff; */
+    margin: 0;
+    
   }
   
   .content-text {
+    margin-top: 0px;
     font-size: 16px;
     color: #333;
+    text-align: left;
+    font-family:cursive
   }
   
   .no-content {

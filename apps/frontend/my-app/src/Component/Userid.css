@@ -2,10 +2,11 @@
 
 .userid-container {
     display: inline-block;
-   
+    text-align: left;
   }
   
   .userid {
+    color: black;
     font-size: 0.75em; /* フォントサイズを設定 */
     padding-top: 0.5em;
   }
