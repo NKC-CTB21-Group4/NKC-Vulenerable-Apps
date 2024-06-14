@@ -1,0 +1,41 @@
+/* コンテンツ全体のスタイル */
+.content-item {
+    width: 480px; /* 必要に応じて幅を調整 */
+    height: auto;
+    margin: 20px auto; /* 中央に配置 */
+    padding: 20px; /* 内側の余白を設定 */
+    box-sizing: border-box; /* パディングとボーダーを含めたボックスサイズを計算 */
+    margin-top: 0;
+}
+
+
+/* テキストのスタイル */
+.content-text {
+    font-size: 1.1em; /* 必要に応じてフォントサイズを調整 */
+    color: #333; /* フォントカラーを濃いグレーに設定 */
+    line-height: 1.6; /* 行間を設定 */
+}
+
+/* コンテナ全体のスタイル */
+.contentinfo-container {
+    text-align: left;
+    padding: 20px; /* 内側の余白を設定 */
+    margin: 20px 0; /* 外側の余白を設定 */
+    background-color: white; /* 背景色を白に設定 */
+    border: 1px solid #8f8d8d; /* 枠線を薄いグレーに設定 */
+    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* シャドウ効果を追加 */
+    transition: transform 0.2s ease-in-out; 
+}
+
+/* ホバー効果を追加 */
+.contentinfo-container:hover {
+    background-color: #f5f3f3; /* 背景色を白に設定 */
+    .content{
+        background-color: #f5f3f3; /* 背景色を白に設定 */
+    }
+}
+.userinfo{
+ text-align: left;   
+}
+
