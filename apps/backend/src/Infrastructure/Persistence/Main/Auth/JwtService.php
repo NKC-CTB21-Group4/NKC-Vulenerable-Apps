@@ -6,15 +6,15 @@ namespace App\Infrastructure\Persistence\Main\Auth;
 
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
-use \App\Infrastructure\Persistence\Main\Auth\DatabaseAuthTokenRepository;
+use \App\Domain\Main\Auth\AuthTokenRepository;
 use \App\Domain\Main\Auth\AuthToken;
 
 class JwtService {
     protected $secretKey;
     protected $algorithm;
-    private DatabaseAuthTokenRepository $authTokenRepository;
+    private AuthTokenRepository $authTokenRepository;
 
-    public function __construct(DatabaseAuthTokenRepository $authTokenRepository) {
+    public function __construct(AuthTokenRepository $authTokenRepository) {
         $this->secretKey = 'secret-key';
         $this->algorithm = 'HS256';
         $this->authTokenRepository = $authTokenRepository;
