@@ -31,11 +31,8 @@ class DatabaseReactionRepository extends EntityRepository implements ReactionRep
 
   public function getFavsCountByPostId(int $id): int
   {
-    $posts =  parent::findBy(['getPostId' => $id]);
-    $favsCount = count(array_filter($posts,function($post) {
-      return !$this->isFav();
-    }));
-    return $favsCount;
+    $reactions =  parent::findBy(['post' => $id, 'isFav' => true]);
+    return count($reactions);
   }
 
   public function togglePostFav(User $user,Post $post):bool
@@ -45,7 +42,7 @@ class DatabaseReactionRepository extends EntityRepository implements ReactionRep
     return $result;
   }
 
-  private function findReactionByUserIdAndPostId(int $userId,int $postId)
+  public function findReactionByUserIdAndPostId(int $userId,int $postId)
   {
     $qb = $this->entityManager->createQueryBuilder();
         
