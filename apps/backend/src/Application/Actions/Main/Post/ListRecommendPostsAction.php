@@ -12,10 +12,11 @@ class ListRecommendPostsAction extends PostAction
 {
   protected function action(): Response
   {
+    //todo tokenの有無でアルゴリズムが変わるようにする
     $posts = $this->postRepository->findAll();
 
-        $this->logger->info("Post List was viewed.");
+    $this->logger->info("Post List was viewed.");
 
-        return $this->respondWithData($posts);
+    return $this->respondWithData($posts);
   }
 }
