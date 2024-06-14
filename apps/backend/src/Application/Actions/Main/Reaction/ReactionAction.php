@@ -10,6 +10,7 @@ use App\Domain\Main\Post\PostRepository;
 use App\Domain\Main\User\UserRepository;
 use App\Domain\Main\Reaction\ReactionRepository;
 use App\Domain\Main\User\User;
+use App\Infrastructure\Persistence\Main\Auth\JwtService;
 use Psr\Http\Message\ResponseInterface as Response;
 
 abstract class ReactionAction extends Action
@@ -17,17 +18,20 @@ abstract class ReactionAction extends Action
   protected PostRepository $postRepository;
   protected UserRepository $userRepository;
   protected ReactionRepository $reactionRepository;
+  protected JwtService $jwtService;
 
   public function __construct(
     LoggerInterface $logger,
     PostRepository $postRepository,
     UserRepository $userRepository,
-    ReactionRepository $reactionRepository
+    ReactionRepository $reactionRepository,
+    JwtService $jwtService
   ){
     parent::__construct($logger);
     $this->postRepository = $postRepository;
     $this->userRepository = $userRepository;
     $this->reactionRepository = $reactionRepository;
+    $this->jwtService = $jwtService;
   }
 
   protected function getUserFromToken():?object
@@ -35,15 +39,21 @@ abstract class ReactionAction extends Action
       return (object)$this->request->getAttribute('token')['user'] ?? null;
   }
 
-  protected function checkUserAuthorization(?object $user): ?User
+  protected function getUserFromHeader(): ?object
     {
-      if($user === null)return null;
-        $userId = (int) $this->resolveArg('userId');
-        $user = $this->userRepository->findUserOfId($user->id);
-        if ($user->getId() !== $userId) {
-            return null;
-        }
-        return $user;
-    }
+      $authHeader = $this->request->getHeader('Authorization');
 
+      if (!$authHeader || !preg_match('/Bearer\s(\S+)/', $authHeader[0], $matches)) {
+          return null;
+      }
+
+      $token = $matches[1];
+      $decoded = $this->jwtService->validateToken($token);
+
+      if (!$decoded) {
+          return null;
+      }
+      $user = $decoded['user'];
+      return $user;
+    }
 }
