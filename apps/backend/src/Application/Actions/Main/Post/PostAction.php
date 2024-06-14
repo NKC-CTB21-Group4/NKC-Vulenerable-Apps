@@ -31,15 +31,15 @@ abstract class PostAction extends Action
       return (object)$this->request->getAttribute('token')['user'] ?? null;
   }
 
-  protected function checkUserAuthorization(?object $user): ?Response
+  protected function checkUserAuthorization(?object $user): ?User
     {
-      if($user === null)return $this->respondWithData('Unauthorized', 403);
+      if($user === null)return null;
         $userId = (int) $this->resolveArg('userId');
         $user = $this->userRepository->findUserOfId($user->id);
         if ($user->getId() !== $userId) {
-            return $this->respondWithData('Unauthorized', 403);
+            return null;
         }
-        return null;
+        return $user;
     }
 
 }

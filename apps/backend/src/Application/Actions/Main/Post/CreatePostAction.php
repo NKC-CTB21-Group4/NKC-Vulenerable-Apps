@@ -15,9 +15,9 @@ class CreatePostAction extends PostAction
   {
     $user = $this->getUserFromToken();
     
-    $authorizationResponse = $this->checkUserAuthorization($user);
-    if ($authorizationResponse !== null) {
-        return $authorizationResponse;
+    $user = $this->checkUserAuthorization($user);
+    if ($user === null) {
+      return $this->respondWithData('Unauthorized', 403);
     }
 
     $data = $this->getFormData();
@@ -26,7 +26,6 @@ class CreatePostAction extends PostAction
     if($invalidResponse !== null){
       return $invalidResponse;
     }
-    $user = $this->userRepository->findUserOfId($user->id);
 
     $post = new Post($user,$data['content']);
 
