@@ -15,36 +15,27 @@
     
             $user = $this->checkUserAuthorization($user);
             if ($user === null) {
-            return $this->respondWithData('Unauthorized', 403);
+                return $this->respondWithData('Unauthorized', 403);
             }
 
-            $data = $this->getFormData();
+            $id = $user->getId();
+            if ($id === null) {
+                $this->logger->info("User deletion failed");
+                return $this->respondWithData('Invalid input', 400);
+            }
 
-            $id = (int)$this-> resolveArg("id");
-
-            // ユーザーが存在するか確認
-            try {
-                $user = $this->userRepository->findUserOfId($id);
-            } catch (UserNotFoundException $e) {
+            // Userを削除（論理削除）
+            try{
+                $this->userRepository->deleteUser($id);
+                $this->logger->info("User deleted successfully");
+                return $this->respondWithData('User deleted successfully', 200);
+            }catch(UserNotFoundException $e) {
                 $this->logger->info("User with id `${id}` not found.");
                 return $this->respondWithData('User not found', 404);
             }
 
-            // Userを削除（論理削除）
-            $this->userRepository->deleteUser($id);
-
             $this->logger->info("User of id `${id}` was deleted.");
-
             return $this->respondWithData(['message' => 'User deleted successfully']);
-        }
-
-        private function hasInvalidInput(array $data):bool
-        {
-            if (empty($data['id'])) {
-                $this->logger->info("User deletion failed due to invalid input");
-                return true;
-            }
-            return false;
         }
     }
 ?>
