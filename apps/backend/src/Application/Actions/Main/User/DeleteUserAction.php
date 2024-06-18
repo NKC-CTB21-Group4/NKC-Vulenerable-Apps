@@ -34,9 +34,6 @@
 
             $this->logger->info("User deleted successfully");
             return $this->respondWithData('User deleted successfully', 200);
-
-            $this->logger->info("User of id `${id}` was deleted.");
-            return $this->respondWithData(['message' => 'User deleted successfully']);
         }
     }
 ?>
