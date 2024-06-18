@@ -1,17 +1,17 @@
 .Linkicon-container {
-    display: flex;
-    align-items: center;
+  display: flex;
+  flex-direction:row;
+  color: black;
   }
   
   .Link-icon {
-    width: 40px;
-    height: 40px;
+    width: 1.5em;
+    height: 1.5em;
     border-radius: 50%;
-    margin-right: 10px;
   }
-  
-  .username {
-    font-size: 1.2em;
-    font-weight: bold;
+
+  .linktext{
+    margin-left:0.5em ;
   }
+
   
