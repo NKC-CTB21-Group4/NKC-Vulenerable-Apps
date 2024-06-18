@@ -1,6 +1,7 @@
-// login.js
+// Login.js
+
 import React, { useState } from 'react';
-import './Login.css'
+import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -46,21 +47,21 @@ const Login = () => {
     <div className="login-container">
       <h2 className="login-title">ログイン</h2>
       <form onSubmit={handleLogin} className="login-form">
-        <div className="form-group">
-          <label className="form-label">Eメール:</label>
+        <div className="login-form-group">
+          <label className="login-label">Eメール:</label>
           <input
             type="email"
-            className="form-input"
+            className="login-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
-        <div className="form-group">
-          <label className="form-label">パスワード:</label>
+        <div className="login-form-group">
+          <label className="login-label">パスワード:</label>
           <input
             type="password"
-            className="form-input"
+            className="login-input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -68,7 +69,7 @@ const Login = () => {
         </div>
         <button type="submit" className="login-button">ログイン</button>
       </form>
-      {message && <p className="message">{message}</p>}
+      {message && <p className="login-message">{message}</p>}
     </div>
   );
 };
