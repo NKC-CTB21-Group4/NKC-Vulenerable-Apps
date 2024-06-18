@@ -23,6 +23,7 @@ use App\Application\Actions\Main\Reaction\GetFavsCountByPost;
 use App\Application\Actions\Main\Admin\User\CreateAdminUserAction;
 use App\Application\Actions\Main\Admin\User\ListAdminUserAction;
 use App\Application\Actions\Main\Admin\User\ViewAdminUserAction;
+use App\Application\Actions\Main\Admin\User\DeleteAdminUserAction;
 
 use App\Application\Actions\Challenges\Auth\ChallengesGenerateTokenAction;
 use App\Application\Actions\Challenges\Auth\ChallengesRevokeTokenAction;
@@ -90,6 +91,7 @@ return function (App $app) {
         $group->group('/users',function(Group $group){
             $group->get('',ListAdminUserAction::class)->add(AdminJwtMiddleware::class);
             $group->get('/{userId}',ViewAdminUserAction::class)->add(AdminJwtMiddleware::class);
+            $group->delete('/{userId}',DeleteAdminUserAction::class)->add(AdminJwtMiddleware::class);
             $group->post('',CreateAdminUserAction::class)->add(AdminJwtMiddleware::class);
         });
     });
