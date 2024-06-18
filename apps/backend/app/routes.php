@@ -24,6 +24,8 @@ use App\Application\Actions\Main\Admin\User\CreateAdminUserAction;
 use App\Application\Actions\Main\Admin\User\ListAdminUserAction;
 use App\Application\Actions\Main\Admin\User\ViewAdminUserAction;
 use App\Application\Actions\Main\Admin\User\DeleteAdminUserAction;
+use App\Application\Actions\Main\Admin\Post\ListAdminPostAction;
+use App\Application\Actions\Main\Admin\Post\DeleteAdminPostAction;
 
 use App\Application\Actions\Challenges\Auth\ChallengesGenerateTokenAction;
 use App\Application\Actions\Challenges\Auth\ChallengesRevokeTokenAction;
@@ -93,6 +95,10 @@ return function (App $app) {
             $group->get('/{userId}',ViewAdminUserAction::class)->add(AdminJwtMiddleware::class);
             $group->delete('/{userId}',DeleteAdminUserAction::class)->add(AdminJwtMiddleware::class);
             $group->post('',CreateAdminUserAction::class)->add(AdminJwtMiddleware::class);
+        });
+        $group->group('/posts',function(Group $group){
+            $group->get('',ListAdminPostAction::class)->add(AdminJwtMiddleware::class);
+            $group->delete('/{postId}',DeleteAdminPostAction::class)->add(AdminJwtMiddleware::class);
         });
     });
 
