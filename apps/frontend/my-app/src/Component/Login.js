@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import './Login.css'
 
 const Login = () => {
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -12,7 +11,6 @@ const Login = () => {
     e.preventDefault();
 
     const loginData = {
-      username,
       email,
       password
     };
@@ -48,16 +46,6 @@ const Login = () => {
     <div className="login-container">
       <h2 className="login-title">ログイン</h2>
       <form onSubmit={handleLogin} className="login-form">
-        <div className="form-group">
-          <label className="form-label">ユーザーネーム:</label>
-          <input
-            type="text"
-            className="form-input"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
         <div className="form-group">
           <label className="form-label">Eメール:</label>
           <input
