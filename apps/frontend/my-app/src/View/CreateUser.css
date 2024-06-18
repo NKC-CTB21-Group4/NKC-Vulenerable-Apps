@@ -2,13 +2,13 @@
 
 .create-user-container {
     max-width: 400px;
-    margin: 60px auto; /* 上部と下部に20pxのマージンを追加し、左右は自動マージンで中央揃え */
+    margin: 20px auto; /* 上部と下部に20pxのマージンを追加し、左右は自動マージンで中央揃え */
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);    
-}
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
   
   .create-user-container h2 {
     font-size: 1.5rem;
@@ -21,18 +21,16 @@
     flex-direction: column;
   }
   
-  .form-group {
+  .create-user-form-group {
     margin-bottom: 15px;
   }
   
-  label {
+  .create-user-label {
     font-weight: bold;
     margin-bottom: 5px;
   }
   
-  input[type="text"],
-  input[type="email"],
-  input[type="password"] {
+  .create-user-input {
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #ccc;
@@ -41,7 +39,7 @@
     box-sizing: border-box;
   }
   
-  button[type="submit"] {
+  .create-user-button {
     padding: 10px 20px;
     font-size: 1rem;
     background-color: #007bff;
@@ -52,11 +50,11 @@
     transition: background-color 0.3s ease;
   }
   
-  button[type="submit"]:hover {
+  .create-user-button:hover {
     background-color: #0056b3;
   }
   
-  .message {
+  .create-user-message {
     margin-top: 10px;
     padding: 10px;
     background-color: #f8d7da;

@@ -1,4 +1,5 @@
-// createUser.js
+// CreateUser.js
+
 import React, { useState } from 'react';
 import './CreateUser.css';
 
@@ -45,36 +46,39 @@ const CreateUser = () => {
     <div className="create-user-container">
       <h2>ユーザー作成</h2>
       <form onSubmit={handleCreateUser} className="create-user-form">
-        <div className="form-group">
-          <label>ユーザーネーム:</label>
+        <div className="create-user-form-group">
+          <label className='create-user-label'>ユーザーネーム:</label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            className="create-user-input"
             required
           />
         </div>
-        <div className="form-group">
-          <label>Eメール:</label>
+        <div className="create-user-form-group">
+          <label className='create-user-label'>Eメール:</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="create-user-input"
             required
           />
         </div>
-        <div className="form-group">
-          <label>パスワード:</label>
+        <div className="create-user-form-group">
+          <label className='create-user-label'>パスワード:</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="create-user-input"
             required
           />
         </div>
-        <button type="submit">ユーザー作成</button>
+        <button type="submit" className="create-user-button">ユーザー作成</button>
       </form>
-      {message && <p className="message">{message}</p>}
+      {message && <p className="create-user-message">{message}</p>}
     </div>
   );
 };
