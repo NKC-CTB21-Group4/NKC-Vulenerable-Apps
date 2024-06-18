@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Main\Reaction;
 
+use App\Domain\Main\User\User;
+use App\Domain\Main\Post\Post;
+
 interface ReactionRepository
 {
    /**
@@ -13,10 +16,10 @@ interface ReactionRepository
     public function getFavsCountByPostId(int $id): int;
 
     /**
-     * @param int $userId
-     * @param int $postId
+     * @param User $user
+     * @param Post $post
      * @return bool
      */
-    public function togglePostFav(int $userId,int $postId):bool;
+    public function togglePostFav(User $user,Post $post):bool;
 
 }

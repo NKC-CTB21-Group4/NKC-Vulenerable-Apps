@@ -10,9 +10,14 @@ use App\Application\Actions\Main\Auth\RevokeTokenAction;
 
 
 use App\Application\Actions\Main\Post\ViewPostAction;
+use App\Application\Actions\Main\Post\ListUserPostsAction;
 use App\Application\Actions\Main\Post\CreatePostAction;
+use App\Application\Actions\Main\Post\DeletePostAction;
+use App\Application\Actions\Main\Post\ListRecommendPostsAction;
 use App\Application\Middleware\Challenges\ChallengesJwtMiddleware;
 use App\Application\Middleware\Main\JwtMiddleware;
+use App\Application\Actions\Main\Reaction\HandleFavoriteAction;
+use App\Application\Actions\Main\Reaction\GetFavsCountByPost;
 
 use App\Application\Actions\Challenges\Auth\ChallengesGenerateTokenAction;
 use App\Application\Actions\Challenges\Auth\ChallengesRevokeTokenAction;
@@ -56,14 +61,23 @@ return function (App $app) {
         $response->getBody()->write('Hello world!');
         return $response;
     });
+    
+    $app->get('/posts',ListRecommendPostsAction::class);
+
+    $app->group('/favorite/posts',function(Group $group){
+        $group->post('/{postId}',HandleFavoriteAction::class)->add(JwtMiddleware::class);
+        $group->get('/{postId}',GetFavsCountByPost::class);
+    });
 
     $app->group('/users', function (Group $group) {
         $group->get('', ListUsersAction::class);
         $group->post('', CreateUserAction::class);
         $group->get('/{id}', ViewUserAction::class);
         $group->group('/{userId}/posts', function (Group $group) {
+            $group->get('',ListUserPostsAction::class);
             $group->post('',CreatePostAction::class)->add(JwtMiddleware::class);
-            $group->get('/{postId}', ViewUserPostAction::class);
+            $group->get('/{postId}', ViewPostAction::class);
+            $group->delete('/{postId}',DeletePostAction::class)->add(JwtMiddleware::class);
         });
     });
 

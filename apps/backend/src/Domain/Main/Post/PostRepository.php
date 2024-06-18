@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Main\Post;
 
+use App\Domain\Main\User\User;
+
+
 interface PostRepository
 {
     /**
@@ -15,6 +18,14 @@ interface PostRepository
      * @return Post[]
      */
     public function getRecommendedPosts():array;
+
+
+    /**
+     * @param User $user
+     * @return array
+     * @throws PostNotFoundException
+     */
+    public function findPostOfUser(User $User): array;
     
 
     /**
