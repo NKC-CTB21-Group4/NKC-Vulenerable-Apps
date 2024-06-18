@@ -12,6 +12,7 @@ function Linkview({ links }) {
             src={link.src}
             alt={link.alt}
             to={link.to}
+            text={link.text}
           />
          </div> 
         ))}
