@@ -6,6 +6,7 @@ namespace App\Infrastructure\Persistence\Main\Post;
 
 
 use App\Domain\Main\Post\Post;
+use App\Domain\Main\User\User;
 use App\Domain\Main\Post\PostRepository;
 use App\Domain\Main\Post\PostNotFoundException;
 
@@ -40,6 +41,16 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
     });
   }
 
+  public function findPostOfUser(User $user):array{
+    $queryBuilder = $this->createQueryBuilder('p')
+        ->andWhere('p.author = :user')
+        ->andWhere('p.deletedAt IS NULL')
+        ->setParameter('user', $user)
+        ->getQuery();
+
+        return $queryBuilder->getResult();
+  }
+
   public function findPostOfId(int $id): Post
   {
 
@@ -61,7 +72,7 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
 
   public function delete(int $id):void 
   {
-    $post = findPostOfId($id);
+    $post = $this->findPostOfId($id);
     $post->setDeletedAt();
     $this->_em->flush();
   }

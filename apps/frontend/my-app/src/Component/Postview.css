@@ -1,0 +1,9 @@
+.postview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0px; /* コンポーネント間のスペース */
+    padding: 0px;
+    background-color: #f0f0f0; /* 背景色を設定 */
+}
+  
