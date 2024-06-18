@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Application\Actions\Main\User\ViewUserAction;
 use App\Application\Actions\Main\User\CreateUserAction;
-use App\Application\Actions\User\ListUsersAction;
+use App\Application\Actions\Main\User\DeleteUserAction;
 use App\Application\Actions\Main\Auth\GenerateTokenAction;
 use App\Application\Actions\Main\Auth\RevokeTokenAction;
 
@@ -24,6 +24,8 @@ use App\Application\Actions\Main\Admin\User\CreateAdminUserAction;
 use App\Application\Actions\Main\Admin\User\ListAdminUserAction;
 use App\Application\Actions\Main\Admin\User\ViewAdminUserAction;
 use App\Application\Actions\Main\Admin\User\DeleteAdminUserAction;
+use App\Application\Actions\Main\Admin\Post\ListAdminPostAction;
+use App\Application\Actions\Main\Admin\Post\DeleteAdminPostAction;
 
 use App\Application\Actions\Challenges\Auth\ChallengesGenerateTokenAction;
 use App\Application\Actions\Challenges\Auth\ChallengesRevokeTokenAction;
@@ -76,9 +78,9 @@ return function (App $app) {
     });
 
     $app->group('/users', function (Group $group) {
-        $group->get('', ListUsersAction::class);
         $group->post('', CreateUserAction::class);
         $group->get('/{id}', ViewUserAction::class);
+        $group->delete('/{userId}', DeleteUserAction::class)->add(JwtMiddleware::class);
         $group->group('/{userId}/posts', function (Group $group) {
             $group->get('',ListUserPostsAction::class);
             $group->post('',CreatePostAction::class)->add(JwtMiddleware::class);
@@ -93,6 +95,10 @@ return function (App $app) {
             $group->get('/{userId}',ViewAdminUserAction::class)->add(AdminJwtMiddleware::class);
             $group->delete('/{userId}',DeleteAdminUserAction::class)->add(AdminJwtMiddleware::class);
             $group->post('',CreateAdminUserAction::class)->add(AdminJwtMiddleware::class);
+        });
+        $group->group('/posts',function(Group $group){
+            $group->get('',ListAdminPostAction::class)->add(AdminJwtMiddleware::class);
+            $group->delete('/{postId}',DeleteAdminPostAction::class)->add(AdminJwtMiddleware::class);
         });
     });
 
