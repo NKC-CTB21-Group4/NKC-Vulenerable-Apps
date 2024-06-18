@@ -15,7 +15,7 @@ class ListAdminUserAction extends AdminUserAction
   {
     $users = $this->userRepository->findAll();
 
-    $this->logger->info("Post List was viewed.");
+    $this->logger->info("User List was viewed.");
 
     return $this->respondWithData($users);  
   }
