@@ -27,12 +27,13 @@
             // Userを削除（論理削除）
             try{
                 $this->userRepository->deleteUser($id);
-                $this->logger->info("User deleted successfully");
-                return $this->respondWithData('User deleted successfully', 200);
             }catch(UserNotFoundException $e) {
                 $this->logger->info("User with id `${id}` not found.");
                 return $this->respondWithData('User not found', 404);
             }
+
+            $this->logger->info("User deleted successfully");
+            return $this->respondWithData('User deleted successfully', 200);
 
             $this->logger->info("User of id `${id}` was deleted.");
             return $this->respondWithData(['message' => 'User deleted successfully']);
