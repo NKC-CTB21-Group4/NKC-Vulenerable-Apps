@@ -16,8 +16,11 @@ use App\Application\Actions\Main\Post\DeletePostAction;
 use App\Application\Actions\Main\Post\ListRecommendPostsAction;
 use App\Application\Middleware\Challenges\ChallengesJwtMiddleware;
 use App\Application\Middleware\Main\JwtMiddleware;
+use App\Application\Middleware\Main\AdminJwtMiddleware;
 use App\Application\Actions\Main\Reaction\HandleFavoriteAction;
 use App\Application\Actions\Main\Reaction\GetFavsCountByPost;
+
+use App\Application\Actions\Main\Admin\User\CreateAdminUserAction;
 
 use App\Application\Actions\Challenges\Auth\ChallengesGenerateTokenAction;
 use App\Application\Actions\Challenges\Auth\ChallengesRevokeTokenAction;
@@ -78,6 +81,12 @@ return function (App $app) {
             $group->post('',CreatePostAction::class)->add(JwtMiddleware::class);
             $group->get('/{postId}', ViewPostAction::class);
             $group->delete('/{postId}',DeletePostAction::class)->add(JwtMiddleware::class);
+        });
+    });
+
+    $app->group('/admin',function(Group $group){
+        $group->group('/users',function(Group $group){
+            $group->post('',CreateAdminUserAction::class)->add(AdminJwtMiddleware::class);
         });
     });
 
