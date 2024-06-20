@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 function Fav({ postid }) {
-    const [favorites, setFavorites] = useState({ fav: 0, clicked: false });
+    const [favorites, setFavorites] = useState({});
     const [error, setError] = useState(null);
 
     useEffect(() => {
