@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
 
 function Fav({ postid }) {
-    const [favorites, setFavorites] = useState({});
+    const [favorites, setFavorites] = useState({ fav: 0, clicked: false });
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchFavorites = async () => {
             try {
-                // Simulate fetching favorites from a server
-                const response = await fetch(`http://localhost:8080/api/favorite/posts/${postid}`);
+                const authtoken = localStorage.getItem('authToken');
+                const response = await fetch(`http://localhost:8080/favorite/posts/${postid}`, {
+                    metho : 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authtoken}`,
+                    },
+                });
                 const json = await response.json();
                 setFavorites(json.data);
             } catch (err) {
@@ -16,20 +21,24 @@ function Fav({ postid }) {
             }
         };
         fetchFavorites();
-    }, []);
+    }, [postid]);
 
     const handleFavoriteClick = async () => {
         setError(null);
         try {
-            // Simulate an async API call to update favorites
-            const response = await fetch(`http://localhost:8080/api/favorite/posts/${postid}`, {
+            const authtoken = localStorage.getItem('authToken');
+            const response = await fetch(`http://localhost:8080/favorite/posts/${postid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authtoken}`,
                 },
             });
             const json = await response.json();
-            setFavorites({fav:json.data.clicked ? favorites.fav + 1 : favorites.fav - 1, clicked:json.data.clicked});
+            setFavorites({
+                fav: json.data ? favorites.fav + 1 : favorites.fav - 1,
+                clicked: json.data
+            });
         } catch (err) {
             setError('Failed to update favorites');
         }
@@ -37,15 +46,16 @@ function Fav({ postid }) {
 
     return (
         <div>
-            <span onClick={handleFavoriteClick} 
-                style={{cursor: 'pointer', 
-                        color: favorites.clicked ? 'red' : 'white',
-                        
+            <span 
+                onClick={handleFavoriteClick} 
+                style={{
+                    cursor: 'pointer', 
+                    color: favorites.clicked ? 'red' : 'black',
                 }}
             >
                 ♥
             </span>
-            <span style={{color: 'black'}}>{favorites.fav}</span>
+            <span style={{ color: 'black' }}>{favorites.fav}</span>
             {error && <span>{error}</span>}
         </div>
     );

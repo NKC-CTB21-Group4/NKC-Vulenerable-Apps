@@ -5,7 +5,7 @@ import Content from './Content';
 import Fav from './Fav';
 
 
-function Contentinfo({src, alt, username, userid, content}) {
+function Contentinfo({src, alt, username, userid, postid, content}) {
   
 
   return (
@@ -16,7 +16,7 @@ function Contentinfo({src, alt, username, userid, content}) {
     <Content content={content}  />
     </div>
     </div>
-      <Fav/>
+      <Fav postid={postid}/>
     </div>
   );
 }
