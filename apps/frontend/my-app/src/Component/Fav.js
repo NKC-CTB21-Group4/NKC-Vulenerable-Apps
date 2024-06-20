@@ -9,7 +9,6 @@ function Fav({ postid }) {
             try {
                 const authtoken = localStorage.getItem('authToken');
                 const response = await fetch(`http://localhost:8080/favorite/posts/${postid}`, {
-                    metho : 'GET',
                     headers: {
                         'Authorization': `Bearer ${authtoken}`,
                     },
