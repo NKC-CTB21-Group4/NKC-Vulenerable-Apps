@@ -13,7 +13,9 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import handleLogout from './Logout';
+import { useContext } from 'react';
+import AuthContext from '../Utils/AuthProvider';
+
 
 const pages = ['Users', 'Posts'];
 const settings = ['Profile', 'Account', 'SignUp', 'Logout'];
@@ -21,6 +23,7 @@ const settings = ['Profile', 'Account', 'SignUp', 'Logout'];
 function AdminHeader() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
@@ -42,7 +45,8 @@ function AdminHeader() {
   const handleCloseUserMenu = async (setting) => {
     setAnchorElUser(null);
     if (setting.target.innerHTML === 'Logout') {
-      handleLogout();
+      await logout();
+      navigate(`/`);
     }
   };
 
