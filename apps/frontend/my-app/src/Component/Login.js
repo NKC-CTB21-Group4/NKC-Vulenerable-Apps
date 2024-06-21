@@ -1,42 +1,20 @@
-// Login.js
-
-import React, { useState } from 'react';
-import './Login.css';
+// login.js
+import React, { useState,useContext } from 'react';
+import './Login.css'
+import AuthContext from '../Utils/AuthProvider';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const loginData = {
-      email,
-      password
-    };
-
-    const apiEndpoint = 'http://localhost:8080/auth/token';
-
+    // ログイン関数を呼び出す
     try {
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(loginData)
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const json = await response.json();
-      const receivedToken = json.data;
-
-      // 認証トークンをlocalStorageに保存
-      localStorage.setItem('authToken', receivedToken);
-
+      await login(email, password);
       setMessage('Login successful');
     } catch (error) {
       setMessage('Login failed: ' + error.message);

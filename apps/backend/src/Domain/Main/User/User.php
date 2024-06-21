@@ -108,6 +108,7 @@ class User implements JsonSerializable
             'id' => $this->id,
             'email' => $this->email,
             'username' => $this->username,
+            'is_admin' => $this->isAdmin,
             'registered_at' => $this->registeredAt->format('Y-m-d H:i:s'),
         ];
     }
