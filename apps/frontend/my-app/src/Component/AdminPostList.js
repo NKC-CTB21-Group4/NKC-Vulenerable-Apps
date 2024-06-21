@@ -64,7 +64,6 @@ export default function AdminPostList() {
         }
         const data = await response.json();
         const postList = Object.values(data.data);
-        console.log(postList);
         setRows(postList);
       } catch (error) {
         setError('Failed to fetch posts');
