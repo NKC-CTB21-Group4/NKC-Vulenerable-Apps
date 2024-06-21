@@ -4,7 +4,7 @@
   }
   
   .user-icon {
-    width: 2em; /* 必要に応じて幅を調整 */
+  width: 2em; /* 必要に応じて幅を調整 */
   height: 2em; /* 必要に応じて高さを調整 */
   border-radius: 50%;
   margin-right: 0.5em; /* 画像とテキストの間のスペース */

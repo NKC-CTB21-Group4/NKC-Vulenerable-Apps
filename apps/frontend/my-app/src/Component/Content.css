@@ -8,11 +8,12 @@
     font-size: 16px;
     color: #333;
     text-align: left;
-    font-family:cursive
+    font-family:cursive;
+    width:38.5em; /* 折り返しを適用する要素の幅を指定 */
+    overflow-wrap: break-word;/* 単語の途中で折り返す */
   }
   
   .no-content {
     font-size: 16px;
-    color: #999;
   }
   

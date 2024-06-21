@@ -1,8 +1,6 @@
 /* Linkviewコンテナのスタイル */
 .linkview-container {
     width: 13.5em;
-    height: 100vh; /* 高さを画面いっぱいに設定 */   
-    background-color: white; /* 背景色を白に設定 */
     display: flex;
     flex-direction: column;
 
@@ -13,5 +11,5 @@
     margin: 1em 1em; /* 各アイコンの上下の余白 */
     display: flex;
     justify-content: start; /* アイテム内のコンテンツを中央に配置 */
-    margin-left: 2em;
+    margin-left: 3em;
 }
