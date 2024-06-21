@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import AuthContext from '../Utils/AuthProvider';
 
 
 const AdminDeleteUserButton = ({ rowId ,onDelete}) => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(null);
+  const { user } = useContext(AuthContext);
 
   const handleOpen = () => {
     setOpen(true);
@@ -15,6 +17,10 @@ const AdminDeleteUserButton = ({ rowId ,onDelete}) => {
   };
 
   const deleteRow = (rowId, e) => {
+    if(user.id === rowId){
+      alert("現在ログインしているユーザは削除できません");
+      return;
+    }
     deleteUser(rowId);
     setOpen(false);
   };

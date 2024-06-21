@@ -47,6 +47,8 @@ function AdminHeader() {
     if (setting.target.innerHTML === 'Logout') {
       await logout();
       navigate(`/`);
+    }else if(setting.target.innerHTML === 'SignUp'){
+      navigate('/admin/signup');
     }
   };
 

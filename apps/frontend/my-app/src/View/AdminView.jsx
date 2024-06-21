@@ -5,6 +5,7 @@ import AdminUserList from '../Component/AdminUserList';
 import AdminHeader from '../Component/AdminHeader';
 import { useContext } from 'react';
 import AuthContext from '../Utils/AuthProvider';
+import CreateAdminUser from './CreateAdminUser';
 
 
 
@@ -22,6 +23,7 @@ export default function AdminView() {
       <Routes>
         <Route path="/users" element={<AdminUserList/>} />
         <Route path="/posts" element={<AdminPostList/>} />
+        <Route path="/signup" element={<CreateAdminUser/>}/>
         <Route path="/*" element={<Navigate to="/admin/users" />} />
       </Routes>
     </div>
