@@ -3,9 +3,9 @@ import './Linkview.css'; // CSSファイルをインポート
 import Linkicon from './Linkicon';
 
 function Linkview({ links }) {
-    return (
-      <div className="linkview-container">
-        {links.map((link, index) => (
+  return (
+    <div className="linkview-container">
+      {links.map((link, index) => (
         <div className="linkicon-item">
           <Linkicon
             key={index}
@@ -14,10 +14,10 @@ function Linkview({ links }) {
             to={link.to}
             text={link.text}
           />
-         </div> 
-        ))}
-      </div>
-    );
-  }
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default Linkview;
