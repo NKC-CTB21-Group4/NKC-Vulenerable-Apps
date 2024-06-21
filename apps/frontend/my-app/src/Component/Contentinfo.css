@@ -1,11 +1,12 @@
 /* コンテンツ全体のスタイル */
 .content-item {
-    width: 480px; /* 必要に応じて幅を調整 */
+    width: 30em; /* 必要に応じて幅を調整 */
     height: auto;
-    margin: 20px auto; /* 中央に配置 */
-    padding: 20px; /* 内側の余白を設定 */
+    margin: 1em auto; /* 中央に配置 */
+    padding: 1em; /* 内側の余白を設定 */
     box-sizing: border-box; /* パディングとボーダーを含めたボックスサイズを計算 */
     margin-top: 0;
+    
 }
 
 
@@ -19,21 +20,25 @@
 /* コンテナ全体のスタイル */
 .contentinfo-container {
     text-align: left;
-    padding: 20px; /* 内側の余白を設定 */
-    margin: 20px 0; /* 外側の余白を設定 */
     background-color: white; /* 背景色を白に設定 */
-    border: 1px solid #8f8d8d; /* 枠線を薄いグレーに設定 */
-    
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* シャドウ効果を追加 */
-    transition: transform 0.2s ease-in-out; 
+    border: 0.25px solid #f4f3f3; /* 枠線を薄いグレーに設定 */ 
 }
 
 /* ホバー効果を追加 */
 .contentinfo-container:hover {
-    background-color: #f5f3f3; /* 背景色を白に設定 */
-    .content{
-        background-color: #f5f3f3; /* 背景色を白に設定 */
+    background-color: #f5f3f3; /* 背景色をややグレーの白に設定 */
+}
+.fav{
+    margin-left:  1em; 
+}
+@media (max-width: 768px) {
+    .content-item {
+        width: 90%; /* 画面幅が768px以下の場合の幅 */
     }
 }
 
-
+@media (max-width: 480px) {
+    .content-item {
+        width: 95%; /* 画面幅が480px以下の場合の幅 */
+    }
+}

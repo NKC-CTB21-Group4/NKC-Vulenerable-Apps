@@ -1,13 +1,12 @@
 .Linkicon-container {
   display: flex;
   flex-direction:row;
-  color: black;
   }
   
   .Link-icon {
     width: 1.5em;
     height: 1.5em;
-    border-radius: 50%;
+    border-radius: 30%;
   }
 
   .linktext{
