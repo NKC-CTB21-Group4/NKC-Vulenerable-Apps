@@ -24,6 +24,27 @@
     border: 0.25px solid #f4f3f3; /* 枠線を薄いグレーに設定 */ 
 }
 
+  
+.post-actions {
+display: flex;
+align-items: center;
+}
+
+.post-delete-button {
+background-color: #ff4d4d;
+color: white;
+border: none;
+padding: 5px 10px;
+margin-left: 10px;
+cursor: pointer;
+border-radius: 3px;
+}
+
+.delete-button:hover {
+background-color: #ff1a1a;
+}
+
+
 /* ホバー効果を追加 */
 .contentinfo-container:hover {
     background-color: #f5f3f3; /* 背景色をややグレーの白に設定 */
