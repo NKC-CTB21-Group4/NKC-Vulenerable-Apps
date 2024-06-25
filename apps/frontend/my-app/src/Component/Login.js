@@ -1,13 +1,27 @@
 // login.js
-import React, { useState,useContext } from 'react';
+import React, { useState,useContext ,useEffect } from 'react';
 import './Login.css'
 import AuthContext from '../Utils/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const { login } = useContext(AuthContext);
+  const { login , isAdmin,isAuthenticated} = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    if (isAdmin) {
+      navigate('/admin');
+    }
+  }, [isAdmin, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();

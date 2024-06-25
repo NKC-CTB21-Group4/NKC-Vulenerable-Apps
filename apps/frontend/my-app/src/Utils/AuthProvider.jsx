@@ -49,6 +49,7 @@ export function AuthProvider({ children }) {
       console.log(payload.user);
     } catch (error) {
       console.log('Login failed: ' + error.message);
+      throw new Error('Network response was not ok');
     }
   };
 
@@ -64,6 +65,9 @@ export function AuthProvider({ children }) {
         },
         body: JSON.stringify({})
       });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
       if (response.status === 200) {
         localStorage.removeItem('authToken');
@@ -77,6 +81,7 @@ export function AuthProvider({ children }) {
 
     } catch (error) {
       console.error('Logout failed:', error);
+      throw new Error('Network response was not ok');
     }
   };
 
