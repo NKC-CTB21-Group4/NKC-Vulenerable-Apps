@@ -1,4 +1,4 @@
-#dialog  {
+#postcreatedialog  {
     border: none;
     border-radius: 8px;
     width: 400px;
@@ -8,11 +8,11 @@
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
     position: relative; /* Ensure positioning for child elements */
 }
-#dialog::backdrop {
+#postcreatedialog::backdrop {
     background: rgba(0,0,0,0.3);
 }
 
-#modalBtn {
+#postcreatemodalBtn {
     position: absolute;
     top: 8px;
     right: 8px;
@@ -22,7 +22,7 @@
     cursor: pointer;
 }
 
-#textArea {
+#postcretetextArea {
     background: none;
     border: none;
     resize: none;
@@ -32,7 +32,7 @@
     display: block;
 }
 
-#submitBtn {
+#postcreatesubmitBtn {
     position: absolute;
     bottom: 20px;
     right: 20px;
@@ -44,6 +44,6 @@
     cursor: pointer;
 }
 
-#submitBtn:hover {
+#postcreatesubmitBtn:hover {
     background: #0056b3;
 }

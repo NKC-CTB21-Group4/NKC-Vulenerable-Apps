@@ -7,25 +7,25 @@ const PostCreateButton = () => {
   const {user} = useContext(AuthContext);
 
   useEffect(() => {
-    const btn = document.querySelector("#btn");
-    const modalBtn = document.querySelector("#modalBtn");
-    const dialog = document.querySelector("#dialog");
+    const postcreatebtn = document.querySelector("#postcreatebtn");
+    const postcreatemodalBtn = document.querySelector("#postcreatemodalBtn");
+    const postcreatedialog = document.querySelector("#postcreatedialog");
 
     const openDialog = () => {
-      dialog.showModal();
+      postcreatedialog.showModal();
     };
 
     const closeDialog = () => {
-      dialog.close();
+      postcreatedialog.close();
     };
 
-    btn.addEventListener("click", openDialog);
-    modalBtn.addEventListener("click", closeDialog);
+    postcreatebtn.addEventListener("click", openDialog);
+    postcreatemodalBtn.addEventListener("click", closeDialog);
 
     // Cleanup event listeners on component unmount
     return () => {
-      btn.removeEventListener("click", openDialog);
-      modalBtn.removeEventListener("click", closeDialog);
+      postcreatebtn.removeEventListener("click", openDialog);
+      postcreatemodalBtn.removeEventListener("click", closeDialog);
     };
   }, []);
 
@@ -56,8 +56,8 @@ const PostCreateButton = () => {
       // Clear textarea content after successful post
       setContent('');
 
-      const dialog = document.querySelector("#dialog");
-      dialog.close();
+      const postcreatedialog = document.querySelector("#postcreatedialog");
+      postcreatedialog.close();
     } catch (error) {
       console.error('Error creating post:', error.message);
       // Handle error state or display error message to user
@@ -66,18 +66,18 @@ const PostCreateButton = () => {
 
   return (
     <div>
-      <button id="btn">クリック</button>
-      <dialog id="dialog">
+      <button id="postcreatebtn">クリック</button>
+      <dialog id="postcreatedialog">
         <div>
           <p>モーダルです</p>
           <textarea
-            id="textArea"
+            id="postcretetextArea"
             placeholder="ここにテキストを入力"
             value={content}
             onChange={(e) => setContent(e.target.value)}
           ></textarea>
-          <button id="modalBtn">×</button>
-          <button id="submitBtn" onClick={handlePostSubmit}>投稿</button>
+          <button id="postcreatemodalBtn">×</button>
+          <button id="postcreatesubmitBtn" onClick={handlePostSubmit}>投稿</button>
         </div>
       </dialog>
     </div>
