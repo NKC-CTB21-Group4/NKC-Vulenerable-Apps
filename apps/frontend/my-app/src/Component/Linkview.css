@@ -3,7 +3,6 @@
     width: 13.5em;
     display: flex;
     flex-direction: column;
-
 }
 
 /* 各Linkiconのスタイル */
@@ -11,5 +10,5 @@
     margin: 1em 1em; /* 各アイコンの上下の余白 */
     display: flex;
     justify-content: start; /* アイテム内のコンテンツを中央に配置 */
-    margin-left: 3em;
+    margin-left: 2.5em;
 }
