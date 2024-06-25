@@ -1,3 +1,6 @@
 .mainview-container{
     display: flex;
 }
+.header-posts-container{
+    flex-direction: column;
+}
