@@ -38,4 +38,12 @@ interface UserRepository
      * @return User
      */
     public function findByEmailAndPassword(string $email, string $password): User;
+
+    /**
+     * @param string $avatarPath
+     * @param User $user
+     * @return void
+     */
+
+    public function setAvatarPath(User $user,string $avatarPath):void;
 }

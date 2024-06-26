@@ -24,6 +24,9 @@ class User implements JsonSerializable
     #[Column(type: 'string',unique: true)]
     private string $email;
 
+    #[Column(type: 'string',length:255 , nullable: true)]
+    private ?string $avatarPath = null; 
+
     #[Column(name: 'securePassword', type: 'string', length: 256)]
     private string $securePassword;
 
@@ -54,6 +57,15 @@ class User implements JsonSerializable
     public function setEmail(string $email): void
     {
         $this->email = $email;
+    }
+
+    public function setAvatarPath(string $avatarPath): void
+    {
+        $this->avatarPath = $avatarPath;
+    }
+    public function getAvatarPath(): string 
+    {
+        return $this->avatarPath;
     }
 
     public function setPassword(string $password): void
@@ -110,6 +122,7 @@ class User implements JsonSerializable
             'username' => $this->username,
             'is_admin' => $this->isAdmin,
             'registered_at' => $this->registeredAt->format('Y-m-d H:i:s'),
+            'avatar_path' => $this->avatarPath,
         ];
     }
 }
