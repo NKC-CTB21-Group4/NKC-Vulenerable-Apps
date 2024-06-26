@@ -90,4 +90,10 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
 
         return $user;
     }
+
+    public function setAvatarPath(User $user,string $avatarPath):void
+    {
+        $user->setAvatarPath($avatarPath);
+        $this->save($user);
+    }
 }
