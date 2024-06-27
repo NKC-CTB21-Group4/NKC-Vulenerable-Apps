@@ -12,7 +12,7 @@ class UploadUserAvatarAction extends UserAction
 
     public function action(): Response
     {
-        $directory = '/var/www/public/upload/avatar';
+        $directory = '/var/www/assets/avatar';
         $user = $this->getUserFromToken();
 
         $user = $this->checkUserAuthorization($user);
@@ -28,8 +28,7 @@ class UploadUserAvatarAction extends UserAction
           return $this->respondWithData("Failed to upload avatar", 400);
         }
 
-        $filename = $this->moveUploadedFile($directory, $avatar, $userId);
-        $this->userRepository->setAvatarPath($user, $filename);
+        $this->moveUploadedFile($directory, $avatar, $userId);
         
         return $this->respondWithData($filename, 200);
     }
