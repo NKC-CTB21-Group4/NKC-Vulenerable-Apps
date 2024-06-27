@@ -1,6 +1,6 @@
 import React from 'react';
 import './MyPage.css'; // CSSファイルをインポート
-import Postview from '../Component/Postview';
+import MyPostview from '../Component/MyPostView';
 import Linkview from '../Component/Linkview';
 
 
@@ -9,10 +9,10 @@ function Mypage({ posts = [], userId, links }) {
   return (
     <div className="mypage-container">
       <div className="linkview-container">
-        <Linkview links={links} />
+        <Linkview links={links}/>
       </div>
       <div className="postview-container">
-        <Postview posts={myPosts} />
+        <MyPostview posts={myPosts} />
       </div>
     </div>
   );

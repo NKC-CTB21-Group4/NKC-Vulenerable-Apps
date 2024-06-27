@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './Fav.css';
 
 function Fav({ postid }) {
     const [favorites, setFavorites] = useState({});
@@ -44,7 +45,7 @@ function Fav({ postid }) {
     };
 
     return (
-        <div>
+        <div className='fav-container'>
             <span 
                 onClick={handleFavoriteClick} 
                 style={{

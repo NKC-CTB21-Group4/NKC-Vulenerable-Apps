@@ -27,12 +27,13 @@ class GetFavsCountByPost extends ReactionAction
 
     $result = $this->reactionRepository->getFavsCountByPostId($postId);
 
+    $isClicked = null;
     if($user !== null){
       $isClicked = $this->reactionRepository->findReactionByUserIdAndPostId((int)$user->id,$postId);
     }
     
 
-    return $this->respondWithData(["fav"=>$result,"clicked"=>$user ? $isClicked->isFav() : false]);
+    return $this->respondWithData(["fav"=>$result,"clicked"=>$isClicked ? $isClicked->isFav() : false]);
 
 
   }
