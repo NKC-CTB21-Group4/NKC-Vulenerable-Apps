@@ -29,7 +29,9 @@ function Contentinfo({ src, alt, username, userid, postid, content, handleDelete
         </div>
       </div>
       <div className="post-actions">
+        <div className="Fav">
         <Fav postid={postid} />
+        </div>
         {currentUserId === userid && (
           <button className="post-delete-button" onClick={handleClick}>
             削除

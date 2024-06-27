@@ -49,8 +49,18 @@ background-color: #ff1a1a;
 .contentinfo-container:hover {
     background-color: #f5f3f3; /* 背景色をややグレーの白に設定 */
 }
-.fav{
-    margin-left:  1em; 
+
+
+.post-actions{
+   margin-left:2em ;
+   margin-bottom: 1em;
+}
+.Fav{
+    width: 1em;
+}
+.post-delete-button{
+    margin-left: 36em;
+    border: 0.25px solid black;
 }
 @media (max-width: 768px) {
     .content-item {
