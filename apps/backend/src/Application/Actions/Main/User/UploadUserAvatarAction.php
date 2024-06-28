@@ -27,10 +27,21 @@ class UploadUserAvatarAction extends UserAction
         if (!($avatar instanceof UploadedFileInterface) || $avatar->getError() !== UPLOAD_ERR_OK) {
           return $this->respondWithData("Failed to upload avatar", 400);
         }
+        $pattern = '/var/www/assets/avatar/' . $userId . ".*";
+        $files = glob($pattern);
+  
+        if (!empty($files)) {
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    unlink($file);
+                }
+            }
+        }
+  
 
         $this->moveUploadedFile($directory, $avatar, $userId);
         
-        return $this->respondWithData($filename, 200);
+        return $this->respondWithData("upload success" , 200);
     }
 
     private function moveUploadedFile(string $directory, UploadedFileInterface $uploadedFile, int $userId)
