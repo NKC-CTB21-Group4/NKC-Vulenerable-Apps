@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Application\Actions\Main\User\ViewUserAction;
 use App\Application\Actions\Main\User\CreateUserAction;
 use App\Application\Actions\Main\User\DeleteUserAction;
+use App\Application\Actions\Main\User\UploadUserAvatarAction;
+use App\Application\Actions\Main\User\GetUserAvatarAction;
 use App\Application\Actions\Main\Auth\GenerateTokenAction;
 use App\Application\Actions\Main\Auth\RevokeTokenAction;
 
@@ -81,6 +83,8 @@ return function (App $app) {
         $group->post('', CreateUserAction::class);
         $group->get('/{id}', ViewUserAction::class);
         $group->delete('/{userId}', DeleteUserAction::class)->add(JwtMiddleware::class);
+        $group->post('/{userId}/avatar',UploadUserAvatarAction::class)->add(JwtMiddleware::class);
+        $group->get('/{userId}/avatar',GetUserAvatarAction::class);
         $group->group('/{userId}/posts', function (Group $group) {
             $group->get('',ListUserPostsAction::class);
             $group->post('',CreatePostAction::class)->add(JwtMiddleware::class);
@@ -166,6 +170,5 @@ return function (App $app) {
             $group->get('', ListPublicChallengesDiaryAction::class);
 
         });
-            
     });
 };
