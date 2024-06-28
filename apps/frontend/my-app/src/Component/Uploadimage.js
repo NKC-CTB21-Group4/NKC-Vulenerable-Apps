@@ -40,8 +40,6 @@ const Uploadimage = () => {
         setImageUrl(result.data);
       } else {
         setMessage(`Failed to upload avatar: ${result.message}`);
-        console.log(formData);
-        console.log(result.data);
       }
     } catch (error) {
       console.error('Error:', error);
