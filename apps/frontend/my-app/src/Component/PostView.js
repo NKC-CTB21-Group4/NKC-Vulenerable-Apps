@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './PostView.css'; // CSSファイルをインポート
 import Contentinfo from './Contentinfo';
+import Iconhavertz from '../images/havertz.png';
 
 function PostView() { // デフォルト値として空の配列を設定
   const [posts, setPosts] = useState([]); 
@@ -30,7 +31,7 @@ function PostView() { // デフォルト値として空の配列を設定
       {posts.map((post) => (
         <Contentinfo
           key={post.id}
-          src="" // srcとaltはUserinfoコンポーネントが使っている場合に設定
+          src={`http://localhost:8080/users/${post.author_id}/avatar`} // srcとaltはUserinfoコンポーネントが使っている場合に設定
           alt=""
           username={post.author_name}
           userid={post.author_id}
