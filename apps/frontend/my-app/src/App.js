@@ -4,6 +4,7 @@ import AdminView from './View/AdminView';
 import { AuthProvider } from './Utils/AuthProvider';
 import Login from './Component/Login';
 import Mainview from './Component/Mainview';
+import CreateUser from './View/CreateUser';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Mainview/>}/>
           <Route path="/login" element={<Login />}/>
+          <Route path="signup" element={<CreateUser/>}/>
           <Route path="/admin/*" element={<AdminView />} />
           <Route path="/*" element={<Navigate to="/" />}/>
         </Routes>
