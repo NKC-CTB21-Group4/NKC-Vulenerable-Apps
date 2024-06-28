@@ -38,7 +38,6 @@ const Uploadimage = () => {
       if (response.ok) {
         setMessage('アップロードに成功しました');
         setImageUrl(result.data);
-        console.log('Uploaded image:', result.data);
       } else {
         setMessage(`Failed to upload avatar: ${result.message}`);
         console.log(formData);
