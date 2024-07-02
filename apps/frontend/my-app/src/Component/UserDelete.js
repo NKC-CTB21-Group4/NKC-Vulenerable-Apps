@@ -1,5 +1,5 @@
-// UserDelete.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AuthContext from '../Utils/AuthProvider';
 import './UserDelete.css';
 
 const UserDelete = ({ userId }) => {
@@ -7,6 +7,7 @@ const UserDelete = ({ userId }) => {
   const [password, setPassword] = useState('');
   const [authSuccess, setAuthSuccess] = useState(false);
   const [authError, setAuthError] = useState('');
+  const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     const userDeleteModalBtn = document.querySelector("#user-delete-modalBtn");
@@ -73,6 +74,7 @@ const UserDelete = ({ userId }) => {
       }
 
       console.log('ユーザー削除成功');
+      await logout(); // Logout the user
       document.querySelector("#user-delete-dialog").close();
     } catch (error) {
       console.error('削除エラー:', error.message);
