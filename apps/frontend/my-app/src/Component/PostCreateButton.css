@@ -1,3 +1,9 @@
+#post-create-btn{
+    width: 3em;
+    height: 3em;
+    margin-left: 2em;
+    cursor: pointer; 
+}
 #post-create-dialog  {
     border: none;
     border-radius: 8px;

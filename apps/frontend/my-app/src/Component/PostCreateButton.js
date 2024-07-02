@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import './PostCreateButton.css'; // Assuming you have a CSS file for styling
+import './PostCreateButton.css'; // CSSファイルをインポート
 import AuthContext from '../Utils/AuthProvider';
+import tegakiwrite from '../images/tegakiwrite.png'; // 画像ファイルをインポート
 
 const PostCreateButton = () => {
   const [content, setContent] = useState(''); // State to hold textarea content
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const postCreateBtn = document.querySelector("#post-create-btn");
@@ -66,12 +67,12 @@ const PostCreateButton = () => {
 
   return (
     <div>
-      <button id="post-create-btn">クリック</button>
+      <img src={tegakiwrite} id="post-create-btn" alt="クリックボタン" />
       <dialog id="post-create-dialog">
         <div>
           <p>モーダルです</p>
           <textarea
-            id="post-crete-textArea"
+            id="post-create-textArea"
             placeholder="ここにテキストを入力"
             value={content}
             onChange={(e) => setContent(e.target.value)}

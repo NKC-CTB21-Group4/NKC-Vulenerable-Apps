@@ -1,7 +1,7 @@
 import React from 'react';
 import './Linkview.css'; // CSSファイルをインポート
 import Linkicon from './Linkicon';
-
+import PostCreateButton from './PostCreateButton';
 function Linkview({ links }) {
   return (
     <div className="linkview-container">
@@ -16,6 +16,7 @@ function Linkview({ links }) {
           />
         </div>
       ))}
+      <PostCreateButton/>
     </div>
   );
 }
