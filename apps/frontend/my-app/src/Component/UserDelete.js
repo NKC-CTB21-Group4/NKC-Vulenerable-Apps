@@ -1,5 +1,6 @@
 // UserDelete.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AuthContext from '../Utils/AuthProvider';
 import './UserDelete.css';
 
 const UserDelete = ({ userId }) => {
@@ -7,6 +8,7 @@ const UserDelete = ({ userId }) => {
   const [password, setPassword] = useState('');
   const [authSuccess, setAuthSuccess] = useState(false);
   const [authError, setAuthError] = useState('');
+  const {setUser, setIsAuthenticated, setIsAdmin} = useContext(AuthContext);
 
   useEffect(() => {
     const userDeleteModalBtn = document.querySelector("#user-delete-modalBtn");
@@ -68,7 +70,13 @@ const UserDelete = ({ userId }) => {
         },
       });
 
-      if (!response.ok) {
+      if (response.ok) {
+        localStorage.removeItem('authToken');
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+        setUser({});
+      }
+      else if(!response.ok){
         throw new Error('ユーザー削除に失敗しました');
       }
 
