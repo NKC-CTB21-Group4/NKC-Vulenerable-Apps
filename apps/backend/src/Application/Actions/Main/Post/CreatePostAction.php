@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use App\Domain\Main\Post\Post;
 use App\Domain\Main\Post\PostNotFoundException;
 use Ramsey\Uuid\Uuid;
+use Slim\Psr7\UploadedFile;
 
 class CreatePostAction extends PostAction
 {
@@ -30,12 +31,13 @@ class CreatePostAction extends PostAction
     }
 
     //画像ファイルがあれば
-    $uploadedFiles = $request->getUploadedFiles();
+    $uploadedFiles = $this->request->getUploadedFiles();
     $image = $uploadedFiles['image'] ?? null;
 
     if ($image && $image->getError() === UPLOAD_ERR_OK) {
-        $filename = '/posts' . '/' . $this->moveUploadedFile($image);
+        $filename = $this->moveUploadedFile($image);
         $filename = pathinfo($filename, PATHINFO_FILENAME);
+        $filename = '/posts' . '/' . $filename;
     } else {
         $filename = null;
     }
