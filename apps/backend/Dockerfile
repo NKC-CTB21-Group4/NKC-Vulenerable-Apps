@@ -13,6 +13,8 @@ RUN composer install
 
 RUN docker-php-ext-install pdo_mysql
 
+COPY --chown=www-data:www-data ./assets/avatar ./assets/avatar
+
 # Expose the port that your application will run on
 EXPOSE 8080
 

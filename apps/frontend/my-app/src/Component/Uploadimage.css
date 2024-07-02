@@ -1,0 +1,26 @@
+.upload-container{
+    color: black;
+    text-align: center;
+}
+.upload-title{
+    border-bottom: 0.25px solid blue;
+}
+.upload-button{
+    width: auto;
+    height: auto;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.preview-image{
+    width: 2em; /* 必要に応じて幅を調整 */
+    height: 2em; /* 必要に応じて高さを調整 */
+    border-radius: 50%;
+}
+.upload-label{
+    margin-top: 0;
+}
