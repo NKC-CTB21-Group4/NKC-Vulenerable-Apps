@@ -1,4 +1,4 @@
-.postview-container {
+.mypostview-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,12 +7,12 @@
   overflow-y: auto; /* 垂直方向のスクロールを有効にする */
   margin-right: 13em;
 }
-.postview-container::-webkit-scrollbar {
+.mypostview-container::-webkit-scrollbar {
 width: 0;
 height: 0;
 }
 
 /* Firefoxのスクロールバーを非表示にする */
-.postview-container {
+.mypostview-container {
 scrollbar-width: none; /* Firefox用 */
 }

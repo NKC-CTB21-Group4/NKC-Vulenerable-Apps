@@ -11,6 +11,7 @@ import PostView from './PostView';
 import Header from './Header';
 import AuthContext from '../Utils/AuthProvider';
 
+
 function Mainview() {
   const { user } = useContext(AuthContext);
   const userid = user?.id;
@@ -23,13 +24,13 @@ function Mainview() {
     {
       src: LinkiconHome,
       alt: 'User Icon',
-      to: 'Mypage',
+      to: '/',
       text: "ホーム"
     },
     {
       src: Linkiconbutton,
       alt: 'Linkicon1',
-      to: 'Mypage',
+      to: '/mypage',
       text: "通報"
     },
     {
@@ -65,7 +66,7 @@ function Mainview() {
       <Linkview links={links} />
     <div className="header-posts-container">
       <Header/>
-      <PostView/> {/* posts 全体を渡す */}
+      <PostView/>
     </div>
     </div>
     </header>
