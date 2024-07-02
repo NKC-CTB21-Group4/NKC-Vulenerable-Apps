@@ -28,16 +28,20 @@ class Post implements JsonSerializable
     #[Column(type: 'text',nullable:false)]
     private string $content;
 
+    #[Column(type: 'string', nullable:true)]
+    private ?string $imagePath = null;
+
     #[Column(name: 'created_at', type: 'datetime', nullable: false)]
     private DateTime $createdAt;
 
     #[Column(name: 'deleted_at', type: 'datetime', nullable: true)]
     private ?DateTime $deletedAt;
 
-    public function __construct(User $author, string $content)
+    public function __construct(User $author, string $content,?string $imagePath = null)
     {
         $this->author = $author;
         $this->content = $content;
+        $this->imagePath = $imagePath;
         $this->createdAt = new DateTime('now');
         $this->deletedAt = null;
     }
@@ -55,6 +59,11 @@ class Post implements JsonSerializable
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    public function getImagePath():?string
+    {
+        return $this->imagePath;
     }
 
     public function getCreatedAt(): DateTime
@@ -80,6 +89,7 @@ class Post implements JsonSerializable
             'author_id' => $this->author->getId(),
             'author_name' =>$this->author->getUsername(),
             'content' => $this->content,
+            'image_path' => $this->imagePath,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
             'deleted_at' => $this->deletedAt ? $this->deletedAt->format('Y-m-d H:i:s') : null,
         ];
