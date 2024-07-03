@@ -99,7 +99,7 @@ const PostCreateButton = () => {
       <button id="post-create-btn">クリック</button>
       <dialog id="post-create-dialog">
         <div>
-          <p>モーダルです</p>
+          <p>ポストの作成</p>
           {imagePreview && (
             <div className="image-preview">
               <img src={imagePreview} alt="選択された画像プレビュー" />
