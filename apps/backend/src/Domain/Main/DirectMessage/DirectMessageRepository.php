@@ -11,9 +11,11 @@ interface DirectMessageRepository
   /**
    * @param User $sender
    * @param User $receiver
+   * @param string $message
    * @return void
+   * @throws DirectMessageCreationException
   */
-  public function send(User $sender,User $receiver): void;
+  public function send(User $sender,User $receiver,string $message): void;
 
   /**
    * @param User $user
