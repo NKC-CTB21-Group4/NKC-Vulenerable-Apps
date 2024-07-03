@@ -1,25 +1,21 @@
 /* ThreePointLeader.css */
 .three-point-leader {
-    position: fixed;
     bottom: 20px;
     left: 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    width: 60px;
-    height: 20px;
+    width: 2em;
+    height: 2em;
     cursor: pointer;
     z-index: 10;
+    margin-left: 2.3em ;
+    margin-top: 0.7em;
+    margin-bottom: 0.7em;
   }
   
-  .ellipsis.horizontal {
-    width: 5px;
-    height: 5px;
-    background-color: #333;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-  }
+
   
   .three-point-leader.open .ellipsis.horizontal:nth-child(1) {
     transform: translateX(8px) rotate(45deg);
