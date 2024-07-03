@@ -15,6 +15,7 @@ use App\Application\Actions\Main\Post\ViewPostAction;
 use App\Application\Actions\Main\Post\ListUserPostsAction;
 use App\Application\Actions\Main\Post\CreatePostAction;
 use App\Application\Actions\Main\Post\DeletePostAction;
+use App\Application\Actions\Main\Post\GetPostImageAction;
 use App\Application\Actions\Main\Post\ListRecommendPostsAction;
 use App\Application\Middleware\Challenges\ChallengesJwtMiddleware;
 use App\Application\Middleware\Main\JwtMiddleware;
@@ -73,6 +74,7 @@ return function (App $app) {
     });
     
     $app->get('/posts',ListRecommendPostsAction::class);
+    $app->get('/posts/{imageId}',GetPostImageAction::class);
 
     $app->group('/favorite/posts',function(Group $group){
         $group->post('/{postId}',HandleFavoriteAction::class)->add(JwtMiddleware::class);
