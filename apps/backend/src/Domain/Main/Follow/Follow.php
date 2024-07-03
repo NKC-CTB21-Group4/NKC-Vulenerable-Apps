@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Main\Follower;
+namespace App\Domain\Main\Follow;
 
 use DateTime;
 use Doctrine\ORM\Mapping\Column;
@@ -15,8 +15,8 @@ use Doctrine\ORM\Mapping\Table;
 use JsonSerializable;
 use App\Domain\Main\User\User;
 
-#[Entity, Table(name: 'followers')]
-class Follower implements JsonSerializable
+#[Entity, Table(name: 'follow')]
+class Follow implements JsonSerializable
 {
     #[Id, GeneratedValue, Column(type: 'integer')]
     private ?int $id;
