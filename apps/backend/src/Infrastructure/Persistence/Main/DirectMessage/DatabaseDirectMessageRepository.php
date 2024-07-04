@@ -39,11 +39,11 @@ class DatabaseDirectMessageRepository extends EntityRepository implements Direct
     return $directMessage->getDeletedAt() !== null;
   }
 
-  public function send(User $sender,User $receiver,string $message): void
+  public function send(DirectMessage $directMessage): void
   {
     try{
-      $directMessage = new DirectMessage($sender,$receiver,$message);
-      save($directMessage);
+      $this->_em->persist($directMessage);
+      $this->_em->flush();
     }catch(Exception $e){
       throw new DirectMessageCreationException();
     }
@@ -59,6 +59,7 @@ class DatabaseDirectMessageRepository extends EntityRepository implements Direct
     $qb = $this->createQueryBuilder('dm')
     ->where('dm.sender = :user')
     ->orWhere('dm.receiver = :user')
+    ->andWhere('dm.deletedAt IS NULL')
     ->setParameter('user', $user)
     ->orderBy('dm.sentAt', 'DESC');
 
@@ -93,6 +94,7 @@ class DatabaseDirectMessageRepository extends EntityRepository implements Direct
     return $this->createQueryBuilder('dm')
         ->where('dm.sender = :user1 AND dm.receiver = :user2')
         ->orWhere('dm.sender = :user2 AND dm.receiver = :user1')
+        ->andWhere('dm.deletedAt IS NULL')
         ->setParameter('user1', $user1)
         ->setParameter('user2', $user2)
         ->orderBy('dm.sentAt', 'ASC')
@@ -106,7 +108,7 @@ class DatabaseDirectMessageRepository extends EntityRepository implements Direct
     $dm = parent::find((string) $id);
 
     if ($dm === null || $this->isDeleted($dm)){
-      throw new DirectMessageNotFound();
+      throw new DirectMessageNotFoundException();
     }
 
     return $dm;
