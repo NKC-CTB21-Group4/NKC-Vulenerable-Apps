@@ -6,7 +6,7 @@ import Fav from './Fav';
 import deletePost from './DeletePost';
 import AuthContext from '../Utils/AuthProvider';
 
-function Contentinfo({ src, alt, username, userid, postid, content, handleDelete }) {
+function Contentinfo({ src, alt, username, userid, postid, content, imagepath, handleDelete }) {
   const { user } = useContext(AuthContext);
   const currentUserId = user?.id;
 
@@ -25,7 +25,7 @@ function Contentinfo({ src, alt, username, userid, postid, content, handleDelete
       <div className="userinfo-content">
         <Userinfo src={src} alt={alt} username={username} userid={userid} />
         <div className="content">
-          <Content content={content} />
+          <Content content={content} imagepath={imagepath}/>
         </div>
       </div>
       <div className="post-actions">

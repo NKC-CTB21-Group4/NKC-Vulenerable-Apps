@@ -13,7 +13,6 @@ function PostView() { // デフォルト値として空の配列を設定
         const json = await response.json();
         const postarray = Object.values(json.data);
         setPosts(postarray);
-        console.log(postarray);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -37,6 +36,7 @@ function PostView() { // デフォルト値として空の配列を設定
           userid={post.author_id}
           content={post.content}
           postid={post.id}
+          imagepath={post.image_path}
           handleDelete={handleDelete}
         />
       ))}
