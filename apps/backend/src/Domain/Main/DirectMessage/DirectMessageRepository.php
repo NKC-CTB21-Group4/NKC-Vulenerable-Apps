@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace App\Domain\Main\DirectMessage;
 
 use App\Domain\Main\User\User;
+use App\Domain\Main\DirectMessage\DirectMessage;
 
 interface DirectMessageRepository
 {
   /**
-   * @param User $sender
-   * @param User $receiver
-   * @param string $message
+   * @param DirectMessage $directMessage
    * @return void
    * @throws DirectMessageCreationException
   */
-  public function send(User $sender,User $receiver,string $message): void;
+  public function send(DirectMessage $directMessage): void;
 
   /**
    * @param User $user
