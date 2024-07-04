@@ -2,7 +2,6 @@ import React from 'react';
 import './Content.css'; // CSS ファイルをインポート
 
 function Content({ content,imagepath }) {
-  console.log(imagepath);
   return (
     <div className="content-item">
       <p className="content-text">{content}</p>
