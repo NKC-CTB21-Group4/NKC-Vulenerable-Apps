@@ -16,7 +16,7 @@ use JsonSerializable;
 use App\Domain\Main\User\User;
 
 #[Entity,Table(name: 'direct_messages')]
-class DirectMessage
+class DirectMessage implements JsonSerializable
 {
     #[Id, GeneratedValue, Column(type: 'integer')]
     private ?int $id = null;
