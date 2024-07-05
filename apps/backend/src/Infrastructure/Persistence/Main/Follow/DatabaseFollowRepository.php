@@ -14,7 +14,7 @@ use App\Domain\Main\Follow\FollowedNotFoundException;
 use App\Domain\Main\Follow\FollowerCreateFailedException;
 use App\Domain\Main\Follow\FollowerDeleteFailedException; 
 
-class DatabaseReactionRepository extends EntityRepository implements FollowRepository
+class DatabaseFollowRepository extends EntityRepository implements FollowRepository
 {
     private EntityManager $entityManager;
 
