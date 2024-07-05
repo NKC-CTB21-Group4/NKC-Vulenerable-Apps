@@ -56,7 +56,7 @@ class Report implements JsonSerializable
     #[Column(name: 'deleted_at', type: 'datetime', nullable: true)]
     private ?DateTime $deletedAt;
 
-    public function __construct(Post $post, User $user,Tag $tag, string $reason)
+    public function __construct(Post $post, User $user,array $tags, string $reason)
     {
         $this->post = $post;
         $this->user = $user;
@@ -64,7 +64,9 @@ class Report implements JsonSerializable
         $this->isTrue = true;
         $this->reportedAt = new DateTime('now');
         $this->tags = new ArrayCollection();
-        $this->addTag($tag);
+        foreach ($tags as $tag) {
+          $this->addTag($tag);
+        }
         $this->deletedAt = null;
     }
 
