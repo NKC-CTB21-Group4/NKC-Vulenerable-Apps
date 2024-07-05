@@ -6,7 +6,7 @@ namespace App\Domain\Main\Follow;
 
 use App\Domain\Main\User\User;
 
-interface FollowerRepository
+interface FollowRepository
 {
     /**
      * @param int $follower
