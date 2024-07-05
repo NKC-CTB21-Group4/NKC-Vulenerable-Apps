@@ -7,7 +7,7 @@
 
 /* 各Linkiconのスタイル */
 .linkicon-item {
-    margin: 0.7em 0.7em; /* 各アイコンの上下の余白 */
+    margin: 0.6em 0.6em; /* 各アイコンの上下の余白 */
     display: flex;
     justify-content: start; /* アイテム内のコンテンツを中央に配置 */
     margin-left: 2.5em;

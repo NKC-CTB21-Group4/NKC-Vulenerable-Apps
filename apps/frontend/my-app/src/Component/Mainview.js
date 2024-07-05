@@ -1,15 +1,18 @@
-import React,{useContext,useEffect} from 'react';
+import React, { useContext, useEffect } from 'react';
 import './Mainview.css'; // CSSファイルをインポート
 import LinkiconHome from '../images/tegakihome.png';
-import LinkiconSerch from '../images/tegakiserch.png';
 import LinkiconBell from '../images/tegakibell.png';
 import LinkiconMassage from '../images/tegakimessage.png';
 import Iconhavertz from '../images/havertz.png';
 import Linkiconbutton from '../images/tegakibutton.png';
+import LinkiconLogin from '../images/tegakilogin.png';
+import LinkiconCreateUser from '../images/tegakicreateuser.png';
+import LinkiconLogout from '../images/tegakilogout.png';
 import Linkview from './Linkview';
 import PostView from './PostView';
 import Header from './Header';
 import AuthContext from '../Utils/AuthProvider';
+import Logout from './Logout';
 
 
 function Mainview() {
@@ -17,7 +20,7 @@ function Mainview() {
   const userid = user?.id;
 
   useEffect(() => {
-    if(!userid)return;
+    if (!userid) return;
   }, [userid]);
 
   const links = [
@@ -32,12 +35,6 @@ function Mainview() {
       alt: 'Linkicon1',
       to: '/mypage',
       text: "通報"
-    },
-    {
-      src: LinkiconSerch,
-      alt: 'Linkicon3',
-      to: 'Mypage',
-      text: "検索"
     },
     {
       src: LinkiconBell,
@@ -57,18 +54,50 @@ function Mainview() {
       to: 'Mypage',
       text: "マイページ"
     }
+  ];
 
-  ]
+  if (!userid) {
+    links.push(
+      {
+        src: LinkiconLogin,
+        alt: 'LinkiconLogin',
+        to: '/login',
+        text: "ログイン"
+      },
+      {
+        src: LinkiconCreateUser,
+        alt: 'LinkiconCreateUser',
+        to: '/signup',
+        text: "新規登録"
+      }
+    );
+  }else{
+    links.push(
+      {
+        src: LinkiconLogout,
+        alt: 'LinkiconLogout',
+        to: '#',
+        text: "ログアウト",
+        onClick: () => {
+          const logoutDialog = document.querySelector("#logout-dialog");
+          if (logoutDialog) {
+            logoutDialog.showModal();
+      }
+    }
+  }
+    );
+  }
 
   return (
     <header className='App-header'>
       <div className="mainview-container">
-      <Linkview links={links} />
-    <div className="header-posts-container">
-      <Header/>
-      <PostView/>
-    </div>
-    </div>
+        <Linkview links={links} />
+        <div className="header-posts-container">
+          <Header />
+          <PostView />
+        </div>
+      </div>
+      <Logout />
     </header>
   );
 }
