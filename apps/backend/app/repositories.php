@@ -6,10 +6,12 @@ use App\Domain\Main\User\UserRepository;
 use App\Domain\Main\Auth\AuthTokenRepository;
 use App\Domain\Main\Post\PostRepository;
 use App\Domain\Main\Reaction\ReactionRepository;
+use App\Domain\Main\DirectMessage\DirectMessageRepository;
 use App\Infrastructure\Persistence\Main\User\InMemoryUserRepository;
 use App\Infrastructure\Persistence\Main\User\DatabaseUserRepository;
 use App\Infrastructure\Persistence\Main\Auth\DatabaseAuthTokenRepository;
 use App\Infrastructure\Persistence\Main\Reaction\DatabaseReactionRepository;
+use App\Infrastructure\Persistence\Main\DirectMessage\DatabaseDirectMessageRepository;
 
 use App\Infrastructure\Persistence\Main\Post\DatabasePostRepository;
 use Psr\Container\ContainerInterface;
@@ -43,6 +45,9 @@ return function (ContainerBuilder $containerBuilder) {
         },
         ReactionRepository::class => function(ContainerInterface $c):ReactionRepository{
             return new DatabaseReactionRepository($c->get(MainEntityManager::class));
+        },
+        DirectMessageRepository::class => function(ContainerInterface $c):DirectMessageRepository{
+            return new DatabaseDirectMessageRepository($c->get(MainEntityManager::class),$c->get(UserRepository::class));
         },
         ChallengesUserRepository::class => \DI\autowire(DatabaseChallengesUserRepository::class),
         ChallengesNewsRepository::class => \DI\autowire(DatabaseChallengesNewsRepository::class),
