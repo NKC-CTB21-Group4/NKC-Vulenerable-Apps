@@ -8,6 +8,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 use App\Domain\Main\Post\Post;
 use App\Domain\Main\Post\PostNotFoundException;
+use Ramsey\Uuid\Uuid;
+use Slim\Psr7\UploadedFile;
 
 class CreatePostAction extends PostAction
 {
@@ -20,6 +22,7 @@ class CreatePostAction extends PostAction
       return $this->respondWithData('Unauthorized', 403);
     }
 
+    //コンテンツ(文字)のチェック
     $data = $this->getFormData();
 
     $invalidResponse = $this->validateInputData($data);
@@ -27,7 +30,19 @@ class CreatePostAction extends PostAction
       return $invalidResponse;
     }
 
-    $post = new Post($user,$data['content']);
+    //画像ファイルがあれば
+    $uploadedFiles = $this->request->getUploadedFiles();
+    $image = $uploadedFiles['image'] ?? null;
+
+    if ($image && $image->getError() === UPLOAD_ERR_OK) {
+        $filename = $this->moveUploadedFile($image);
+        $filename = pathinfo($filename, PATHINFO_FILENAME);
+        $filename = '/posts' . '/' . $filename;
+    } else {
+        $filename = null;
+    }
+
+    $post = new Post($user,$data['content'],$filename);
 
     $this->postRepository->create($post);
 
@@ -44,5 +59,19 @@ class CreatePostAction extends PostAction
         return $this->respondWithData('Invalid input', 400);
     }
     return null;
+  }
+
+  private function moveUploadedFile(UploadedFile $uploadedFile): string 
+  {
+    $directory = '/var/www/assets/content';
+    $uuid = Uuid::uuid4();
+    $uuidWithoutHyphens = str_replace('-', '', $uuid->toString());
+
+    $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+    $filename = sprintf('%s.%s', $uuidWithoutHyphens, $extension);
+
+    $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+
+    return $filename;
   }
 }
