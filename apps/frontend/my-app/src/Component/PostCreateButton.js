@@ -1,21 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-<<<<<<< HEAD
 import './PostCreateButton.css'; // CSSファイルをインポート
-=======
-import './PostCreateButton.css'; // スタイリング用のCSSファイルを仮定
->>>>>>> 5bde2d1110362bdeed713d482e68884e5cd21c90
 import AuthContext from '../Utils/AuthProvider';
 import tegakiwrite from '../images/tegakiwrite.png'; // 画像ファイルをインポート
 
 const PostCreateButton = () => {
-<<<<<<< HEAD
   const [content, setContent] = useState(''); // State to hold textarea content
-=======
-  const [content, setContent] = useState(''); // テキストエリアの内容を保持する状態
-  const [image, setImage] = useState(null); // 選択された画像ファイルを保持する状態
-  const [imagePreview, setImagePreview] = useState(null); // 画像プレビューのための状態
-  const [fileInputKey, setFileInputKey] = useState(0); // ファイル選択インプットのキー
->>>>>>> 5bde2d1110362bdeed713d482e68884e5cd21c90
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
