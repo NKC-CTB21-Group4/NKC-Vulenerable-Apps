@@ -15,6 +15,7 @@ use App\Application\Actions\Main\Post\ViewPostAction;
 use App\Application\Actions\Main\Post\ListUserPostsAction;
 use App\Application\Actions\Main\Post\CreatePostAction;
 use App\Application\Actions\Main\Post\DeletePostAction;
+use App\Application\Actions\Main\Post\GetPostImageAction;
 use App\Application\Actions\Main\Post\ListRecommendPostsAction;
 use App\Application\Middleware\Challenges\ChallengesJwtMiddleware;
 use App\Application\Middleware\Main\JwtMiddleware;
@@ -28,6 +29,11 @@ use App\Application\Actions\Main\Admin\User\ViewAdminUserAction;
 use App\Application\Actions\Main\Admin\User\DeleteAdminUserAction;
 use App\Application\Actions\Main\Admin\Post\ListAdminPostAction;
 use App\Application\Actions\Main\Admin\Post\DeleteAdminPostAction;
+
+use App\Application\Actions\Main\DirectMessage\SendDirectMessageAction;
+use App\Application\Actions\Main\DirectMessage\GetDirectMessagePartnersAction;
+use App\Application\Actions\Main\DirectMessage\DeleteDirectMessageAction;
+use App\Application\Actions\Main\DirectMessage\GetDirectMessageAction;
 
 use App\Application\Actions\Challenges\Auth\ChallengesGenerateTokenAction;
 use App\Application\Actions\Challenges\Auth\ChallengesRevokeTokenAction;
@@ -73,6 +79,7 @@ return function (App $app) {
     });
     
     $app->get('/posts',ListRecommendPostsAction::class);
+    $app->get('/posts/{imageId}',GetPostImageAction::class);
 
     $app->group('/favorite/posts',function(Group $group){
         $group->post('/{postId}',HandleFavoriteAction::class)->add(JwtMiddleware::class);
@@ -85,6 +92,8 @@ return function (App $app) {
         $group->delete('/{userId}', DeleteUserAction::class)->add(JwtMiddleware::class);
         $group->post('/{userId}/avatar',UploadUserAvatarAction::class)->add(JwtMiddleware::class);
         $group->get('/{userId}/avatar',GetUserAvatarAction::class);
+        $group->get('/{userId}/direct-message',GetDirectMessagePartnersAction::class)->add(JwtMiddleware::class);
+        $group->delete('/{userId}/direct-message/{messageId}',DeleteDirectMessageAction::class)->add(JwtMiddleware::class);
         $group->group('/{userId}/posts', function (Group $group) {
             $group->get('',ListUserPostsAction::class);
             $group->post('',CreatePostAction::class)->add(JwtMiddleware::class);
@@ -114,6 +123,11 @@ return function (App $app) {
         })->add(JwtMiddleware::class);
         $group->post('/revoke-token',RevokeTokenAction::class);
     });
+
+    $app->group('/direct-message',function (Group $group){
+        $group->post('/{senderId}/{receiverId}',SendDirectMessageAction::class);
+        $group->get('/{user1Id}/{user2Id}',GetDirectMessageAction::class);
+    })->add(JwtMiddleware::class);
     
     // challenges用のAPIエンドポイント
     $app->group('/challenges/api', function (Group $group) {
