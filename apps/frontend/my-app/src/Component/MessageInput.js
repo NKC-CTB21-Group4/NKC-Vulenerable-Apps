@@ -10,7 +10,7 @@ function MessageInput({ onSendMessage }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="message-input">
+    <form onSubmit={handleSubmit} className="direct-message-input">
       <input 
         type="text" 
         value={message} 
