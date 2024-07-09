@@ -127,6 +127,11 @@ class Report implements JsonSerializable
         return $this->deletedAt == null ? true : false;
     }
 
+    public function setIsDeletedAt():void 
+    {
+        $this->deletedAt = new DateTime('now');
+    }
+
     public function jsonSerialize(): array
     {
         return [
