@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Main\Report;
 
+use App\Domain\Main\Post\Post;
+use App\Domain\Main\Tag\Tag;
+
 interface ReportRepository
 {
    /**
@@ -50,10 +53,10 @@ interface ReportRepository
      public function removeTag(Tag $tag):void;
 
      /**
-      * @param int $tagId
+      * @param int[] $tagIds
       * @return Report[]
       */
 
-     public function findReportsWithTags(int $tagId): array;
+     public function findReportsWithTags(array $tagIds): array;
 
 }
