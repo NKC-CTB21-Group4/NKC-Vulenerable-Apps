@@ -6,8 +6,8 @@ namespace App\Application\Actions\Main\Tag;
 
 use Psr\Http\Message\ResponseInterface as Response;
 
-use App\Domain\Main\Tag;
-use App\Domain\Main\TagCreationFailedException;
+use App\Domain\Main\Tag\Tag;
+use App\Domain\Main\Tag\TagCreationFailedException;
 
 class CreateTagAction extends TagAction
 {

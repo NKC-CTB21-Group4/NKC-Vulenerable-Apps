@@ -29,27 +29,4 @@ abstract class TagAction extends Action
     $this->userRepository = $userRepository;
     $this->jwtService = $jwtService;
   }
-
-  protected function getUserFromToken():?object
-  {
-      return (object)$this->request->getAttribute('token')['user'] ?? null;
-  }
-
-  protected function getUserFromHeader(): ?object
-    {
-      $authHeader = $this->request->getHeader('Authorization');
-
-      if (!$authHeader || !preg_match('/Bearer\s(\S+)/', $authHeader[0], $matches)) {
-          return null;
-      }
-
-      $token = $matches[1];
-      $decoded = $this->jwtService->validateToken($token);
-
-      if (!$decoded) {
-          return null;
-      }
-      $user = $decoded['user'];
-      return $user;
-    }
 }

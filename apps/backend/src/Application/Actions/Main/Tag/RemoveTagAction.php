@@ -6,8 +6,8 @@ namespace App\Application\Actions\Main\Tag;
 
 use Psr\Http\Message\ResponseInterface as Response;
 
-use App\Domain\Main\Tag;
-use App\Domain\Main\TagNotFoundException;
+use App\Domain\Main\Tag\Tag;
+use App\Domain\Main\Tag\TagNotFoundException;
 
 class RemoveTagAction extends TagAction
 {

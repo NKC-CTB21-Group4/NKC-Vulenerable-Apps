@@ -6,7 +6,7 @@ namespace App\Application\Actions\Main\Tag;
 
 use Psr\Http\Message\ResponseInterface as Response;
 
-use App\Domain\Main\Tag;
+use App\Domain\Main\Tag\Tag;
 
 class ListTagAction extends TagAction
 {
