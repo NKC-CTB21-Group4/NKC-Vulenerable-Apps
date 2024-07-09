@@ -25,4 +25,11 @@ interface TagRepository
      */
     public function remove(int $id):void;
 
+
+    /**
+     * @param array $tagIds
+     * @throws TagNotFoundException
+     * @return Tag[]
+     */
+    public function findTagIds(array $tagIds):array;
 }
