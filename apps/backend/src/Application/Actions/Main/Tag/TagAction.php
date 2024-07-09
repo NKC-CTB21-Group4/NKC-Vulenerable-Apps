@@ -20,13 +20,11 @@ abstract class TagAction extends Action
 
   public function __construct(
     LoggerInterface $logger,
-    PostRepository $tagRepository,
-    UserRepository $userRepository,
+    TagRepository $tagRepository,
     JwtService $jwtService
   ){
     parent::__construct($logger);
     $this->tagRepository = $tagRepository;
-    $this->userRepository = $userRepository;
     $this->jwtService = $jwtService;
   }
 }
