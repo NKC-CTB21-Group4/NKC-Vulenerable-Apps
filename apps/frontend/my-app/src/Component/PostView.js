@@ -1,24 +1,33 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './PostView.css'; // CSSファイルをインポート
 import Contentinfo from './Contentinfo';
-import Iconhavertz from '../images/havertz.png';
 
-function PostView() { // デフォルト値として空の配列を設定
-  const [posts, setPosts] = useState([]); 
+function PostView() {
+  const [posts, setPosts] = useState([]);
+
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/posts`);
+      const json = await response.json();
+      const postarray = Object.values(json.data);
+      setPosts(postarray);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch(`http://localhost:8080/posts`);
-        const json = await response.json();
-        const postarray = Object.values(json.data);
-        setPosts(postarray);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      }
+    fetchPosts();
+
+    const handleNewPost = (event) => {
+      fetchPosts(); // 新しい投稿が追加されたら再度データを取得
     };
 
-    fetchPosts();
+    window.addEventListener('newPost', handleNewPost);//カスタムイベントnewPostが発生したときにhandleNewPostが呼び出される
+
+    return () => {
+      window.removeEventListener('newPost', handleNewPost);
+    };
   }, []);
 
   const handleDelete = (postid) => {
