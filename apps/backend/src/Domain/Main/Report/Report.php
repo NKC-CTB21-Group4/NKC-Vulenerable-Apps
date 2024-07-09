@@ -124,7 +124,7 @@ class Report implements JsonSerializable
 
     public function isDeleted(): bool 
     {
-        return $this->deletedAt == null ? true : false;
+        return $this->deletedAt == null ? false : true;
     }
 
     public function setIsDeletedAt():void 
