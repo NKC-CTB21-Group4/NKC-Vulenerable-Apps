@@ -93,13 +93,10 @@ class DatabaseReportRepository extends EntityRepository implements ReportReposit
   public function getReportedPosts(): array
   {
     $queryBuilder = $this->createQueryBuilder('r')
-        ->select('r.post, COUNT(r.id) as report_count')
-        ->andWhere('r.deletedAt IS NULL')
-        ->groupBy('r.post')
-        ->orderBy('report_count', 'DESC')
-        ->getQuery();
-
-
+    ->select('IDENTITY(r.post) as postId, COUNT(r.id) as reportCount')
+    ->where('r.deletedAt IS NULL')
+    ->groupBy('r.post')
+    ->getQuery();
     return $queryBuilder->getResult();
   }
 
