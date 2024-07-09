@@ -23,6 +23,7 @@ class SendReportAction extends ReportAction
     if ($user === null) {
       return $this->respondWithData('Unauthorized', 403);
     }
+    $postId = (int)$this->resolveArg('postId');
     try {
       //例外を返す可能性がある
       $post = $this->postRepository->findPostOfId($postId);

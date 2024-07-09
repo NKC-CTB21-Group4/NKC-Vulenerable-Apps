@@ -13,7 +13,7 @@ class ListReportedPostsAction extends ReportAction
   protected function action(): Response
   {
     
-    $reports = $this->ReportRepository->getReportedPosts();
+    $reports = $this->reportRepository->getReportedPosts();
 
     $this->logger->info("Reported Post List was viewed.");
 

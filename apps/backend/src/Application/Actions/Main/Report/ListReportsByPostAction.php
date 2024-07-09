@@ -23,7 +23,7 @@ class ListReportsByPostAction extends ReportAction
       return $this->respondWithData("Post Not Found.", 404);
     }
     
-    $reports = $this->ReportRepository->findByPosts($post);
+    $reports = $this->reportRepository->findByPost($post);
 
     $this->logger->info("Report List was viewed.");
 

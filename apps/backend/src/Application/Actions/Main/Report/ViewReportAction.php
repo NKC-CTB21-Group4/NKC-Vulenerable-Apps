@@ -17,7 +17,7 @@ class ViewReportAction extends ReportAction
 
     try {
       //例外を返す可能性がある
-      $report = $this->reportRepository->findReportOfId($reportId);
+      $report = $this->reportRepository->findByReportId($reportId);
     } catch (ReportNotFoundException $e) {
         $this->logger->info("report with id `$reportId` not found.");
         return $this->respondWithData("Report Not Found.", 404);
