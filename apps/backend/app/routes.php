@@ -129,8 +129,8 @@ return function (App $app) {
             $group->delete('/{tagId}',RemoveTagAction::class)->add(AdminJwtMiddleware::class);
         });
         $group->group('/reports',function(Group $group){
-            $group->get('/{reportId}',ViewReportAction::class)->add(AdminJwtMiddleware::class);
             $group->get('/posts',ListReportedPostsAction::class)->add(AdminJwtMiddleware::class);
+            $group->get('/{reportId}',ViewReportAction::class)->add(AdminJwtMiddleware::class);
         });
     });
 
