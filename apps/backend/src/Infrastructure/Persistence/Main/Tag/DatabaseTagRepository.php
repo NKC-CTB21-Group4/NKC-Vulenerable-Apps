@@ -65,4 +65,18 @@ class DatabaseTagRepository extends EntityRepository implements TagRepository
         $this->_em->remove($tag);
         $this->_em->flush();
     }
+    public function findTagIds(array $tagIds): array
+    {
+        $tags = $this->createQueryBuilder('t')
+            ->andWhere('t.id IN (:tagIds)')
+            ->setParameter('tagIds', $tagIds)
+            ->getQuery()
+            ->getResult();
+
+        if (count($tags) !== count($tagIds)) {
+            throw new TagNotFoundException('One or more tags not found.');
+        }
+
+        return $tags;
+    }
 }
