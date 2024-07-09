@@ -35,6 +35,10 @@ use App\Application\Actions\Main\DirectMessage\GetDirectMessagePartnersAction;
 use App\Application\Actions\Main\DirectMessage\DeleteDirectMessageAction;
 use App\Application\Actions\Main\DirectMessage\GetDirectMessageAction;
 
+use App\Application\Actions\Main\Tag\CreateTagAction;
+use App\Application\Actions\Main\Tag\ListTagAction;
+use App\Application\Actions\Main\Tag\RemoveTagAction;
+
 use App\Application\Actions\Challenges\Auth\ChallengesGenerateTokenAction;
 use App\Application\Actions\Challenges\Auth\ChallengesRevokeTokenAction;
 
@@ -112,6 +116,11 @@ return function (App $app) {
         $group->group('/posts',function(Group $group){
             $group->get('',ListAdminPostAction::class)->add(AdminJwtMiddleware::class);
             $group->delete('/{postId}',DeleteAdminPostAction::class)->add(AdminJwtMiddleware::class);
+        });
+        $group->group('/tags',function(Group $group){
+            $group->get('',ListTagAction::class)->add(AdminJwtMiddleware::class);;
+            $group->post('',CreateTagAction::class)->add(AdminJwtMiddleware::class);;
+            $group->delete('/{tagId}',RemoveTagAction::class)->add(AdminJwtMiddleware::class);;
         });
     });
 
