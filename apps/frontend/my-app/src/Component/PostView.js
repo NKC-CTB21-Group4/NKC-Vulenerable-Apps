@@ -9,7 +9,7 @@ function PostView() {
     try {
       const response = await fetch(`http://localhost:8080/posts`);
       const json = await response.json();
-      const postarray = Object.values(json.data);
+      const postarray = Object.values(json.data).reverse();//逆順にソートして最新の投稿が先頭に来るようにした
       setPosts(postarray);
     } catch (error) {
       console.error('Error fetching posts:', error);
