@@ -37,5 +37,5 @@ interface FollowRepository
      * @throws FollowerNotFoundException
      * @throws FollowerDeleteFailedException
      */
-    public function deleteFollwer(int $followerId, int $followedId): void;
+    public function deleteFollower(int $followerId, int $followedId): void;
 }
