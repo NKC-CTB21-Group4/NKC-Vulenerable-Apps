@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Mainview.css'; // CSSファイルをインポート
 import LinkiconHome from '../images/tegakihome.png';
 import LinkiconBell from '../images/tegakibell.png';
@@ -13,22 +13,28 @@ import PostView from './PostView';
 import Header from './Header';
 import AuthContext from '../Utils/AuthProvider';
 import Logout from './Logout';
-
+import Search from './Search';
 
 function Mainview() {
   const { user } = useContext(AuthContext);
   const userid = user?.id;
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   useEffect(() => {
     if (!userid) return;
   }, [userid]);
+
+  const handleClearSearch = () => {
+    setSearchKeyword('');
+  };
 
   const links = [
     {
       src: LinkiconHome,
       alt: 'User Icon',
       to: '/',
-      text: "ホーム"
+      text: "ホーム",
+      onClick: handleClearSearch
     },
     {
       src: Linkiconbutton,
@@ -71,7 +77,7 @@ function Mainview() {
         text: "新規登録"
       }
     );
-  }else{
+  } else {
     links.push(
       {
         src: LinkiconLogout,
@@ -82,20 +88,21 @@ function Mainview() {
           const logoutDialog = document.querySelector("#logout-dialog");
           if (logoutDialog) {
             logoutDialog.showModal();
+          }
+        }
       }
-    }
-  }
     );
   }
 
   return (
     <header className='App-header'>
       <div className="mainview-container">
-        <Linkview links={links} />
+        <Linkview links={links} onLinkClick={handleClearSearch} />
         <div className="header-posts-container">
           <Header />
-          <PostView />
+          <PostView searchKeyword={searchKeyword} />
         </div>
+        <Search setSearchKeyword={setSearchKeyword} searchKeyword={searchKeyword} />
       </div>
       <Logout />
     </header>
