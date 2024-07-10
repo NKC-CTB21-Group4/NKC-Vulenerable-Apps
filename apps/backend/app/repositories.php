@@ -7,11 +7,15 @@ use App\Domain\Main\Auth\AuthTokenRepository;
 use App\Domain\Main\Post\PostRepository;
 use App\Domain\Main\Reaction\ReactionRepository;
 use App\Domain\Main\DirectMessage\DirectMessageRepository;
+use App\Domain\Main\Report\ReportRepository;
+use App\Domain\Main\Tag\TagRepository;
 use App\Infrastructure\Persistence\Main\User\InMemoryUserRepository;
 use App\Infrastructure\Persistence\Main\User\DatabaseUserRepository;
 use App\Infrastructure\Persistence\Main\Auth\DatabaseAuthTokenRepository;
 use App\Infrastructure\Persistence\Main\Reaction\DatabaseReactionRepository;
 use App\Infrastructure\Persistence\Main\DirectMessage\DatabaseDirectMessageRepository;
+use App\Infrastructure\Persistence\Main\Report\DatabaseReportRepository;
+use App\Infrastructure\Persistence\Main\Tag\DatabaseTagRepository;
 
 use App\Infrastructure\Persistence\Main\Post\DatabasePostRepository;
 use Psr\Container\ContainerInterface;
@@ -48,6 +52,12 @@ return function (ContainerBuilder $containerBuilder) {
         },
         DirectMessageRepository::class => function(ContainerInterface $c):DirectMessageRepository{
             return new DatabaseDirectMessageRepository($c->get(MainEntityManager::class),$c->get(UserRepository::class));
+        },
+        ReportRepository::class => function(ContainerInterface $c):ReportRepository{
+            return new DatabaseReportRepository($c->get(MainEntityManager::class));
+        },
+        TagRepository::class => function(ContainerInterface $c):TagRepository{
+            return new DatabaseTagRepository($c->get(MainEntityManager::class));
         },
         ChallengesUserRepository::class => \DI\autowire(DatabaseChallengesUserRepository::class),
         ChallengesNewsRepository::class => \DI\autowire(DatabaseChallengesNewsRepository::class),

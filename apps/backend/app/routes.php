@@ -35,6 +35,15 @@ use App\Application\Actions\Main\DirectMessage\GetDirectMessagePartnersAction;
 use App\Application\Actions\Main\DirectMessage\DeleteDirectMessageAction;
 use App\Application\Actions\Main\DirectMessage\GetDirectMessageAction;
 
+use App\Application\Actions\Main\Tag\CreateTagAction;
+use App\Application\Actions\Main\Tag\ListTagAction;
+use App\Application\Actions\Main\Tag\RemoveTagAction;
+
+use App\Application\Actions\Main\Report\ListReportedPostsAction;
+use App\Application\Actions\Main\Report\ListReportsByPostAction;
+use App\Application\Actions\Main\Report\SendReportAction;
+use App\Application\Actions\Main\Report\ViewReportAction;
+
 use App\Application\Actions\Challenges\Auth\ChallengesGenerateTokenAction;
 use App\Application\Actions\Challenges\Auth\ChallengesRevokeTokenAction;
 
@@ -112,6 +121,16 @@ return function (App $app) {
         $group->group('/posts',function(Group $group){
             $group->get('',ListAdminPostAction::class)->add(AdminJwtMiddleware::class);
             $group->delete('/{postId}',DeleteAdminPostAction::class)->add(AdminJwtMiddleware::class);
+            $group->get('/{postId}/reports',ListReportsByPostAction::class)->add(AdminJwtMiddleware::class);
+        });
+        $group->group('/tags',function(Group $group){
+            $group->get('',ListTagAction::class)->add(AdminJwtMiddleware::class);
+            $group->post('',CreateTagAction::class)->add(AdminJwtMiddleware::class);
+            $group->delete('/{tagId}',RemoveTagAction::class)->add(AdminJwtMiddleware::class);
+        });
+        $group->group('/reports',function(Group $group){
+            $group->get('/posts',ListReportedPostsAction::class)->add(AdminJwtMiddleware::class);
+            $group->get('/{reportId}',ViewReportAction::class)->add(AdminJwtMiddleware::class);
         });
     });
 
@@ -127,6 +146,10 @@ return function (App $app) {
     $app->group('/direct-message',function (Group $group){
         $group->post('/{senderId}/{receiverId}',SendDirectMessageAction::class);
         $group->get('/{user1Id}/{user2Id}',GetDirectMessageAction::class);
+    })->add(JwtMiddleware::class);
+
+    $app->group('/reports',function(Group $group){
+        $group->post('/{userId}/{postId}',SendReportAction::class);
     })->add(JwtMiddleware::class);
     
     // challenges用のAPIエンドポイント
