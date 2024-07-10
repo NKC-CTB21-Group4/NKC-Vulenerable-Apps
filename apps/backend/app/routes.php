@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Application\Actions\Main\Follow\AddFollowerAction;
+
 use App\Application\Actions\Main\User\ViewUserAction;
 use App\Application\Actions\Main\User\CreateUserAction;
 use App\Application\Actions\Main\User\DeleteUserAction;
@@ -94,6 +96,7 @@ return function (App $app) {
         $group->get('/{userId}/avatar',GetUserAvatarAction::class);
         $group->get('/{userId}/direct-message',GetDirectMessagePartnersAction::class)->add(JwtMiddleware::class);
         $group->delete('/{userId}/direct-message/{messageId}',DeleteDirectMessageAction::class)->add(JwtMiddleware::class);
+        $group->post('/{followerId}/follow/{followedId}',AddFollowerAction::class)->add(JwtMiddleware::class);
         $group->group('/{userId}/posts', function (Group $group) {
             $group->get('',ListUserPostsAction::class);
             $group->post('',CreatePostAction::class)->add(JwtMiddleware::class);
