@@ -79,7 +79,6 @@ export default function AdminReportDetailList() {
         }
         const reportsByPost = await response.json();
         setRows(Object.values(reportsByPost.data));
-        console.log(rows);
       } catch (error) {
         setError('Failed to fetch reportList');
         console.error('Failed to fetch reportList', error);
