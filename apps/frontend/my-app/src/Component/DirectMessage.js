@@ -64,7 +64,7 @@ function DirectMessage() {
     <div className="direct-message-container">
       <UserList users={users} onUserSelect={handleUserSelect} />
       {selectedUser && (
-        <div className="direct-chat">
+        <div className="direct-chat-container">
           <MessageList messages={messages} currentUserid={userid}/>
           <MessageInput onSendMessage={handleSendMessage} />
         </div>

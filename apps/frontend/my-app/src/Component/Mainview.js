@@ -51,7 +51,7 @@ function Mainview() {
     {
       src: LinkiconMassage,
       alt: 'Linkicon1',
-      to: 'Mypage',
+      to: 'dm',
       text: "メッセージ"
     },
     {

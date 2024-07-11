@@ -4,7 +4,7 @@ import Linkicon from './Linkicon';
 import PostCreateButton from './PostCreateButton';
 import ThreePointLeader from './ThreePointLeader';
 
-function Linkview({ links }) {
+function Linkview({ links,onLinkClick }) {
   return (
     <div className="linkview-container">
       {links.map((link, index) => (
@@ -14,7 +14,14 @@ function Linkview({ links }) {
             alt={link.alt}
             to={link.to}
             text={link.text}
-            onClick={link.onClick} // 追加: onClickプロパティ
+            onClick={() => {
+              if (link.onClick) {
+                link.onClick();
+              }
+              if (onLinkClick) {
+                onLinkClick();
+              }
+            }}
           />
         </div>
       ))}
