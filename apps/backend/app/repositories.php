@@ -7,6 +7,7 @@ use App\Domain\Main\Auth\AuthTokenRepository;
 use App\Domain\Main\Post\PostRepository;
 use App\Domain\Main\Reaction\ReactionRepository;
 use App\Domain\Main\DirectMessage\DirectMessageRepository;
+use App\Domain\Main\Follow\FollowRepository;
 use App\Domain\Main\Report\ReportRepository;
 use App\Domain\Main\Tag\TagRepository;
 use App\Infrastructure\Persistence\Main\User\InMemoryUserRepository;
@@ -18,6 +19,7 @@ use App\Infrastructure\Persistence\Main\Report\DatabaseReportRepository;
 use App\Infrastructure\Persistence\Main\Tag\DatabaseTagRepository;
 
 use App\Infrastructure\Persistence\Main\Post\DatabasePostRepository;
+use App\Infrastructure\Persistence\Main\Follow\DatabaseFollowRepository;
 use Psr\Container\ContainerInterface;
 use App\Domain\Challenges\Main\User\ChallengesUserRepository;
 use App\Domain\Challenges\News\ChallengesNewsRepository;
@@ -58,6 +60,9 @@ return function (ContainerBuilder $containerBuilder) {
         },
         TagRepository::class => function(ContainerInterface $c):TagRepository{
             return new DatabaseTagRepository($c->get(MainEntityManager::class));
+        },
+        FollowRepository::class => function(ContainerInterface $c):FollowRepository{
+            return new DatabaseFollowRepository($c->get(MainEntityManager::class));
         },
         ChallengesUserRepository::class => \DI\autowire(DatabaseChallengesUserRepository::class),
         ChallengesNewsRepository::class => \DI\autowire(DatabaseChallengesNewsRepository::class),
