@@ -1,4 +1,11 @@
-#post-create-dialog {
+#post-create-btn{
+    width: 3em;
+    height: 3em;
+    margin: 0.4em;
+    margin-left: 1.7em;
+    cursor: pointer; 
+}
+#post-create-dialog  {
     border: none;
     border-radius: 8px;
     width: 400px;
@@ -91,5 +98,9 @@
     &:hover {
       background-color: rgba(0, 0, 0, 0.7); /* より濃い背景色 */
     }
+  }
+  #post-create-image{
+    width: 1.5em;
+    height: 1.5em;
   }
   

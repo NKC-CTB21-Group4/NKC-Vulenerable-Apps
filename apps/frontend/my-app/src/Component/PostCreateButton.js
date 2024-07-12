@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './PostCreateButton.css'; // スタイリング用のCSSファイルを仮定
 import AuthContext from '../Utils/AuthProvider';
+import tegakiwrite from '../images/tegakiwrite.png'; // 画像ファイルをインポート
+import tegakiimage from '../images/tegakiimage.png';
 
 const PostCreateButton = () => {
   const [content, setContent] = useState(''); // テキストエリアの内容を保持する状態
@@ -61,7 +63,10 @@ const PostCreateButton = () => {
 
       const responseData = await response.json();
       console.log('投稿が正常に作成されました:', responseData);
-      // 必要に応じてレスポンスデータを処理
+      
+      // 新しい投稿イベントをディスパッチ
+      const event = new CustomEvent('newPost', { detail: responseData });
+      window.dispatchEvent(event);
 
       // 成功した投稿後にテキストエリアと画像ファイルをクリア
       setContent('');
@@ -96,7 +101,7 @@ const PostCreateButton = () => {
 
   return (
     <div>
-      <button id="post-create-btn">クリック</button>
+      <img src={tegakiwrite} id="post-create-btn" alt="クリックボタン" />
       <dialog id="post-create-dialog">
         <div>
           <p>ポストの作成</p>
@@ -108,10 +113,7 @@ const PostCreateButton = () => {
           )}
           <div className="custom-file-input">
             <label htmlFor="post-create-fileInput">
-              <img
-                src="path_to_your_image.png"
-                alt="ファイルを選択"
-              />
+              <img id="post-create-image" src={tegakiimage} alt="画像選択ボタン" />
             </label>
             <input
               key={fileInputKey}

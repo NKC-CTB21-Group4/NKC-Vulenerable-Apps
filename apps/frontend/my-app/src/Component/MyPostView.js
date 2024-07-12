@@ -9,6 +9,7 @@ function MyPostView() { // デフォルト値として空の配列を設定
   const userid = user?.id;
 
   useEffect(() => {
+    console.log("mypost");
     const fetchPosts = async () => {
       if(!userid)return;
       try {
@@ -28,16 +29,17 @@ function MyPostView() { // デフォルト値として空の配列を設定
   };
 
   return (
-    <div className="postview-container">
+    <div className="mypostview-container">
       {posts.map((post) => (
         <Contentinfo
           key={post.id}
-          src="" // srcとaltはUserinfoコンポーネントが使っている場合に設定
+          src={`http://localhost:8080/users/${userid}/avatar`}// srcとaltはUserinfoコンポーネントが使っている場合に設定
           alt=""
           username={post.author_name}
           userid={post.author_id}
           content={post.content}
           postid={post.id}
+          imagepath={post.image_path}
           onDelete={handleDelete} // handleDelete関数のプロップス名を修正
         />
       ))}

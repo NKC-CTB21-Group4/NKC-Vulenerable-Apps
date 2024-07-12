@@ -20,8 +20,9 @@
   .post-image{
     border: 0.25px solid rgb(133, 132, 132);
     border-radius: 5%;
-    width: 25%;
-    height:25%;
+    width: 20%;
+    height:20%;
+    cursor: pointer;
   }
 
   

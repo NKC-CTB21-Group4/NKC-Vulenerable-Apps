@@ -1,21 +1,32 @@
 import React from 'react';
 import './Linkview.css'; // CSSファイルをインポート
 import Linkicon from './Linkicon';
+import PostCreateButton from './PostCreateButton';
+import ThreePointLeader from './ThreePointLeader';
 
-function Linkview({ links }) {
+function Linkview({ links,onLinkClick }) {
   return (
     <div className="linkview-container">
       {links.map((link, index) => (
-        <div className="linkicon-item">
+        <div key={index} className="linkicon-item">
           <Linkicon
-            key={index}
             src={link.src}
             alt={link.alt}
             to={link.to}
             text={link.text}
+            onClick={() => {
+              if (link.onClick) {
+                link.onClick();
+              }
+              if (onLinkClick) {
+                onLinkClick();
+              }
+            }}
           />
         </div>
       ))}
+      <ThreePointLeader/>
+      <PostCreateButton/>
     </div>
   );
 }
