@@ -9,6 +9,7 @@ import Linkiconbutton from '../images/tegakibutton.png';
 import LinkiconLogin from '../images/tegakilogin.png';
 import LinkiconCreateUser from '../images/tegakicreateuser.png';
 import LinkiconLogout from '../images/tegakilogout.png';
+import LinkiconApp from '../images/tegakiappicon.png';
 import Linkview from '../Component/Linkview';
 import MyPostview from '../Component/MyPostView';
 import Header from '../Component/Header';
@@ -38,6 +39,11 @@ function MyPage() {
 
 
   const links = [
+    {
+      src: LinkiconApp,
+      alt: 'Icon',
+      to: '/'
+    },
     {
       src: LinkiconHome,
       alt: 'User Icon',
