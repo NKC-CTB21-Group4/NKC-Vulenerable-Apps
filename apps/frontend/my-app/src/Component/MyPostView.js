@@ -9,7 +9,6 @@ function MyPostView() { // デフォルト値として空の配列を設定
   const userid = user?.id;
 
   useEffect(() => {
-    console.log("mypost");
     const fetchPosts = async () => {
       if(!userid)return;
       try {

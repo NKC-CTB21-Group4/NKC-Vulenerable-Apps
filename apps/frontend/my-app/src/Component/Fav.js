@@ -4,6 +4,7 @@ import './Fav.css';
 function Fav({ postid }) {
     const [favorites, setFavorites] = useState({});
     const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const fetchFavorites = async () => {
@@ -25,6 +26,7 @@ function Fav({ postid }) {
 
     const handleFavoriteClick = async () => {
         setError(null);
+        setIsLoading(true);
         try {
             const authtoken = localStorage.getItem('authToken');
             const response = await fetch(`http://localhost:8080/favorite/posts/${postid}`, {
@@ -42,12 +44,13 @@ function Fav({ postid }) {
         } catch (err) {
             setError('Failed to update favorites');
         }
+        setIsLoading(false);
     };
 
     return (
         <div className='fav-container'>
             <span 
-                onClick={handleFavoriteClick} 
+                onClick={!isLoading ? handleFavoriteClick : null} 
                 style={{
                     cursor: 'pointer', 
                     color: favorites.clicked ? 'red' : 'black',
