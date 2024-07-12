@@ -36,7 +36,6 @@ const Logout = () => {
         },
         body: JSON.stringify({})
       });
-      console.log(response.status);
       if (response.status === 200) {
         localStorage.removeItem('authToken');
         setMessage('Logout successful');
