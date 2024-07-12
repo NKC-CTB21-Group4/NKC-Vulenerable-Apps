@@ -60,13 +60,13 @@ function MyPage() {
     {
       src: LinkiconMassage,
       alt: 'Linkicon1',
-      to: 'dm',
+      to: '/dm',
       text: "メッセージ"
     },
     {
       src: userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz,
       alt: 'Linkicon1',
-      to: 'Mypage',
+      to: '/Mypage',
       text: "マイページ"
     }
   ];
