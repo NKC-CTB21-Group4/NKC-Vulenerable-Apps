@@ -34,7 +34,7 @@ abstract class FollowAction extends Action
     protected function checkUserAuthorization(?object $user): ?User
     {
       if($user === null)return null;
-        $userId = (int) $this->resolveArg('followerId');
+        $userId = (int) $this->resolveArg('userId');
         $user = $this->userRepository->findUserOfId($user->id);
         if ($user->getId() !== $userId) {
             return null;
