@@ -17,7 +17,7 @@ import { useContext } from 'react';
 import AuthContext from '../Utils/AuthProvider';
 
 
-const pages = ['Users', 'Posts'];
+const pages = ['Users', 'Posts','Reports'];
 const settings = ['Profile', 'Account', 'SignUp', 'Logout'];
 
 function AdminHeader() {
