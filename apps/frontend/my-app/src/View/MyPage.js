@@ -1,25 +1,30 @@
-import React,{useContext,useEffect} from 'react';
+import React,{useContext,useEffect,useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import './MyPage.css'; // CSSファイルをインポート
 import LinkiconHome from '../images/tegakihome.png';
-import LinkiconSerch from '../images/tegakiserch.png';
 import LinkiconBell from '../images/tegakibell.png';
 import LinkiconMassage from '../images/tegakimessage.png';
 import Iconhavertz from '../images/havertz.png';
 import Linkiconbutton from '../images/tegakibutton.png';
-import MyPostview from '../Component/MyPostView';
+import LinkiconLogin from '../images/tegakilogin.png';
+import LinkiconCreateUser from '../images/tegakicreateuser.png';
+import LinkiconLogout from '../images/tegakilogout.png';
 import Linkview from '../Component/Linkview';
-import AuthContext from '../Utils/AuthProvider';
-import {useNavigate} from 'react-router-dom';
+import MyPostview from '../Component/MyPostView';
 import Header from '../Component/Header';
+import AuthContext from '../Utils/AuthProvider';
+import Logout from '../Component/Logout';
+import Search from '../Component/Search';
 
 function MyPage() {
   const { user,isAuthenticated } = useContext(AuthContext);
+  const [searchKeyword, setSearchKeyword] = useState('');
   const userid = user?.id;
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/mypage');
+      navigate('/');
     }
   }, [isAuthenticated, navigate]);
 
@@ -27,24 +32,24 @@ function MyPage() {
     if(!userid)return;
   }, [userid]);
 
+  const handleClearSearch = () => {
+    setSearchKeyword('');
+  };
+
+
   const links = [
     {
       src: LinkiconHome,
       alt: 'User Icon',
       to: '/',
-      text: "ホーム"
+      text: "ホーム",
+      onClick: handleClearSearch
     },
     {
       src: Linkiconbutton,
       alt: 'Linkicon1',
-      to: 'Mypage',
+      to: '/mypage',
       text: "通報"
-    },
-    {
-      src: LinkiconSerch,
-      alt: 'Linkicon3',
-      to: 'Mypage',
-      text: "検索"
     },
     {
       src: LinkiconBell,
@@ -55,7 +60,7 @@ function MyPage() {
     {
       src: LinkiconMassage,
       alt: 'Linkicon1',
-      to: 'Mypage',
+      to: 'dm',
       text: "メッセージ"
     },
     {
@@ -64,17 +69,51 @@ function MyPage() {
       to: 'Mypage',
       text: "マイページ"
     }
-  ]
+  ];
+
+  if (!userid) {
+    links.push(
+      {
+        src: LinkiconLogin,
+        alt: 'LinkiconLogin',
+        to: '/login',
+        text: "ログイン"
+      },
+      {
+        src: LinkiconCreateUser,
+        alt: 'LinkiconCreateUser',
+        to: '/signup',
+        text: "新規登録"
+      }
+    );
+  } else {
+    links.push(
+      {
+        src: LinkiconLogout,
+        alt: 'LinkiconLogout',
+        to: '#',
+        text: "ログアウト",
+        onClick: () => {
+          const logoutDialog = document.querySelector("#logout-dialog");
+          if (logoutDialog) {
+            logoutDialog.showModal();
+          }
+        }
+      }
+    );
+  }
 
   return (
     <header className='mypage-App-header'>
       <div className="mypage-container">
-      <Linkview links={links} />
+      <Linkview links={links} onLinkClick={handleClearSearch} />
     <div className="mypage-header-posts-container">
       <Header/>
-      <MyPostview/>
+      <MyPostview searchKeyword={searchKeyword}/>
     </div>
+    <Search setSearchKeyword={setSearchKeyword} searchKeyword={searchKeyword} />
     </div>
+    <Logout />
     </header>
   );
 }

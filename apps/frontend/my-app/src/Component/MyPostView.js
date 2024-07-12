@@ -39,6 +39,7 @@ function MyPostView() { // デフォルト値として空の配列を設定
           userid={post.author_id}
           content={post.content}
           postid={post.id}
+          imagepath={post.image_path}
           onDelete={handleDelete} // handleDelete関数のプロップス名を修正
         />
       ))}
