@@ -53,12 +53,6 @@ function Mainview() {
       alt: 'Linkicon1',
       to: 'dm',
       text: "メッセージ"
-    },
-    {
-      src: userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz,
-      alt: 'Linkicon1',
-      to: 'Mypage',
-      text: "マイページ"
     }
   ];
 
@@ -90,6 +84,12 @@ function Mainview() {
             logoutDialog.showModal();
           }
         }
+      },
+      {
+        src: userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz,
+        alt: 'Linkicon1',
+        to: 'Mypage',
+        text: "マイページ"
       }
     );
   }
