@@ -5,6 +5,9 @@ import { AuthProvider } from './Utils/AuthProvider';
 import Login from './Component/Login';
 import Mainview from './Component/Mainview';
 import CreateUser from './View/CreateUser';
+import Mypage from './View/MyPage';
+import Logout from './Component/Logout';
+import DirectMessage from './Component/DirectMessage';
 
 
 function App() {
@@ -14,9 +17,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Mainview/>}/>
           <Route path="/login" element={<Login />}/>
-          <Route path="signup" element={<CreateUser/>}/>
+          <Route path="/logout" element={<Logout />}/>
+          <Route path="/signup" element={<CreateUser/>}/>
           <Route path="/admin/*" element={<AdminView />} />
-          <Route path="/*" element={<Navigate to="/" />}/>
+          <Route path="/mypage" element={<Mypage/>}/>
+          <Route path="/dm" element={<DirectMessage/>}/>
         </Routes>
       </Router>
     </AuthProvider>
