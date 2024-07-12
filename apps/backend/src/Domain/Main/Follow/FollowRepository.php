@@ -10,14 +10,14 @@ interface FollowRepository
 {
     /**
      * @param int $follower
-     * @return array
+     * @return User[]
      * @throws FollowerNotFoundException
      */
     public function findOfFollower(int $followerId): array;
 
     /**
      * @param int $followed
-     * @return array
+     * @return User[]
      * @throws FollowedNotFoundException
      */
     public function findOfFollowed(int $followedId): array;
