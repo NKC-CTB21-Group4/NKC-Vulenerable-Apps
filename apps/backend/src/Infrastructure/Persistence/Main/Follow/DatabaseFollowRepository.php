@@ -26,11 +26,12 @@ class DatabaseFollowRepository extends EntityRepository implements FollowReposit
 
     public function findOfFollower(int $followerId): array
     {
-        $queryBuilder = $this->createQueryBuilder('f')
+            $queryBuilder = $this->createQueryBuilder('f')
+            ->innerJoin(User::class, 'u', 'WITH', 'f.followed = u.id')
             ->where('f.follower = :followerId')
             ->setParameter('followerId', $followerId)
+            ->select('u')
             ->getQuery();
-    
         $results = $queryBuilder->getResult();
 
         if (empty($results)) {
@@ -43,9 +44,11 @@ class DatabaseFollowRepository extends EntityRepository implements FollowReposit
     public function findOfFollowed(int $followedId): array
     {
         $queryBuilder = $this->createQueryBuilder('f')
-            ->where('f.followed = :followedId')
-            ->setParameter('followedId', $followedId)
-            ->getQuery();
+        ->innerJoin(User::class, 'u', 'WITH', 'f.followed = u.id')
+        ->where('f.followed = :followedId')
+        ->setParameter('followedId', $followedId)
+        ->select('u')
+        ->getQuery();
 
         $results = $queryBuilder->getResult();
 
@@ -106,4 +109,20 @@ class DatabaseFollowRepository extends EntityRepository implements FollowReposit
             throw new FollowerDeleteFailedException('An unexpected error occurred while deleting the follower relationship.', 0, $e);
         }
     }
+
+    public function uniqueChecker(int $followerId, int $followedId): bool
+    {
+        $queryBuilder = $this->createQueryBuilder('f')
+            ->select('COUNT(f.id)')
+            ->where('f.follower = :followerId')
+            ->andWhere('f.followed = :followedId')
+            ->setParameter('followerId', $followerId)
+            ->setParameter('followedId', $followedId)
+            ->getQuery();
+
+        $count = (int) $queryBuilder->getSingleScalarResult();
+
+        return $count > 0;
+    }
+
 }
