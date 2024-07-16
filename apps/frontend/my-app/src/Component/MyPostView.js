@@ -3,7 +3,7 @@ import './MyPostView.css'; // CSSファイルをインポート
 import Contentinfo from './Contentinfo';
 import AuthContext from '../Utils/AuthProvider';
 
-function MyPostView() { // デフォルト値として空の配列を設定
+function MyPostView({ searchKeyword }) { // デフォルト値として空の配列を設定
   const [posts, setPosts] = useState([]); 
   const { user } = useContext(AuthContext);
   const userid = user?.id;
@@ -40,9 +40,14 @@ function MyPostView() { // デフォルト値として空の配列を設定
     setPosts(posts.filter((post) => post.id !== postid));
   };
 
+  const filteredPosts = posts.filter(post => 
+    post.content.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+    post.author_name.toLowerCase().includes(searchKeyword.toLowerCase())
+  );
+
   return (
     <div className="mypostview-container">
-      {posts.map((post) => (
+      {filteredPosts.map((post) => (
         <Contentinfo
           key={post.id}
           src={`http://localhost:8080/users/${userid}/avatar`}// srcとaltはUserinfoコンポーネントが使っている場合に設定
