@@ -11,4 +11,6 @@
     display: flex;
     justify-content: start; /* アイテム内のコンテンツを中央に配置 */
     margin-left: 2.5em;
+    padding: 0;
+
 }

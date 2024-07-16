@@ -82,7 +82,7 @@ function Mainview() {
       {
         src: userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz,
         alt: 'Linkicon1',
-        to: 'Mypage',
+        to: '/Mypage',
         text: "マイページ"
       },
       {

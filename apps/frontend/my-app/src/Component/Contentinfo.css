@@ -21,7 +21,8 @@
 .contentinfo-container {
     text-align: left;
     background-color: white; /* 背景色を白に設定 */
-    border: 0.25px solid #f4f3f3; /* 枠線を薄いグレーに設定 */ 
+    border: 0.25px solid #f4f3f3; /* 枠線を薄いグレーに設定 */
+    width: 50vw; 
 }
 
   
