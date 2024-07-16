@@ -22,6 +22,18 @@ function MyPostView({ searchKeyword }) { // デフォルト値として空の配
     };
 
     fetchPosts();
+
+    // newPostイベントをリスン
+    const handleNewPost = (event) => {
+      setPosts((prevPosts) => [event.detail, ...prevPosts]);
+    };
+
+    window.addEventListener('newPost', handleNewPost);
+
+    // クリーンアップ
+    return () => {
+      window.removeEventListener('newPost', handleNewPost);
+    };
   }, [userid]);
 
   const handleDelete = (postid) => {
