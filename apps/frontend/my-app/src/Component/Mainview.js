@@ -9,6 +9,7 @@ import LinkiconLogin from '../images/tegakilogin.png';
 import LinkiconCreateUser from '../images/tegakicreateuser.png';
 import LinkiconLogout from '../images/tegakilogout.png';
 import Linkview from './Linkview';
+import LinkiconApp from '../images/tegakiappicon.png';
 import PostView from './PostView';
 import Header from './Header';
 import AuthContext from '../Utils/AuthProvider';
@@ -29,6 +30,11 @@ function Mainview() {
   };
 
   const links = [
+    {
+      src: LinkiconApp,
+      alt: 'Icon',
+      to: '/'
+    },
     {
       src: LinkiconHome,
       alt: 'User Icon',

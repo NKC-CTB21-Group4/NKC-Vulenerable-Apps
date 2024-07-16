@@ -9,19 +9,31 @@ function MyPostView() { // デフォルト値として空の配列を設定
   const userid = user?.id;
 
   useEffect(() => {
-    console.log("mypost");
     const fetchPosts = async () => {
       if(!userid)return;
       try {
         const response = await fetch(`http://localhost:8080/users/${userid}/posts`);
         const json = await response.json();
-        setPosts(json.data);
+        const mypostarray = Object.values(json.data).reverse(); // 逆順にソート
+        setPosts(mypostarray);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
     };
 
     fetchPosts();
+
+    // newPostイベントをリスン
+    const handleNewPost = (event) => {
+      setPosts((prevPosts) => [event.detail, ...prevPosts]);
+    };
+
+    window.addEventListener('newPost', handleNewPost);
+
+    // クリーンアップ
+    return () => {
+      window.removeEventListener('newPost', handleNewPost);
+    };
   }, [userid]);
 
   const handleDelete = (postid) => {
