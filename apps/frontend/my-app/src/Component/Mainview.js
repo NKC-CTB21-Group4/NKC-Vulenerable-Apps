@@ -8,8 +8,8 @@ import Linkiconbutton from '../images/tegakibutton.png';
 import LinkiconLogin from '../images/tegakilogin.png';
 import LinkiconCreateUser from '../images/tegakicreateuser.png';
 import LinkiconLogout from '../images/tegakilogout.png';
-import LinkiconApp from '../images/tegakiappicon.png';
 import Linkview from './Linkview';
+import LinkiconApp from '../images/tegakiappicon.png';
 import PostView from './PostView';
 import Header from './Header';
 import AuthContext from '../Utils/AuthProvider';
@@ -80,12 +80,6 @@ function Mainview() {
   } else {
     links.push(
       {
-        src: userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz,
-        alt: 'Linkicon1',
-        to: 'Mypage',
-        text: "マイページ"
-      },
-      {
         src: LinkiconLogout,
         alt: 'LinkiconLogout',
         to: '#',
@@ -96,6 +90,12 @@ function Mainview() {
             logoutDialog.showModal();
           }
         }
+      },
+      {
+        src: userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz,
+        alt: 'Linkicon1',
+        to: 'Mypage',
+        text: "マイページ"
       }
     );
   }

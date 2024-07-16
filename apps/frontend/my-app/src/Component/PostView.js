@@ -5,26 +5,27 @@ import Contentinfo from './Contentinfo';
 function PostView({ searchKeyword }) {
   const [posts, setPosts] = useState([]);
 
-  const fetchPosts = async () => {
-    try {
-      const response = await fetch(`http://localhost:8080/posts`);
-      const json = await response.json();
-      const postarray = Object.values(json.data).reverse(); // 逆順にソート
-      setPosts(postarray);
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-    }
-  };
-
   useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/posts`);
+        const json = await response.json();
+        const postarray = Object.values(json.data).reverse(); // 逆順にソート
+        setPosts(postarray);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    };
     fetchPosts();
 
+    // newPostイベントをリスン
     const handleNewPost = (event) => {
-      fetchPosts(); // 新しい投稿が追加されたら再度データを取得
+      setPosts((prevPosts) => [event.detail, ...prevPosts]);
     };
 
-    window.addEventListener('newPost', handleNewPost); // カスタムイベントnewPostが発生したときにhandleNewPostが呼び出される
+    window.addEventListener('newPost', handleNewPost);
 
+    // クリーンアップ
     return () => {
       window.removeEventListener('newPost', handleNewPost);
     };
