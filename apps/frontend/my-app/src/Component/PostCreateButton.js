@@ -62,7 +62,6 @@ const PostCreateButton = () => {
       }
 
       const responseJson = await response.json();
-      console.log('投稿が正常に作成されました:', responseJson.data);
 
       const event = new CustomEvent('newPost', { detail: responseJson.data });
       window.dispatchEvent(event);
