@@ -61,11 +61,10 @@ const PostCreateButton = () => {
         throw new Error('投稿の作成に失敗しました');
       }
 
-      const responseData = await response.json();
-      console.log('投稿が正常に作成されました:', responseData);
-      
-      // 新しい投稿イベントをディスパッチ
-      const event = new CustomEvent('newPost', { detail: responseData });
+      const responseJson = await response.json();
+      console.log('投稿が正常に作成されました:', responseJson.data);
+
+      const event = new CustomEvent('newPost', { detail: responseJson.data });
       window.dispatchEvent(event);
 
       // 成功した投稿後にテキストエリアと画像ファイルをクリア

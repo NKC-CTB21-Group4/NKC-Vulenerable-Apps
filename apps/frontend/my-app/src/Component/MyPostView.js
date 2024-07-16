@@ -22,6 +22,18 @@ function MyPostView() { // デフォルト値として空の配列を設定
     };
 
     fetchPosts();
+
+    // newPostイベントをリスン
+    const handleNewPost = (event) => {
+      setPosts((prevPosts) => [event.detail, ...prevPosts]);
+    };
+
+    window.addEventListener('newPost', handleNewPost);
+
+    // クリーンアップ
+    return () => {
+      window.removeEventListener('newPost', handleNewPost);
+    };
   }, [userid]);
 
   const handleDelete = (postid) => {
