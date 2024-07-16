@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import './Fav.css';
+import AuthContext from '../Utils/AuthProvider';
 
 function Fav({ postid }) {
     const [favorites, setFavorites] = useState({});
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const { user } = useContext(AuthContext);
+    const userid = user.id;
 
     useEffect(() => {
         const fetchFavorites = async () => {
@@ -25,6 +28,9 @@ function Fav({ postid }) {
     }, [postid]);
 
     const handleFavoriteClick = async () => {
+        if(!userid){
+            return;
+        }
         setError(null);
         setIsLoading(true);
         try {
