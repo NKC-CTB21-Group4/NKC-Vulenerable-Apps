@@ -51,7 +51,7 @@ function Mainview() {
     {
       src: LinkiconBell,
       alt: 'Linkicon4',
-      to: 'Mypage',
+      to: '#',
       text: "通知"
     },
     {
@@ -80,15 +80,12 @@ function Mainview() {
   } else {
     links.push(
       {
-<<<<<<< HEAD
         src: userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz,
         alt: 'Linkicon1',
         to: '/Mypage',
         text: "マイページ"
       },
       {
-=======
->>>>>>> c72257358a7ede305c93247ce9df81f5fe961ee9
         src: LinkiconLogout,
         alt: 'LinkiconLogout',
         to: '#',
@@ -99,12 +96,6 @@ function Mainview() {
             logoutDialog.showModal();
           }
         }
-      },
-      {
-        src: userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz,
-        alt: 'Linkicon1',
-        to: 'Mypage',
-        text: "マイページ"
       }
     );
   }
