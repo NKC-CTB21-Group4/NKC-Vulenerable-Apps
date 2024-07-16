@@ -11,19 +11,31 @@ class GetPostImageAction extends PostAction
 
     public function action(): Response
     {
-      $imageId = $this-> resolveArg("imageId");
-      $pattern = '/var/www/assets/content/' . $imageId . ".*";
-      $files = glob($pattern);
+      $imageId = $this->resolveArg("imageId");
+        $directory = '/var/www/assets/content/';
+        $files = scandir($directory);
 
-      if (empty($files)) {
-        return $this->respondWithData("Image not found", 404);
-      }
+        $imagePath = null;
+        foreach ($files as $file) {
+            if (strpos($file, $imageId) === 0) {
+                $imagePath = $directory . $file;
+                break;
+            }
+        }
 
-      $imagePath = $files[0]; // 最初に見つかったファイルを使用する（拡張子は問わない）
-      $mimeType = mime_content_type($imagePath);
-      $response = $this->response->withHeader('Content-Type', $mimeType);
-      $response->getBody()->write(file_get_contents($imagePath));
-  
-      return $response;
+        if ($imagePath === null) {
+            return $this->respondWithData("Image not found", 404);
+        }
+
+        $mimeType = mime_content_type($imagePath);
+
+        /** @var StreamInterface $body */
+        $body = $this->response->getBody();
+        $body->write(file_get_contents($imagePath));
+
+        return $this->response
+            ->withHeader('Content-Type', $mimeType)
+            ->withHeader('Content-Length', (string)filesize($imagePath))
+            ->withBody($body);
     }
 }
