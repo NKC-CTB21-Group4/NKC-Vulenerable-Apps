@@ -1,7 +1,7 @@
 <?php
 
 $links = [
-    ['インジェクション', '../images/injection.png', 'Icon 1'],
+    ['SQLi', '../images/injection.png', 'Icon 1'],
     ['認証の不備', '../images/certification.jpeg', 'Icon 2'],
     ['情報の露呈', '../images/Information.png', 'Icon 3'],
     ['XXE', '../images/Information.png', 'Icon 4'],
