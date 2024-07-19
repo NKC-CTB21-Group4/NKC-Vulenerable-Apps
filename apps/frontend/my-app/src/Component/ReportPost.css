@@ -1,0 +1,88 @@
+/* Modalのオーバーレイ */
+.report-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Modalのコンテンツ */
+  .report-modal-content {
+    background: grey;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 100%;
+  }
+  
+  /* タイトル */
+  .report-modal-title {
+    margin: 0;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+  
+  /* チェックボックスグループ */
+  .report-checkbox-group {
+    margin-bottom: 20px;
+  }
+  
+  /* チェックボックスアイテム */
+  .report-checkbox-item {
+    margin-bottom: 10px;
+  }
+  
+  /* テキストエリアグループ */
+  .report-textarea-group {
+    margin-bottom: 20px;
+  }
+  
+  /* テキストエリア */
+  .report-textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  /* ボタングループ */
+  .report-button-group {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* 送信ボタン */
+  .report-submit-button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* キャンセルボタン */
+  .report-cancel-button {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* ボタンのホバー効果 */
+  .report-submit-button:hover {
+    background: #45a049;
+  }
+  
+  .report-cancel-button:hover {
+    background: #e53935;
+  }
+  
