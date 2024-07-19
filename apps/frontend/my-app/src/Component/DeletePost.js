@@ -1,8 +1,5 @@
 function deletePost(postId,userId) {
-  const confirmDelete = window.confirm("本当にこのポストを削除しますか？");
   const authtoken = localStorage.getItem('authToken');
-
-  if (confirmDelete) {
     return fetch(`http://localhost:8080/users/${userId}/posts/${postId}`, {
       method: 'DELETE',
       headers:{
@@ -18,7 +15,7 @@ function deletePost(postId,userId) {
       console.error('Error:', error);
       throw new Error(error)
     });
-  }
+  
 }
 
 export default deletePost;
