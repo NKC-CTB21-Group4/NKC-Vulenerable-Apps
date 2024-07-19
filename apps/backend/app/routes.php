@@ -10,6 +10,7 @@ use App\Application\Actions\Main\Follow\GetFollowedUsersAction;
 use App\Application\Actions\Main\User\ViewUserAction;
 use App\Application\Actions\Main\User\CreateUserAction;
 use App\Application\Actions\Main\User\DeleteUserAction;
+use App\Application\Actions\Main\User\PrivateUserAction;
 use App\Application\Actions\Main\User\UploadUserAvatarAction;
 use App\Application\Actions\Main\User\GetUserAvatarAction;
 use App\Application\Actions\Main\Auth\GenerateTokenAction;
@@ -106,6 +107,7 @@ return function (App $app) {
         $group->delete('/{userId}', DeleteUserAction::class)->add(JwtMiddleware::class);
         $group->post('/{userId}/avatar',UploadUserAvatarAction::class)->add(JwtMiddleware::class);
         $group->get('/{userId}/avatar',GetUserAvatarAction::class);
+        $group->post('/{userId}/private',PrivateUserAction::class)->add(JwtMiddleware::class);
         $group->get('/{userId}/direct-message',GetDirectMessagePartnersAction::class)->add(JwtMiddleware::class);
         $group->delete('/{userId}/direct-message/{messageId}',DeleteDirectMessageAction::class)->add(JwtMiddleware::class);
         $group->get('/{userId}/follower',GetFollowersAction::class)->add(JwtMiddleware::class);
