@@ -53,6 +53,20 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
         return $user;
     }
 
+    public function privateToggleUser(int $userId, bool $isPrivate):User 
+    {
+        $user = $this->_em->getRepository(User::class)->find($userId);
+        
+        if ($user !== null) {
+            $user->setIsPrivate($isPrivate);
+            $this->save($user);
+        }
+        else {
+            throw new UserNotFoundException();
+        }
+        return $user;
+    }
+
     private function isdeletedAtSet(User $user): bool
     {
         return $user->getDeletedAt() !== NULL;
