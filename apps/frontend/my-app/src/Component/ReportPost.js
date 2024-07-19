@@ -1,24 +1,42 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './ReportPost.css'; // CSSファイルを作成してインポート
 import AuthContext from '../Utils/AuthProvider';
 
 function ReportPost({ postid, onClose }) {
-  const [reportReasons, setReportReasons] = useState([]);
-  const [ids, setIds] = useState([]);
+  const [reportOptions, setReportOptions] = useState([]); // APIから取得する通報内容
+  const [selectedIds, setSelectedIds] = useState([]); // 選択されたID
   const [additionalInfo, setAdditionalInfo] = useState(""); // テキストエリアの状態
   const { user } = useContext(AuthContext);
   const userid = user.id;
 
+  // APIから通報内容のデータを取得する
+  useEffect(() => {
+    const fetchReportOptions = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/tags');
+        if (response.ok) {
+          const json = await response.json();
+          const data = json.data
+          setReportOptions(data); // データを状態にセット
+        } else {
+          console.error('通報内容の取得に失敗しました');
+        }
+      } catch (error) {
+        console.error('通報内容の取得中にエラーが発生しました', error);
+      }
+    };
+
+    fetchReportOptions();
+  }, []);
+
   const handleCheckboxChange = (event) => {
-    const { value, checked, id } = event.target;
+    const { checked, id } = event.target;
     const numericId = parseInt(id, 10); // IDを数値に変換
 
     if (checked) {
-      setReportReasons((prevReasons) => [...prevReasons, value]);
-      setIds((prevIds) => [...prevIds, numericId]);
+      setSelectedIds((prevIds) => [...prevIds, numericId]);
     } else {
-      setReportReasons((prevReasons) => prevReasons.filter((v) => v !== value));
-      setIds((prevIds) => prevIds.filter((i) => i !== numericId));
+      setSelectedIds((prevIds) => prevIds.filter((i) => i !== numericId));
     }
   };
 
@@ -30,7 +48,6 @@ function ReportPost({ postid, onClose }) {
     event.preventDefault();
     try {
       // 通報内容をサーバーに送信する処理
-      const filteredIds = ids.filter(id => !isNaN(id)); // NaNを除外
       const response = await fetch(`http://localhost:8080/reports/${userid}/${postid}`, {
         method: 'POST',
         headers: {
@@ -38,7 +55,7 @@ function ReportPost({ postid, onClose }) {
           'Authorization': 'Bearer ' + localStorage.getItem("authToken")
         },
         body: JSON.stringify({
-          tag_ids: filteredIds,
+          tag_ids: selectedIds,
           reason: additionalInfo // テキストエリアの内容も送信
         }),
       });
@@ -61,42 +78,17 @@ function ReportPost({ postid, onClose }) {
         <h2 className="report-modal-title">通報内容を選択してください</h2>
         <form className="report-form" onSubmit={handleSubmit}>
           <div className="report-checkbox-group">
-            <div className="report-checkbox-item">
-              <input
-                type="checkbox"
-                id="1"
-                value="Discriminatory Posts"
-                onChange={handleCheckboxChange}
-              />
-              <label htmlFor="1">差別的な発言</label>
-            </div>
-            <div className="report-checkbox-item">
-              <input
-                type="checkbox"
-                id="2"
-                value="Violent Speech"
-                onChange={handleCheckboxChange}
-              />
-              <label htmlFor="2">暴力的な発言</label>
-            </div>
-            <div className="report-checkbox-item">
-              <input
-                type="checkbox"
-                id="3"
-                value="Spam"
-                onChange={handleCheckboxChange}
-              />
-              <label htmlFor="3">スパム</label>
-            </div>
-            <div className="report-checkbox-item">
-              <input
-                type="checkbox"
-                id="4"
-                value="Suicide or Self-Harm"
-                onChange={handleCheckboxChange}
-              />
-              <label htmlFor="4">自殺や自傷行為</label>
-            </div>
+            {reportOptions.map(option => (
+              <div key={option.id} className="report-checkbox-item">
+                <input
+                  type="checkbox"
+                  id={option.id}
+                  value={option.name}
+                  onChange={handleCheckboxChange}
+                />
+                <label htmlFor={option.id}>{option.name}</label>
+              </div>
+            ))}
           </div>
           <div className="report-textarea-group">
             <label htmlFor="additionalInfo" className="report-textarea-label">通報内容の詳細:</label>
