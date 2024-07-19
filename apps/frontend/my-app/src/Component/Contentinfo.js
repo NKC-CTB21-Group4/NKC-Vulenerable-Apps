@@ -12,7 +12,7 @@ function Contentinfo({ src, alt, username, userid, postid, content, imagepath, h
   const currentUserId = user?.id;
   const [isReportOpen, setIsReportOpen] = useState(false);
 
-  const handleClick = async () => {
+  const handleDeleteClick = async () => {
     const confirmDelete = window.confirm("本当にこのポストを削除しますか？");
     if (!confirmDelete) {
       return; // キャンセルされた場合は何もしない
