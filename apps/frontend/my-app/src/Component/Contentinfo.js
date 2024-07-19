@@ -12,14 +12,20 @@ function Contentinfo({ src, alt, username, userid, postid, content, imagepath, h
   const currentUserId = user?.id;
   const [isReportOpen, setIsReportOpen] = useState(false);
 
-  const handleDeleteClick = async () => {
+  const handleClick = async () => {
+    const confirmDelete = window.confirm("本当にこのポストを削除しますか？");
+    if (!confirmDelete) {
+      return; // キャンセルされた場合は何もしない
+    }
+
+
     try {
       await deletePost(postid, userid);
       handleDelete(postid);
       alert('ポストが削除されました');
     } catch (error) {
       alert('ポストの削除に失敗しました');
-    }
+    } 
   };
 
   const handleReportClick = () => {
