@@ -27,6 +27,9 @@ class User implements JsonSerializable
     #[Column(name: 'securePassword', type: 'string', length: 256)]
     private string $securePassword;
 
+    #[Column(name: 'is_private', type: 'boolean')]
+    private bool $isPrivate;
+
     #[Column(name: 'is_admin', type: 'boolean')]
     private bool $isAdmin;
 
@@ -36,11 +39,12 @@ class User implements JsonSerializable
     #[Column(name: 'deleted_at', type: 'datetime', nullable: true)]
     private ?DateTime $deletedAt;
 
-    public function __construct(string $username, string $email, string $password, bool $isAdmin)
+    public function __construct(string $username, string $email, string $password, bool $isPrivate = false, bool $isAdmin = false)
     {
         $this->username = $username;
         $this->email = $email;
         $this->securePassword = password_hash($password,PASSWORD_DEFAULT);
+        $this->isPrivate = $isPrivate;
         $this->isAdmin = $isAdmin;
         $this->registeredAt = new DateTime('now');
         $this->deletedAt = null;
@@ -66,7 +70,6 @@ class User implements JsonSerializable
         $this->isAdmin = $isAdmin;
     }
 
-
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +88,16 @@ class User implements JsonSerializable
     public function getSecurePassword(): string
     {
         return $this->securePassword;
+    }
+
+    public function getIsPrivate(): bool
+    {
+        return $this->isPrivate;
+    }
+
+    public function setIsPrivate(bool $isPrivate): void
+    {
+        $this->isPrivate = $isPrivate;
     }
 
     public function getIsAdmin(): bool
@@ -108,6 +121,7 @@ class User implements JsonSerializable
             'id' => $this->id,
             'email' => $this->email,
             'username' => $this->username,
+            'is_private' => $this->isPrivate,
             'is_admin' => $this->isAdmin,
             'registered_at' => $this->registeredAt->format('Y-m-d H:i:s'),
         ];
