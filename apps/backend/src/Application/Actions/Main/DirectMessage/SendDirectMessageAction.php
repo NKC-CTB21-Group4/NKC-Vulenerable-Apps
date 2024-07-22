@@ -42,7 +42,7 @@ class SendDirectMessageAction extends DirectMessageAction
     }catch(DirectMessageCreationException $e){
       return $this->respondWithData("Message could not be sent. Please check the user and try again.", 400);
     }
-    return $this->respondWithData("Message sent successfully",200);
+    return $this->respondWithData($directMessage,200);
   }
 
   private function validateInputData(array $data): ?Response
