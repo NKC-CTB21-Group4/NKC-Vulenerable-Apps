@@ -6,7 +6,7 @@
     max-height: 25em; /* スクロール可能にする最大の高さを指定 */
   overflow-y: auto; /* 垂直方向のスクロールを有効にする */
   width: 50vw;
-  
+  overflow-x: hidden;
 }
 .postview-container::-webkit-scrollbar {
 width: 0;
