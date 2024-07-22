@@ -39,7 +39,6 @@ function DirectMessage() {
       .then(response => response.json())
       .then(json => setMessages(json.data))
       .catch(error => console.error('Error fetching messages:', error));
-      console.log(messages);
   };
 
   const handleSendMessage = (message) => {
