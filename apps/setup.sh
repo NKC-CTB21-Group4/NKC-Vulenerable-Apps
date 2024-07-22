@@ -1,3 +1,5 @@
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 echo "db初期化"
 docker compose exec backend php vendor/bin/doctrine orm:schema-tool:drop --force
 docker compose exec backend php vendor/bin/doctrine orm:clear-cache:metadata
@@ -9,6 +11,20 @@ rm -f ./backend/assets/content/*
 touch ./backend/assets/avatar/.gitkeep
 touch ./backend/assets/content/.gitkeep
 
+echo "user情報"
+USER1='{"username":"john_doe","email":"john.doe@example.com","password":"password123"}'
+USER2='{"username":"jane_smith","email":"jane.smith@example.com","password":"password456"}'
+USER3='{"username":"admin_user","email":"admin.user@example.com","password":"secureAdminPass"}'
+USER4='{"username":"test_user","email":"test.user@example.com","password":"testPass789"}'
+USER5='{"username":"alice_jones","email":"alice.jones@example.com","password":"alicePass456"}'
+POST1="This is a test post content for post 1."
+POST2="Exploring how to insert test data into a table with SQL."
+POST3="This is a sample post content for post number 3."
+POST4="Another test post content to validate insertion into posts table."
+POST5="Content for the fifth post, used to verify the insertion of multiple records."
+USER_ARRAY=($USER1 $USER2 $USER3 $USER4 $USER5)
+POST_ARRAY=("$POST1" "$POST2" "$POST3" "$POST4" "$POST5")
+echo ${USER_ARRAY[1]}
 echo "user 作成中"
 curl 'http://localhost:8080/users' \
   -H 'Accept: */*' \
@@ -24,7 +40,7 @@ curl 'http://localhost:8080/users' \
   -H 'sec-ch-ua: "Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"' \
   -H 'sec-ch-ua-mobile: ?0' \
   -H 'sec-ch-ua-platform: "Windows"' \
-  --data-raw '{"username":"john_doe","email":"john.doe@example.com","password":"password123"}'
+  --data-raw ${USER_ARRAY[0]}
 
 curl 'http://localhost:8080/users' \
   -H 'Accept: */*' \
@@ -40,7 +56,7 @@ curl 'http://localhost:8080/users' \
   -H 'sec-ch-ua: "Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"' \
   -H 'sec-ch-ua-mobile: ?0' \
   -H 'sec-ch-ua-platform: "Windows"' \
-  --data-raw '{"username":"jane_smith","email":"jane.smith@example.com","password":"password456"}'
+  --data-raw ${USER_ARRAY[1]}
 
 curl 'http://localhost:8080/users' \
   -H 'Accept: */*' \
@@ -56,7 +72,7 @@ curl 'http://localhost:8080/users' \
   -H 'sec-ch-ua: "Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"' \
   -H 'sec-ch-ua-mobile: ?0' \
   -H 'sec-ch-ua-platform: "Windows"' \
-  --data-raw '{"username":"admin_user","email":"admin.user@example.com","password":"secureAdminPass"}'
+  --data-raw ${USER_ARRAY[2]}
 
 curl 'http://localhost:8080/users' \
   -H 'Accept: */*' \
@@ -72,7 +88,7 @@ curl 'http://localhost:8080/users' \
   -H 'sec-ch-ua: "Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"' \
   -H 'sec-ch-ua-mobile: ?0' \
   -H 'sec-ch-ua-platform: "Windows"' \
-  --data-raw '{"username":"test_user","email":"test.user@example.com","password":"testPass789"}'
+  --data-raw ${USER_ARRAY[3]}
 
 curl 'http://localhost:8080/users' \
   -H 'Accept: */*' \
@@ -88,14 +104,36 @@ curl 'http://localhost:8080/users' \
   -H 'sec-ch-ua: "Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"' \
   -H 'sec-ch-ua-mobile: ?0' \
   -H 'sec-ch-ua-platform: "Windows"' \
-  --data-raw '{"username":"alice_jones","email":"alice.jones@example.com","password":"alicePass456"}'
+  --data-raw ${USER_ARRAY[4]}
+
+for ((i = 0; i < ${#USER_ARRAY[@]}; i++)); do 
+  auth_response=$(curl -s -X POST "http://localhost:8080/auth/token" -d ${USER_ARRAY[i]} -H "Content-Type: application/json")
+  token=$(echo $auth_response | jq -r '.data')
+  if [ -z "$token" ]; then
+    echo "Failed to retrieve token for user ${USER_ARRAY[$i]}"
+    continue
+  fi
+  user_id=$((i+1))
+  avatar_endpoint="http://localhost:8080/users/$user_id/avatar" 
+  post_endpoint="http://localhost:8080/users/$user_id/posts"
+  echo "Setting avatar for user ID: $user_id"
+  
+  # 画像のパスを指定
+  user_icon_path="$SCRIPT_DIR/test_images/user$user_id.png"
+  post_image_path="$SCRIPT_DIR/test_images/post$user_id.png"
+  echo $post_image_path
+
+  curl -X POST "$avatar_endpoint" -H "Authorization: Bearer $token" -F "avatar=@$user_icon_path" 
+  curl -X POST "$post_endpoint" -H "Authorization: Bearer $token" -F "image=@$post_image_path" -F "content=${POST_ARRAY[$i]}"
+done
+
 
 # MySQLの設定
 MYSQL_CONTAINER="db"
 MYSQL_USER="main_user"
 MYSQL_PASSWORD="secret"
 MYSQL_DATABASE="main"
-SQL_FILE_PATH="./main.sql"
+SQL_FILE_PATH="$SCRIPT_DIR/main.sql"
 
 
 # SQLファイルの存在確認
