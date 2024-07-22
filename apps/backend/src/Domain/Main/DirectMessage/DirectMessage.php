@@ -101,8 +101,8 @@ class DirectMessage implements JsonSerializable
     {
         return [
             'id' => $this->id,
-            'sender_id' => $this->getSenderId(),
-            'receiver_id' => $this->getReceiverId(),
+            'sender' => $this->getSender(),
+            'receiver' => $this->getReceiver(),
             'message' => $this->message,
             'sent_at' => $this->sentAt->format('Y-m-d H:i:s'),
         ];
