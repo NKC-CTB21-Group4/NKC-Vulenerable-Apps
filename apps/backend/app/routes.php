@@ -117,7 +117,7 @@ return function (App $app) {
         $group->group('/{userId}/posts', function (Group $group) {
             $group->get('',ListUserPostsAction::class);
             $group->post('',CreatePostAction::class)->add(JwtMiddleware::class);
-            $group->get('/{postId}', ViewPostAction::class);
+            $group->get('/{postId}', ViewPostAction::class)->add(JwtMiddleware::class);
             $group->delete('/{postId}',DeletePostAction::class)->add(JwtMiddleware::class);
         });
     });
@@ -135,7 +135,6 @@ return function (App $app) {
             $group->get('/{postId}/reports',ListReportsByPostAction::class)->add(AdminJwtMiddleware::class);
         });
         $group->group('/tags',function(Group $group){
-            $group->get('',ListTagAction::class)->add(AdminJwtMiddleware::class);
             $group->post('',CreateTagAction::class)->add(AdminJwtMiddleware::class);
             $group->delete('/{tagId}',RemoveTagAction::class)->add(AdminJwtMiddleware::class);
         });
@@ -162,6 +161,8 @@ return function (App $app) {
     $app->group('/reports',function(Group $group){
         $group->post('/{userId}/{postId}',SendReportAction::class);
     })->add(JwtMiddleware::class);
+
+    $app->get('/tags',ListTagAction::class);
     
     // challenges用のAPIエンドポイント
     $app->group('/challenges/api', function (Group $group) {

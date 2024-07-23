@@ -3,6 +3,7 @@
 }
 .header-posts-container{
     flex-direction: column;
+    width: 50vw;
 }
 
 .App-header {

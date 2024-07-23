@@ -22,10 +22,10 @@ interface PostRepository
 
     /**
      * @param User $user
-     * @return array
+     * @return Post[]
      * @throws PostNotFoundException
      */
-    public function findPostOfUser(User $User): array;
+    public function findPostOfUser(User $user): array;
     
 
     /**
@@ -34,6 +34,28 @@ interface PostRepository
      * @throws PostNotFoundException
      */
     public function findPostOfId(int $id): Post;
+
+    // /**
+    //  * @param User $User, int $userId
+    //  * @return Post
+    //  * @throws PostNotFoundException
+    //  */
+    // public function findAllPublicPosts(User $User, int $userId): Post;
+
+    // /**
+    //  * @param User, $User, int $userId
+    //  * @return Post
+    //  * @throws PostNotFoundException
+    //  */
+    // public function findPostOfPublicUser(User $User, int $userId): Post;
+
+    /**
+     * @param int $postId
+     * @param int $userId
+     * @return Post|null
+     * @throws PostNotFoundException
+     */
+    public function findPublicPostOfId(int $postId, int $userId): ?Post;
 
     /**
      * @param Post $post

@@ -9,6 +9,7 @@ use App\Domain\Main\Post\Post;
 use App\Domain\Main\User\User;
 use App\Domain\Main\Post\PostRepository;
 use App\Domain\Main\Post\PostNotFoundException;
+use App\Domain\Main\User\UserPrivated;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -19,7 +20,7 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
 
   public function __construct(EntityManager $entityManager)
   {
-    $this->entityManger = $entityManager;
+    $this->entityManager = $entityManager;
     parent::__construct($entityManager, $entityManager->getClassMetadata(Post::class));
   }
 
@@ -41,6 +42,20 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
     });
   }
 
+  // public function findAllPublicPosts(User $User, int $userId): Post
+  // {
+  //   $user = $this->_em->getRpository(User::class)->find($userId);
+  //   $privateId->getisPrivate($user);
+
+  //   if($privateId === true){
+  //     return null; 
+  //   }
+
+  //   return array_filter(parent::findAll(),function($post) {
+  //     return !$this->isDeleted($post);
+  //   });
+  // }
+
   public function findPostOfUser(User $user):array{
     $queryBuilder = $this->createQueryBuilder('p')
         ->andWhere('p.author = :user')
@@ -61,6 +76,30 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
     }
 
     return $post;
+  }
+
+  public function findPublicPostOfId(int $postId, int $userId): ?Post
+  {
+     $userRepository = $this->_em->getRepository(User::class);
+        $user = $userRepository->find($userId);
+
+        if ($user === null) {
+            throw new PostNotFoundException('User not found');
+        }
+
+        $isPrivate = $user->getIsPrivate();
+
+        if ($isPrivate) {
+            return null;
+        }
+
+        $post = parent::find((string) $postId);
+
+        if ($post === null || $this->isDeleted($post)) {
+            throw new PostNotFoundException();
+        }
+
+        return $post;
   }
 
   public function create(Post $post):Post

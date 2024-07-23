@@ -29,9 +29,8 @@ function DirectMessage() {
 
   const handleUserSelect = (selectedUser) => {
     setSelectedUser(selectedUser);
-    const senderid = selectedUser.sender_id;
-    const receiverid = selectedUser.receiver_id;
-    console.log(selectedUser);
+    const senderid = selectedUser.sender.id;
+    const receiverid = selectedUser.receiver.id;
     fetch(`http://localhost:8080/direct-message/${userid}/${userid === receiverid ? senderid : receiverid}`,{
         headers:{
             "Authorization": "Bearer " + localStorage.getItem('authToken')
@@ -43,8 +42,8 @@ function DirectMessage() {
   };
 
   const handleSendMessage = (message) => {
-    const receiverid = selectedUser.receiver_id;
-    const senderid = selectedUser.sender_id;
+    const receiverid = selectedUser.receiver.id;
+    const senderid = selectedUser.sender.id;
     fetch(`http://localhost:8080/direct-message/${userid}/${userid === receiverid ? senderid : receiverid}`, {
         method: 'POST',
         headers: {
@@ -55,7 +54,7 @@ function DirectMessage() {
       })
       .then(response => response.json())
       .then(json => {
-        setMessages(prevMessages => [...prevMessages, { sender_id: userid, receiver_id: userid === receiverid ? senderid : receiverid, message, sent_at: new Date().toISOString() }]);
+        setMessages(prevMessages => [...prevMessages, { sender: json.data.sender, receiver:json.data.receiver, message, sent_at: new Date().toISOString() }]);
       })
       .catch(error => console.error('Error sending message:', error));
   };
