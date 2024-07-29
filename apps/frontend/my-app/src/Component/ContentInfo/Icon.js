@@ -1,5 +1,5 @@
 import React from 'react';
-import './Icon.css'; // CSSファイルをインポート
+import './css/Icon.css'; // CSSファイルをインポート
 
 function Icon({ src, alt = "User Icon" }) {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Linkicon.css'; // CSSファイルをインポート
+import './css/Linkicon.css'; // CSSファイルをインポート
 
 function Linkicon({ src, alt, to, text, onClick }) {
   return (

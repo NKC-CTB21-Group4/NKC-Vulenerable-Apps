@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import AuthContext from '../Utils/AuthProvider';
+import AuthContext from '../../Utils/AuthProvider';
 import {Link} from 'react-router-dom';
 
 function UserList({ users, onUserSelect }) {

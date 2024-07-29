@@ -1,8 +1,8 @@
 import React from 'react';
-import './Linkview.css'; // CSSファイルをインポート
+import './css/Linkview.css'; // CSSファイルをインポート
 import Linkicon from './Linkicon';
-import PostCreateButton from './PostCreateButton';
-import ThreePointLeader from './ThreePointLeader';
+import PostCreateButton from '../PostCreateButton';
+import ThreePointLeader from '../ThreePointLeader';
 
 function Linkview({ links,onLinkClick }) {
   return (
