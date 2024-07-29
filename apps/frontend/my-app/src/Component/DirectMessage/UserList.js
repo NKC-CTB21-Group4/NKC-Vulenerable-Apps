@@ -11,7 +11,7 @@ function UserList({ users, onUserSelect }) {
     <div className="direct-message-user-list">
       {users.map((user) => (
         <div key={user.id} onClick={() => onUserSelect(user)} className="direct-message-user">
-           <strong>ユーザー{userid === user.receiver_id ? user.sender_id : user.receiver_id}</strong><br></br>
+           <strong>{userid === user.receiver.id ? user.sender.username : user.receiver.username}</strong><br></br>
            <strong>{user.message.substring(0, 5)}...</strong>
         </div>
       ))}
