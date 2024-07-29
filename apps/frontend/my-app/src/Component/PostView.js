@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import './PostView.css'; // CSSファイルをインポート
-import Contentinfo from './Contentinfo';
+import './css/PostView.css'; // CSSファイルをインポート
+import Contentinfo from './ContentInfo/Contentinfo';
 
 function PostView({ searchKeyword }) {
   const [posts, setPosts] = useState([]);

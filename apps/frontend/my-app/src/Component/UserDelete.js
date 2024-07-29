@@ -1,7 +1,7 @@
 // UserDelete.js
 import React, { useState, useEffect, useContext } from 'react';
 import AuthContext from '../Utils/AuthProvider';
-import './UserDelete.css';
+import './css/UserDelete.css';
 
 const UserDelete = ({ userId }) => {
   const [email, setEmail] = useState('');

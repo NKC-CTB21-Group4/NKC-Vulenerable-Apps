@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Logout.css';
+import './css/Logout.css';
 
 const Logout = () => {
   const [message, setMessage] = useState('');

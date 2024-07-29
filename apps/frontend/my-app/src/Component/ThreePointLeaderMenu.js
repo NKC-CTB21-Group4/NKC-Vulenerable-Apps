@@ -1,7 +1,7 @@
 // MenuContent.js
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './ThreePointLeaderMenu.css';
+import './css/ThreePointLeaderMenu.css';
 
 const MenuContent = ({ isOpen }) => {
   useEffect(() => {

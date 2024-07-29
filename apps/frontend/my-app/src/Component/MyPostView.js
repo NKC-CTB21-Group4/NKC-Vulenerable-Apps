@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './MyPostView.css'; // CSSファイルをインポート
-import Contentinfo from './Contentinfo';
+import './css/MyPostView.css'; // CSSファイルをインポート
+import Contentinfo from './ContentInfo/Contentinfo';
 import AuthContext from '../Utils/AuthProvider';
 
 function MyPostView({ searchKeyword }) { // デフォルト値として空の配列を設定
