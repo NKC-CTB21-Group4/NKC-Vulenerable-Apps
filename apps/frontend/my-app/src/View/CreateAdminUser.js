@@ -1,8 +1,8 @@
 // CreateUser.js
 
 import React, { useState } from 'react';
-import './CreateUser.css';
-import { Navigate, useNavigate } from 'react-router-dom';
+import './css/CreateUser.css';
+import {useNavigate } from 'react-router-dom';
 
 const CreateAdminUser = () => {
   const [username, setUsername] = useState('');

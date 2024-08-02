@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import './ReportPost.css'; // CSSファイルを作成してインポート
+import './css/ReportPost.css'; // CSSファイルを作成してインポート
 import AuthContext from '../Utils/AuthProvider';
 
 function ReportPost({ postid, onClose }) {

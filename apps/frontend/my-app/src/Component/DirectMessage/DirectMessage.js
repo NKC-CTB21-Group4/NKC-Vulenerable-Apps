@@ -2,8 +2,8 @@ import React, { useContext, useState, useEffect } from 'react';
 import UserList from './UserList';
 import MessageList from './MessageList.js';
 import MessageInput from './MessageInput';
-import './DirectMessage.css';
-import AuthContext from '../Utils/AuthProvider.jsx';
+import './css/DirectMessage.css';
+import AuthContext from '../../Utils/AuthProvider.jsx';
 
 function DirectMessage() {
   const [selectedUser, setSelectedUser] = useState(null);

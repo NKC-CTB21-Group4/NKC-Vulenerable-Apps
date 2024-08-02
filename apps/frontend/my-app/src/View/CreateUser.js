@@ -2,7 +2,7 @@
 
 import React, { useState ,useContext,useEffect} from 'react';
 import AuthContext from '../Utils/AuthProvider';
-import './CreateUser.css';
+import './css/CreateUser.css';
 import {useNavigate} from 'react-router-dom';
 
 const CreateUser = () => {

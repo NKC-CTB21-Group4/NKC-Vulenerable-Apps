@@ -1,14 +1,12 @@
 // UserDelete.js
-import React, { useState, useEffect, useContext } from 'react';
-import AuthContext from '../Utils/AuthProvider';
-import './UserDelete.css';
+import React, { useState, useEffect} from 'react';
+import './css/UserDelete.css';
 
 const UserDelete = ({ userId }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [authSuccess, setAuthSuccess] = useState(false);
   const [authError, setAuthError] = useState('');
-  const {setUser, setIsAuthenticated, setIsAdmin} = useContext(AuthContext);
 
   useEffect(() => {
     const userDeleteModalBtn = document.querySelector("#user-delete-modalBtn");
@@ -50,12 +48,9 @@ const UserDelete = ({ userId }) => {
         throw new Error('認証に失敗しました');
       }
 
-      const responseData = await response.json();
-      console.log('認証成功:', responseData);
       setAuthSuccess(true);
       setAuthError('');
     } catch (error) {
-      console.error('認証エラー:', error.message);
       setAuthSuccess(false);
       setAuthError('認証に失敗しました。もう一度試してください。');
     }
@@ -72,16 +67,13 @@ const UserDelete = ({ userId }) => {
 
       if (response.ok) {
         localStorage.removeItem('authToken');
-        setIsAuthenticated(false);
-        setIsAdmin(false);
-        setUser({});
       }
       else if(!response.ok){
         throw new Error('ユーザー削除に失敗しました');
       }
 
-      console.log('ユーザー削除成功');
       document.querySelector("#user-delete-dialog").close();
+      window.location.href = '/';
     } catch (error) {
       console.error('削除エラー:', error.message);
     }
