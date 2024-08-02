@@ -2,42 +2,34 @@ import React, { useContext, useEffect, useState } from 'react';
 import './css/MyPostView.css'; // CSSファイルをインポート
 import Contentinfo from './ContentInfo/Contentinfo';
 import AuthContext from '../Utils/AuthProvider';
+import { FetchPosts } from '../api/post';
 
 function MyPostView({ searchKeyword }) { // デフォルト値として空の配列を設定
   const [posts, setPosts] = useState([]); 
   const { user } = useContext(AuthContext);
   const userid = user?.id;
+  const { data, error, mutate } = FetchPosts(`http://localhost:8080/users/${userid}/posts`);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      if(!userid)return;
-      try {
-        const response = await fetch(`http://localhost:8080/users/${userid}/posts`);
-        const json = await response.json();
-        const mypostarray = Object.values(json.data).reverse(); // 逆順にソート
-        setPosts(mypostarray);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      }
-    };
+  // データが取得できたときに、postsステートを更新
+  if (data && posts.length === 0) {
+    const postArray = Object.values(data.data).reverse();
+    setPosts(postArray);
+  }
 
-    fetchPosts();
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
 
-    // newPostイベントをリスン
-    const handleNewPost = (event) => {
-      setPosts((prevPosts) => [event.detail, ...prevPosts]);
-    };
+  const handleNewPost = (event) => {
+    setPosts((prevPosts) => [event.detail, ...prevPosts]);
+  };
 
-    window.addEventListener('newPost', handleNewPost);
-
-    // クリーンアップ
-    return () => {
-      window.removeEventListener('newPost', handleNewPost);
-    };
-  }, []);
+  window.addEventListener('newPost', handleNewPost);
 
   const handleDelete = (postid) => {
+    // 状態を手動で更新
     setPosts(posts.filter((post) => post.id !== postid));
+    // mutate関数でサーバーから最新のデータを取得
+    mutate();
   };
 
   const filteredPosts = posts.filter(post => 
