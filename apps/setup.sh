@@ -43,7 +43,6 @@ CREATE USER 'challenges_user'@'%' IDENTIFIED BY 'secret';
 GRANT ALL PRIVILEGES ON $DATABASE1.* TO 'challenges_user'@'%';
 FLUSH PRIVILEGES;
 "
-
 # 'main' データベースのユーザ作成と権限付与
 echo "Setting up user 'main_user' for database '$DATABASE2'..."
 docker compose exec -T db mysql -u$MYSQL_USER -p$MYSQL_PASSWORD -e "
@@ -204,3 +203,16 @@ docker compose exec $MYSQL_CONTAINER sh -c "echo 'password=$MYSQL_PASSWORD' >> /
 docker compose exec -T $MYSQL_CONTAINER mysql --defaults-extra-file=/root/.my.cnf $MYSQL_DATABASE < $SQL_FILE_PATH
 
 docker compose exec -T backend php testData.php
+
+# MySQLの設定
+MYSQL_CONTAINER="db"
+MYSQL_USER="challenges_user"
+MYSQL_PASSWORD="secret"
+MYSQL_DATABASE="challenges"
+SQL_FILE_PATH="$SCRIPT_DIR/challenges.sql"
+
+docker compose exec $MYSQL_CONTAINER sh -c "echo '[client]' > /root/.my.cnf"
+docker compose exec $MYSQL_CONTAINER sh -c "echo 'user=$MYSQL_USER' >> /root/.my.cnf"
+docker compose exec $MYSQL_CONTAINER sh -c "echo 'password=$MYSQL_PASSWORD' >> /root/.my.cnf"
+
+docker compose exec -T $MYSQL_CONTAINER mysql --defaults-extra-file=/root/.my.cnf $MYSQL_DATABASE < $SQL_FILE_PATH
