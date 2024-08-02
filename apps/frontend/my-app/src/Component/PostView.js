@@ -1,38 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './css/PostView.css'; // CSSファイルをインポート
 import Contentinfo from './ContentInfo/Contentinfo';
+import {FetchPosts} from '../api/post';
 
 function PostView({ searchKeyword }) {
   const [posts, setPosts] = useState([]);
+  const { data, error, mutate } = FetchPosts('http://localhost:8080/posts');
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch(`http://localhost:8080/posts`);
-        const json = await response.json();
-        const postarray = Object.values(json.data).reverse(); // 逆順にソート
-        setPosts(postarray);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      }
-    };
-    fetchPosts();
+  // データが取得できたときに、postsステートを更新
+  if (data && posts.length === 0) {
+    const postArray = Object.values(data.data).reverse();
+    setPosts(postArray);
+  }
 
-    // newPostイベントをリスン
-    const handleNewPost = (event) => {
-      setPosts((prevPosts) => [event.detail, ...prevPosts]);
-    };
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
 
-    window.addEventListener('newPost', handleNewPost);
+  const handleNewPost = (event) => {
+    setPosts((prevPosts) => [event.detail, ...prevPosts]);
+  };
 
-    // クリーンアップ
-    return () => {
-      window.removeEventListener('newPost', handleNewPost);
-    };
-  }, []);
+  window.addEventListener('newPost', handleNewPost);
 
   const handleDelete = (postid) => {
+    // 状態を手動で更新
     setPosts(posts.filter((post) => post.id !== postid));
+    // mutate関数でサーバーから最新のデータを取得
+    mutate();
   };
 
   const filteredPosts = posts.filter(post => 
@@ -45,7 +39,7 @@ function PostView({ searchKeyword }) {
       {filteredPosts.map((post) => (
         <Contentinfo
           key={post.id}
-          src={`http://localhost:8080/users/${post.author_id}/avatar`} // srcとaltはUserinfoコンポーネントが使っている場合に設定
+          src={`http://localhost:8080/users/${post.author_id}/avatar`} 
           alt=""
           username={post.author_name}
           userid={post.author_id}
