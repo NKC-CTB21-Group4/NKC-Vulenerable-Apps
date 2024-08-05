@@ -15,15 +15,21 @@ function MyPostView({ searchKeyword }) { // デフォルト値として空の配
     const postArray = Object.values(data.data).reverse();
     setPosts(postArray);
   }
+  
+  useEffect(() => {
+    const handleNewPost = (event) => {
+      setPosts((prevPosts) => [event.detail, ...prevPosts]);
+    };
+
+    window.addEventListener('newPost', handleNewPost);
+
+    return () => {
+      window.removeEventListener('newPost', handleNewPost);
+    };
+  }, []);
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
-
-  const handleNewPost = (event) => {
-    setPosts((prevPosts) => [event.detail, ...prevPosts]);
-  };
-
-  window.addEventListener('newPost', handleNewPost);
 
   const handleDelete = (postid) => {
     // 状態を手動で更新
