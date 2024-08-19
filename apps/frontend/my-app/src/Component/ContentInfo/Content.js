@@ -1,5 +1,5 @@
 import React from 'react';
-import './Content.css'; // CSS ファイルをインポート
+import './css/Content.css'; // CSS ファイルをインポート
 
 function Content({ content,imagepath }) {
   return (

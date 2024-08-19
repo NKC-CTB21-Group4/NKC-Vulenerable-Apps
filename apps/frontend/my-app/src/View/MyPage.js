@@ -1,6 +1,6 @@
 import React,{useContext,useEffect,useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import './MyPage.css'; // CSSファイルをインポート
+import './css/MyPage.css'; // CSSファイルをインポート
 import LinkiconHome from '../images/tegakihome.png';
 import LinkiconBell from '../images/tegakibell.png';
 import LinkiconMassage from '../images/tegakimessage.png';
@@ -10,7 +10,7 @@ import LinkiconLogin from '../images/tegakilogin.png';
 import LinkiconCreateUser from '../images/tegakicreateuser.png';
 import LinkiconLogout from '../images/tegakilogout.png';
 import LinkiconApp from '../images/tegakiappicon.png';
-import Linkview from '../Component/Linkview';
+import Linkview from '../Component/LinkView/Linkview';
 import MyPostview from '../Component/MyPostView';
 import Header from '../Component/Header';
 import AuthContext from '../Utils/AuthProvider';
@@ -54,13 +54,13 @@ function MyPage() {
     {
       src: Linkiconbutton,
       alt: 'Linkicon1',
-      to: '/mypage',
+      to: '/',
       text: "通報"
     },
     {
       src: LinkiconBell,
       alt: 'Linkicon4',
-      to: 'Mypage',
+      to: '',
       text: "通知"
     },
     {

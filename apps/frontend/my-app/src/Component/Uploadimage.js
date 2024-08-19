@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import './Uploadimage.css'; // CSSファイルをインポート
+import './css/Uploadimage.css'; // CSSファイルをインポート
 import AuthContext from '../Utils/AuthProvider';
 
 const Uploadimage = () => {

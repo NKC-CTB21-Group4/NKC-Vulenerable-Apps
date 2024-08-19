@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Logout.css';
+import './css/Logout.css';
 
 const Logout = () => {
   const [message, setMessage] = useState('');
@@ -42,11 +42,14 @@ const Logout = () => {
         document.querySelector("#logout-dialog").close();
         window.location.href = '/';
       } else {
-        setMessage('Logout failed');
+        localStorage.removeItem('authToken');
+        setMessage('Logout successful');
+        document.querySelector("#logout-dialog").close();
+        window.location.href = '/';
       }
     } catch (error) {
       console.error('Logout failed:', error);
-      setMessage('Logout failed');
+      localStorage.removeItem('authToken');
     }
   };
 

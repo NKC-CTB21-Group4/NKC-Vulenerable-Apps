@@ -1,15 +1,67 @@
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
+# MySQLの接続情報
+MYSQL_USER="root"
+MYSQL_PASSWORD=""
+MYSQL_HOST="db" # またはDocker内のホスト名
+MYSQL_PORT="3306"
+
+# データベース名
+DATABASE1="challenges"
+DATABASE2="main"
+
+# データベースの存在確認クエリ
+CHECK_DB_EXIST_QUERY="SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME IN ('$DATABASE1', '$DATABASE2');"
+
+# データベースの存在確認
+EXISTING_DBS=$(docker compose exec -T db mysql -u$MYSQL_USER -p$MYSQL_PASSWORD -e "$CHECK_DB_EXIST_QUERY" -N)
+
+# デバッグのための出力
+echo "Existing databases: $EXISTING_DBS"
+
+# データベースが存在しない場合にのみ作成
+if [[ ! $EXISTING_DBS == *"$DATABASE1"* ]]; then
+    echo "Creating database $DATABASE1..."
+    docker compose exec -T db mysql -u$MYSQL_USER -p$MYSQL_PASSWORD -e "CREATE DATABASE $DATABASE1;"
+else
+    echo "Database $DATABASE1 already exists."
+fi
+
+if [[ ! $EXISTING_DBS == *"$DATABASE2"* ]]; then
+    echo "Creating database $DATABASE2..."
+    docker compose exec -T db mysql -u$MYSQL_USER -p$MYSQL_PASSWORD -e "CREATE DATABASE $DATABASE2;"
+else
+    echo "Database $DATABASE2 already exists."
+fi
+
+# 'challenges' データベースのユーザ作成と権限付与
+echo "Setting up user 'challenges_user' for database '$DATABASE1'..."
+docker compose exec -T db mysql -u$MYSQL_USER -p$MYSQL_PASSWORD -e "
+USE $DATABASE1;
+CREATE USER 'challenges_user'@'%' IDENTIFIED BY 'secret';
+GRANT ALL PRIVILEGES ON $DATABASE1.* TO 'challenges_user'@'%';
+FLUSH PRIVILEGES;
+"
+
+# 'main' データベースのユーザ作成と権限付与
+echo "Setting up user 'main_user' for database '$DATABASE2'..."
+docker compose exec -T db mysql -u$MYSQL_USER -p$MYSQL_PASSWORD -e "
+USE $DATABASE2;
+CREATE USER 'main_user'@'%' IDENTIFIED BY 'secret';
+GRANT ALL PRIVILEGES ON $DATABASE2.* TO 'main_user'@'%';
+FLUSH PRIVILEGES;
+"
+
 echo "db初期化"
 docker compose exec backend php vendor/bin/doctrine orm:schema-tool:drop --force
 docker compose exec backend php vendor/bin/doctrine orm:clear-cache:metadata
 docker compose exec backend php vendor/bin/doctrine orm:schema-tool:create
 
 echo "assets初期化"
-rm -f ./backend/assets/avatar/*
-rm -f ./backend/assets/content/*
-touch ./backend/assets/avatar/.gitkeep
-touch ./backend/assets/content/.gitkeep
+rm -f $SCRIPT_DIR/backend/assets/avatar/*
+rm -f $SCRIPT_DIR/backend/assets/content/*
+touch $SCRIPT_DIR/backend/assets/avatar/.gitkeep
+touch $SCRIPT_DIR/backend/assets/content/.gitkeep
 
 echo "user情報"
 USER1='{"username":"john_doe","email":"john.doe@example.com","password":"password123"}'

@@ -1,5 +1,5 @@
 import React from 'react';
-import './Userinfo.css'; // CSSファイルをインポート
+import './css/Userinfo.css'; // CSSファイルをインポート
 import Username from './Username'; // Usernameコンポーネントのインポート
 import Userid from './Userid'; // Useridコンポーネントのインポート
 import Icon from './Icon'; // Iconコンポーネントのインポート

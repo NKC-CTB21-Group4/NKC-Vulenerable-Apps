@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import './Search.css';
+import './css/Search.css';
 import tegakisearch from '../images/tegakisearch.png';
 import tegakiclear from '../images/tegakiclear.png'; // クリアアイコンのパスをインポート
 

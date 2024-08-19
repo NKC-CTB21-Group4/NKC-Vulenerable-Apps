@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import AuthContext from '../Utils/AuthProvider';
+import AuthContext from '../../Utils/AuthProvider';
 
 
 const AdminDeleteUserButton = ({ rowId ,onDelete}) => {

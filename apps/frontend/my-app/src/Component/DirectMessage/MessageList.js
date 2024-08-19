@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import './MessageList.css';
+import './css/MessageList.css';
 
 function MessageList({ messages, currentUserid }) {
   const messageEndRef = useRef(null);

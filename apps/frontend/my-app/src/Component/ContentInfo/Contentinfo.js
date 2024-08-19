@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
-import './Contentinfo.css'; // CSSファイルをインポート
+import './css/Contentinfo.css'; // CSSファイルをインポート
 import Userinfo from './Userinfo';
 import Content from './Content';
 import Fav from './Fav';
-import deletePost from './DeletePost';
-import AuthContext from '../Utils/AuthProvider';
-import ReportPost from './ReportPost';
+import deletePost from '../DeletePost';
+import AuthContext from '../../Utils/AuthProvider';
+import ReportPost from '../ReportPost';
 
 function Contentinfo({ src, alt, username, userid, postid, content, imagepath, handleDelete }) {
   const { user } = useContext(AuthContext);
