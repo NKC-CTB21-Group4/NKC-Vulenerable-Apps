@@ -17,6 +17,11 @@ interface PostRepository
     /**
      * @return Post[]
      */
+    public function fundAllPublicPosts(): array;
+
+    /**
+     * @return Post[]
+     */
     public function getRecommendedPosts():array;
 
 
@@ -35,27 +40,13 @@ interface PostRepository
      */
     public function findPostOfId(int $id): Post;
 
-    // /**
-    //  * @param User $User, int $userId
-    //  * @return Post
-    //  * @throws PostNotFoundException
-    //  */
-    // public function findAllPublicPosts(User $User, int $userId): Post;
-
-    // /**
-    //  * @param User, $User, int $userId
-    //  * @return Post
-    //  * @throws PostNotFoundException
-    //  */
-    // public function findPostOfPublicUser(User $User, int $userId): Post;
-
     /**
      * @param int $postId
      * @param int $userId
      * @return Post|null
      * @throws PostNotFoundException
      */
-    public function findPublicPostOfId(int $postId, int $userId): ?Post;
+    public function findPublicPostOfId(int $postId, int $userId, bool $isMutualFollower): ?Post;
 
     /**
      * @param Post $post
