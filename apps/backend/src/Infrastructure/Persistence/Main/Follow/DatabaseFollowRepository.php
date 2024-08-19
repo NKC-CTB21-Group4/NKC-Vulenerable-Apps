@@ -9,6 +9,7 @@ use App\Domain\Main\User\User;
 use App\Domain\Main\Follow\Follow;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use App\Domain\Main\Follow\FollowerNotFoundException;
 use App\Domain\Main\Follow\FollowedNotFoundException;
 use App\Domain\Main\Follow\FollowerCreateFailedException;
