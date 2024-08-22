@@ -3,9 +3,10 @@ import './css/Contentinfo.css'; // CSSファイルをインポート
 import Userinfo from './Userinfo';
 import Content from './Content';
 import Fav from './Fav';
-import deletePost from '../DeletePost';
+import { DeletePost } from '../../api/post';
 import AuthContext from '../../Utils/AuthProvider';
 import ReportPost from '../ReportPost';
+
 
 function Contentinfo({ src, alt, username, userid, postid, content, imagepath, handleDelete }) {
   const { user } = useContext(AuthContext);
@@ -17,10 +18,8 @@ function Contentinfo({ src, alt, username, userid, postid, content, imagepath, h
     if (!confirmDelete) {
       return; // キャンセルされた場合は何もしない
     }
-
-
     try {
-      await deletePost(postid, userid);
+      await DeletePost(postid, userid);
       handleDelete(postid);
       alert('ポストが削除されました');
     } catch (error) {
