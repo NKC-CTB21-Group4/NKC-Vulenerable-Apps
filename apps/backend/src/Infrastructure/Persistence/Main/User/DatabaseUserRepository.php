@@ -52,8 +52,8 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
         $this->save($user);
         return $user;
     }
-
-    public function privateToggleUser(int $userId, bool $isPrivate):User 
+//setisprivateflag
+    public function setisprivateflag(int $userId, bool $isPrivate):User 
     {
         $user = $this->_em->getRepository(User::class)->find($userId);
         
