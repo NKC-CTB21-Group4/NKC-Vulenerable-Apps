@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import './css/MyPostView.css'; // CSSファイルをインポート
 import Contentinfo from './ContentInfo/Contentinfo';
 import AuthContext from '../Utils/AuthProvider';
-import { FetchPosts } from '../api/post';
+import { useFetchPosts } from '../api/post';
 
 function MyPostView({ searchKeyword }) { // デフォルト値として空の配列を設定
   const [posts, setPosts] = useState([]); 
   const { user } = useContext(AuthContext);
   const userid = user?.id;
-  const { data, error, mutate } = FetchPosts(`http://localhost:8080/users/${userid}/posts`);
+  const { data, error, mutate } = useFetchPosts(`http://localhost:8080/users/${userid}/posts`);
 
   // データが取得できたときに、postsステートを更新
   if (data && posts.length === 0) {
@@ -31,11 +31,11 @@ function MyPostView({ searchKeyword }) { // デフォルト値として空の配
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
-  const handleDelete = (postid) => {
+  const handleDelete = async (postid) => {
     // 状態を手動で更新
     setPosts(posts.filter((post) => post.id !== postid));
     // mutate関数でサーバーから最新のデータを取得
-    mutate();
+    await mutate(`http://localhost:8080/users/${userid}/posts`);
   };
 
   const filteredPosts = posts.filter(post => 

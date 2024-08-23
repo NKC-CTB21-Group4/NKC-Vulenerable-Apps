@@ -1,7 +1,7 @@
 import React, { useState, useContext,useEffect } from 'react';
 import './css/Fav.css';
 import AuthContext from '../../Utils/AuthProvider';
-import { useFetchFavs,ClickFavorites } from '../../api/post';
+import { useFetchFavorites,clickFavorites } from '../../api/post';
 
 function Fav({ postid }) {
   const [favorites, setFavorites] = useState({ fav: 0, clicked: false });
@@ -11,7 +11,7 @@ function Fav({ postid }) {
   const userid = user.id;
 
   // fetchFavs 関数を使用してお気に入りデータを取得
-  const { data, error: fetchError, mutate } = useFetchFavs(
+  const { data, error: fetchError, mutate } = useFetchFavorites(
     postid ? `http://localhost:8080/favorite/posts/${postid}` : null
   );
 
@@ -32,7 +32,7 @@ function Fav({ postid }) {
     setError(null);
     setisLoading(true); // ローディング開始
     try {
-        const responseData  = await ClickFavorites(`http://localhost:8080/favorite/posts/${postid}`);
+        const responseData  = await clickFavorites(`http://localhost:8080/favorite/posts/${postid}`);
       setFavorites({
         fav: responseData.data ? favorites.fav + 1 : favorites.fav - 1,
         clicked: responseData.data,

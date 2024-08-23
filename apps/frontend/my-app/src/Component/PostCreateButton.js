@@ -3,7 +3,7 @@ import './css/PostCreateButton.css'; // スタイリング用のCSSファイル�
 import AuthContext from '../Utils/AuthProvider';
 import tegakiwrite from '../images/tegakiwrite.png'; // 画像ファイルをインポート
 import tegakiimage from '../images/tegakiimage.png';
-import { CreatePosts } from '../api/post';
+import { createPost } from '../api/post';
 
 const PostCreateButton = () => {
   const [content, setContent] = useState(''); // テキストエリアの内容を保持する状態
@@ -50,8 +50,7 @@ const PostCreateButton = () => {
         formData.append('image', image);
       }
 
-      const responseData = await CreatePosts(url,formData);
-      console.log(responseData);
+      const responseData = await createPost(url,formData);
       if (responseData.statusCode != 201) {
         throw new Error('投稿の作成に失敗しました');
       }
