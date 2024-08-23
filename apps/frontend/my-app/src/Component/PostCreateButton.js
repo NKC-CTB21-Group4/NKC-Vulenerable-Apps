@@ -3,6 +3,7 @@ import './css/PostCreateButton.css'; // スタイリング用のCSSファイル�
 import AuthContext from '../Utils/AuthProvider';
 import tegakiwrite from '../images/tegakiwrite.png'; // 画像ファイルをインポート
 import tegakiimage from '../images/tegakiimage.png';
+import { createPost } from '../api/post';
 
 const PostCreateButton = () => {
   const [content, setContent] = useState(''); // テキストエリアの内容を保持する状態
@@ -49,28 +50,18 @@ const PostCreateButton = () => {
         formData.append('image', image);
       }
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-        },
-        body: formData,
-      });
-
-      if (!response.ok) {
+      const responseData = await createPost(url,formData);
+      if (responseData.statusCode != 201) {
         throw new Error('投稿の作成に失敗しました');
       }
 
-      const responseJson = await response.json();
-
-      const event = new CustomEvent('newPost', { detail: responseJson.data });
+      const event = new CustomEvent('newPost', { detail: responseData.data });
       window.dispatchEvent(event);
 
       // 成功した投稿後にテキストエリアと画像ファイルをクリア
       setContent('');
       setImage(null);
       setImagePreview(null);
-
       const postCreateDialog = document.querySelector("#post-create-dialog");
       postCreateDialog.close();
     } catch (error) {

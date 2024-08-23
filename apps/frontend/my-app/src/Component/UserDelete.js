@@ -1,6 +1,7 @@
 // UserDelete.js
 import React, { useState, useEffect} from 'react';
 import './css/UserDelete.css';
+import { deleteUser,getAuth } from '../api/user';
 
 const UserDelete = ({ userId }) => {
   const [email, setEmail] = useState('');
@@ -33,21 +34,11 @@ const UserDelete = ({ userId }) => {
 
   const handleAuthenticate = async () => {
     try {
-      const response = await fetch('http://localhost:8080/auth/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-
-      if (!response.ok) {
+      const response = await getAuth('http://localhost:8080/auth/token',email,password);
+      console.log(response);
+      if (response.statusCode !== 200) {
         throw new Error('認証に失敗しました');
       }
-
       setAuthSuccess(true);
       setAuthError('');
     } catch (error) {
@@ -58,14 +49,8 @@ const UserDelete = ({ userId }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/users/${userId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-        },
-      });
-
-      if (response.ok) {
+      const response = await deleteUser(`http://localhost:8080/users/${userId}`);
+      if (response.status == 200) {
         localStorage.removeItem('authToken');
       }
       else if(!response.ok){

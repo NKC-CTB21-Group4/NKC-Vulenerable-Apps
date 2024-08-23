@@ -1,66 +1,51 @@
 import React, { useState, useEffect, useContext } from 'react';
-import './css/ReportPost.css'; // CSSファイルを作成してインポート
+import './css/ReportPost.css';
 import AuthContext from '../Utils/AuthProvider';
+import { useFetchTags, reportPosts } from '../api/report';
 
 function ReportPost({ postid, onClose }) {
-  const [reportOptions, setReportOptions] = useState([]); // APIから取得する通報内容
-  const [selectedIds, setSelectedIds] = useState([]); // 選択されたID
-  const [additionalInfo, setAdditionalInfo] = useState(""); // テキストエリアの状態
+  const [reportOptions, setReportOptions] = useState([]); // 通報内容の選択肢
+  const [selectedIds, setSelectedIds] = useState([]); // 選択された通報内容のID
+  const [additionalInfo, setAdditionalInfo] = useState(''); // テキストエリアの入力内容
   const { user } = useContext(AuthContext);
   const userid = user.id;
 
-  // APIから通報内容のデータを取得する
+  // タグの取得
+  const { data: fetchedTags, error } = useFetchTags('http://localhost:8080/tags');
+
   useEffect(() => {
-    const fetchReportOptions = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/tags');
-        if (response.ok) {
-          const json = await response.json();
-          const data = json.data
-          setReportOptions(data); // データを状態にセット
-        } else {
-          console.error('通報内容の取得に失敗しました');
-        }
-      } catch (error) {
-        console.error('通報内容の取得中にエラーが発生しました', error);
-      }
-    };
+    if (fetchedTags && !error) {
+      setReportOptions(fetchedTags.data); // データが存在する場合にのみセット
+    } else if (error) {
+      console.error('通報内容の取得中にエラーが発生しました', error);
+    }
+  }, [fetchedTags, error]);
 
-    fetchReportOptions();
-  }, []);
-
+  // チェックボックスの状態変更
   const handleCheckboxChange = (event) => {
     const { checked, id } = event.target;
-    const numericId = parseInt(id, 10); // IDを数値に変換
+    const numericId = parseInt(id, 10);
 
-    if (checked) {
-      setSelectedIds((prevIds) => [...prevIds, numericId]);
-    } else {
-      setSelectedIds((prevIds) => prevIds.filter((i) => i !== numericId));
-    }
+    setSelectedIds((prevIds) =>
+      checked ? [...prevIds, numericId] : prevIds.filter((i) => i !== numericId)
+    );
   };
 
+  // テキストエリアの入力処理
   const handleInputChange = (event) => {
     setAdditionalInfo(event.target.value);
   };
 
+  // 通報の送信処理
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      // 通報内容をサーバーに送信する処理
-      const response = await fetch(`http://localhost:8080/reports/${userid}/${postid}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem("authToken")
-        },
-        body: JSON.stringify({
-          tag_ids: selectedIds,
-          reason: additionalInfo // テキストエリアの内容も送信
-        }),
-      });
-
-      if (response.ok) {
+      const response = await reportPosts(
+        `http://localhost:8080/reports/${userid}/${postid}`,
+        selectedIds,
+        additionalInfo
+      );
+      if (response.statusCode == 201) {
         alert('通報が送信されました');
         onClose();
       } else {
@@ -78,7 +63,7 @@ function ReportPost({ postid, onClose }) {
         <h2 className="report-modal-title">通報内容を選択してください</h2>
         <form className="report-form" onSubmit={handleSubmit}>
           <div className="report-checkbox-group">
-            {reportOptions.map(option => (
+            {reportOptions.map((option) => (
               <div key={option.id} className="report-checkbox-item">
                 <input
                   type="checkbox"
@@ -91,7 +76,9 @@ function ReportPost({ postid, onClose }) {
             ))}
           </div>
           <div className="report-textarea-group">
-            <label htmlFor="additionalInfo" className="report-textarea-label">通報内容の詳細:</label>
+            <label htmlFor="additionalInfo" className="report-textarea-label">
+              通報内容の詳細:
+            </label>
             <textarea
               id="additionalInfo"
               value={additionalInfo}
@@ -102,8 +89,12 @@ function ReportPost({ postid, onClose }) {
             />
           </div>
           <div className="report-button-group">
-            <button type="submit" className="report-submit-button">送信</button>
-            <button type="button" className="report-cancel-button" onClick={onClose}>キャンセル</button>
+            <button type="submit" className="report-submit-button">
+              送信
+            </button>
+            <button type="button" className="report-cancel-button" onClick={onClose}>
+              キャンセル
+            </button>
           </div>
         </form>
       </div>
