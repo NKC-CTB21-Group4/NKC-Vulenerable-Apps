@@ -4,6 +4,7 @@ import React, { useState ,useContext,useEffect} from 'react';
 import AuthContext from '../Utils/AuthProvider';
 import './css/CreateUser.css';
 import {useNavigate} from 'react-router-dom';
+import { createUser } from '../api/user';
 
 const CreateUser = () => {
   const [username, setUsername] = useState('');
@@ -37,15 +38,8 @@ const CreateUser = () => {
     const apiEndpoint = 'http://localhost:8080/users'; // ユーザー作成用のエンドポイントを指定
 
     try {
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newUser)
-      });
-
-      if (!response.ok) {
+      const response = await createUser(apiEndpoint, newUser);
+      if (response.statusCode !== 201) {
         throw new Error('Network response was not ok');
       }
       setMessage('User created successfully');
