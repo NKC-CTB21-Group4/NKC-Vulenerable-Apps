@@ -45,7 +45,6 @@ function ReportPost({ postid, onClose }) {
         selectedIds,
         additionalInfo
       );
-      console.log(response);
       if (response.statusCode == 201) {
         alert('通報が送信されました');
         onClose();

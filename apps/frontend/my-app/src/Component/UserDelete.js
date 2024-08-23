@@ -50,7 +50,6 @@ const UserDelete = ({ userId }) => {
   const handleDelete = async () => {
     try {
       const response = await deleteUser(`http://localhost:8080/users/${userId}`);
-      console.log(response);
       if (response.status == 200) {
         localStorage.removeItem('authToken');
       }
