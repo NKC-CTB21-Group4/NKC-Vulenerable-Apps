@@ -29,7 +29,7 @@ class PrivateUserAction extends UserAction
         if (isset($data['isPrivate'])) {
             $this->userRepository->privateToggleUser($user->getId(), (bool)$data['isPrivate']);
         } else {
-            throw new UserPrivatedNotFoundException();
+            return $this->respondWithData('Invalid input', 400);
         }
 
         $this->logger->info("User toggle private successfully with ID: " . $user->getId());
