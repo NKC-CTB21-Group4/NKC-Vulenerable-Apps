@@ -15,9 +15,10 @@ interface PostRepository
     public function findAll(): array;
 
     /**
+     * @param 
      * @return Post[]
      */
-    public function fundAllPublicPosts(): array;
+    public function findAllPublicPosts(): array;
 
     /**
      * @return Post[]
@@ -46,7 +47,7 @@ interface PostRepository
      * @return Post|null
      * @throws PostNotFoundException
      */
-    public function findPublicPostOfId(int $postId, int $userId, bool $isMutualFollower): ?Post;
+    public function findPublicPostOfId(int $myUserId, int $otherUserId, bool $otherUserPostId): ?Post;
 
     /**
      * @param Post $post
