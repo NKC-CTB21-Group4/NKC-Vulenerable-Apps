@@ -1,6 +1,6 @@
 <?php
 // データベース接続をインクルード
-$pdo = require '../config/database.php';
+$pdo = require '/app/config/database.php';
 
 try {
     // データを取得するクエリ
