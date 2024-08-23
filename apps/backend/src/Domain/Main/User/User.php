@@ -39,12 +39,12 @@ class User implements JsonSerializable
     #[Column(name: 'deleted_at', type: 'datetime', nullable: true)]
     private ?DateTime $deletedAt;
 
-    public function __construct(string $username, string $email, string $password, bool $isPrivate = false, bool $isAdmin = false)
+    public function __construct(string $username, string $email, string $password, bool $isAdmin, bool $isPrivate = false,)
     {
         $this->username = $username;
         $this->email = $email;
         $this->securePassword = password_hash($password,PASSWORD_DEFAULT);
-        $this->isPrivate = $isPrivate;
+        $this->isPrivate = false;
         $this->isAdmin = $isAdmin;
         $this->registeredAt = new DateTime('now');
         $this->deletedAt = null;
