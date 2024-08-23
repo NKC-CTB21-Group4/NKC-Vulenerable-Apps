@@ -198,6 +198,7 @@ fi
 docker compose exec $MYSQL_CONTAINER sh -c "echo '[client]' > /root/.my.cnf"
 docker compose exec $MYSQL_CONTAINER sh -c "echo 'user=$MYSQL_USER' >> /root/.my.cnf"
 docker compose exec $MYSQL_CONTAINER sh -c "echo 'password=$MYSQL_PASSWORD' >> /root/.my.cnf"
+docker compose exec $MYSQL_CONTAINER sh -c "echo 'default-character-set=utf8mb4' >> /root/.my.cnf"
 
 # MySQLコンテナ内でSQLファイルを実行
 docker compose exec -T $MYSQL_CONTAINER mysql --defaults-extra-file=/root/.my.cnf $MYSQL_DATABASE < $SQL_FILE_PATH
@@ -214,5 +215,6 @@ SQL_FILE_PATH="$SCRIPT_DIR/challenges.sql"
 docker compose exec $MYSQL_CONTAINER sh -c "echo '[client]' > /root/.my.cnf"
 docker compose exec $MYSQL_CONTAINER sh -c "echo 'user=$MYSQL_USER' >> /root/.my.cnf"
 docker compose exec $MYSQL_CONTAINER sh -c "echo 'password=$MYSQL_PASSWORD' >> /root/.my.cnf"
+docker compose exec $MYSQL_CONTAINER sh -c "echo 'default-character-set=utf8mb4' >> /root/.my.cnf"
 
 docker compose exec -T $MYSQL_CONTAINER mysql --defaults-extra-file=/root/.my.cnf $MYSQL_DATABASE < $SQL_FILE_PATH

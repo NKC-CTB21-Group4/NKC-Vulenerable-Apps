@@ -1,4 +1,9 @@
 -- テーブルが存在しない場合に作成
+
+DROP TABLE IF EXISTS stage_clear_records;
+DROP TABLE IF EXISTS vulnerabilities;
+
+
 CREATE TABLE IF NOT EXISTS vulnerabilities (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -16,6 +21,9 @@ CREATE TABLE IF NOT EXISTS stage_clear_records (
     cleared_at DATETIME NULL,
     FOREIGN KEY (vulnerability_id) REFERENCES vulnerabilities(id)
 );
+
+
+
 
 
 -- デフォルト値の挿入
