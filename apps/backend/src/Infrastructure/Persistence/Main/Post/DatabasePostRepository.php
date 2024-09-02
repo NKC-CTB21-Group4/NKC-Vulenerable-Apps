@@ -64,23 +64,34 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
     return $post;
   }
 
-  public function findPublicPostOfId(int $postId, int $userId, bool $isMutualFollower): ?Post
+  public function findPublicPostOfId(int $myUserId, int $otherUserId, bool $otherUserPostId): ?Post
 {
+  //ユーザーが相互かつprivateを確認
+  //PostActionに書く
     $userRepository = $this->_em->getRepository(User::class);
-    $user = $userRepository->find($userId);
+    $otherUser = $userRepository->find($otherUserId);
 
-    if ($user === null) {
+    if ($otherUser === null) {
         throw new PostNotFoundException('User not found');
     }
 
-    $isPrivate = $user->getIsPrivate();
+    $isPrivate = $otherUser->getIsPrivate();
 
-    if ($isPrivate && !$isMutualFollower) {
-        return null;
+    $followRepository = $this->_em->getRepository(User::class);
+
+    $bothFollowcheck = $followRepository->bothFollowChecker($myUserId, $otherUserId);
+
+    
+
+    if ($isPrivate && $bothFollowcheck) {
+      $post = parent::find((string) $otherUserPostId);
+      if ($post === null || $this->isDeleted($post)) {
+          throw new PostNotFoundException();
+      }
+      return $post;
     }
 
-    $post = parent::find((string) $postId);
-
+    $post = parent::find((string) $otherUserPostId);
     if ($post === null || $this->isDeleted($post)) {
         throw new PostNotFoundException();
     }
