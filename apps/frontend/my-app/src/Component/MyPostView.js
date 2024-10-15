@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './MyPostView.css'; // CSSファイルをインポート
-import Contentinfo from './Contentinfo';
+import './css/MyPostView.css'; // CSSファイルをインポート
+import Contentinfo from './ContentInfo/Contentinfo';
 import AuthContext from '../Utils/AuthProvider';
 
 function MyPostView({ searchKeyword }) { // デフォルト値として空の配列を設定
@@ -34,7 +34,7 @@ function MyPostView({ searchKeyword }) { // デフォルト値として空の配
     return () => {
       window.removeEventListener('newPost', handleNewPost);
     };
-  }, [userid]);
+  }, []);
 
   const handleDelete = (postid) => {
     setPosts(posts.filter((post) => post.id !== postid));
@@ -57,7 +57,7 @@ function MyPostView({ searchKeyword }) { // デフォルト値として空の配
           content={post.content}
           postid={post.id}
           imagepath={post.image_path}
-          onDelete={handleDelete} // handleDelete関数のプロップス名を修正
+          handleDelete={handleDelete} // handleDelete関数のプロップス名を修正
         />
       ))}
     </div>

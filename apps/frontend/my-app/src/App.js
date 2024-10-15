@@ -1,13 +1,13 @@
-import { BrowserRouter as Router, Route, Routes,Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import './App.css';
 import AdminView from './View/AdminView';
 import { AuthProvider } from './Utils/AuthProvider';
-import Login from './Component/Login';
-import Mainview from './Component/Mainview';
+import Login from './View/Login';
+import Mainview from './View/Mainview';
 import CreateUser from './View/CreateUser';
 import Mypage from './View/MyPage';
 import Logout from './Component/Logout';
-import DirectMessage from './Component/DirectMessage';
+import DirectMessage from './Component/DirectMessage/DirectMessage';
 
 
 function App() {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState,useContext } from 'react';
-import './Fav.css';
-import AuthContext from '../Utils/AuthProvider';
+import './css/Fav.css';
+import AuthContext from '../../Utils/AuthProvider';
 
 function Fav({ postid }) {
     const [favorites, setFavorites] = useState({});

@@ -1,10 +1,10 @@
 import * as React  from 'react';
 import { Routes, Route , Navigate} from 'react-router-dom';
-import AdminPostList from '../Component/AdminPostList';
-import AdminUserList from '../Component/AdminUserList';
-import AdminHeader from '../Component/AdminHeader';
-import AdminReportList from '../Component/AdminReportList';
-import AdminReportDetailList from '../Component/AdminReportDetailList';
+import AdminPostList from '../Component/Admin/AdminPostList';
+import AdminUserList from '../Component/Admin/AdminUserList';
+import AdminHeader from '../Component/Admin/AdminHeader';
+import AdminReportList from '../Component/Admin/AdminReportList';
+import AdminReportDetailList from '../Component/Admin/AdminReportDetailList';
 import { useContext } from 'react';
 import AuthContext from '../Utils/AuthProvider';
 import CreateAdminUser from './CreateAdminUser';

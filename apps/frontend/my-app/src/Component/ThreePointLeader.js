@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../Utils/AuthProvider';
-import './ThreePointLeader.css';
+import './css/ThreePointLeader.css';
 import ThreePointLeaderMenu from './ThreePointLeaderMenu';
 import UserDelete from './UserDelete';
 import tegakileader from '../images/tegakileader.png';

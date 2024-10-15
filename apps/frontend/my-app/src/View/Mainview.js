@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './Mainview.css'; // CSSファイルをインポート
+import './css/Mainview.css'; // CSSファイルをインポート
 import LinkiconHome from '../images/tegakihome.png';
 import LinkiconBell from '../images/tegakibell.png';
 import LinkiconMassage from '../images/tegakimessage.png';
@@ -8,13 +8,13 @@ import Linkiconbutton from '../images/tegakibutton.png';
 import LinkiconLogin from '../images/tegakilogin.png';
 import LinkiconCreateUser from '../images/tegakicreateuser.png';
 import LinkiconLogout from '../images/tegakilogout.png';
-import Linkview from './Linkview';
+import Linkview from '../Component/LinkView/Linkview';
 import LinkiconApp from '../images/tegakiappicon.png';
-import PostView from './PostView';
-import Header from './Header';
+import PostView from '../Component/PostView';
+import Header from '../Component/Header';
 import AuthContext from '../Utils/AuthProvider';
-import Logout from './Logout';
-import Search from './Search';
+import Logout from '../Component/Logout';
+import Search from '../Component/Search';
 
 function Mainview() {
   const { user } = useContext(AuthContext);
@@ -45,7 +45,7 @@ function Mainview() {
     {
       src: Linkiconbutton,
       alt: 'Linkicon1',
-      to: '/mypage',
+      to: '/',
       text: "通報"
     },
     {

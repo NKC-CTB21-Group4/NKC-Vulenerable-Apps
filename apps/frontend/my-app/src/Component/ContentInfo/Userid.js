@@ -1,5 +1,5 @@
 import React from 'react';
-import './Userid.css'; // CSSファイルをインポート
+import './css/Userid.css'; // CSSファイルをインポート
 
 function Userid({ userid }) {
   return (
