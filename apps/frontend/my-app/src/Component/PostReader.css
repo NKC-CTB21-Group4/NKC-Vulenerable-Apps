@@ -9,9 +9,11 @@
     margin-top: 0.8em;
     /* その他の共通スタイル */
   }
+  .post-reader-container{
+    position: relative;
+  }
+
   
   /* スタイルを変更したい場合は、クラス名を追加しても良い */
-  .post-leader.open {
-    /* 開いている時のスタイル */
-  }
+ 
   

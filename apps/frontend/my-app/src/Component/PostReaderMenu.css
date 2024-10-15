@@ -1,15 +1,14 @@
 /* MenuContent.css */
 .PRM-nav-menu {
-    position: fixed;
-    bottom: 400px;
-    right:100px;
-    width: 200px;
+    position: absolute;
+    left:440px;
+    top: 50px;
+    width: 120px;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transform: translateY(100%);
     transition: transform 0.3s ease;
-    display: none;
-    
+    z-index: 20;
 }
 
 .PRM-nav-menu.open {
@@ -24,7 +23,7 @@
 }
 
 .PRM-nav-menu ul li {
-    padding: 15px;
+    
     text-align: center;
     transition: background-color 0.3s ease;
 }
@@ -35,52 +34,23 @@
     font-size: 18px;
     font-weight: bold;
     display: block;
-    width: 100%;
-    height: 100%;
 }
 
 .PRM-nav-menu ul li:hover {
     background-color: #f0f0f0;
 }
 
-/* ユーザー削除モーダル */
-#user-delete-dialog {
-    border: none;
-    border-radius: 8px;
-    width: 400px;
-    height: 300px;
-    z-index: 10;
-    padding: 20px;
-    box-sizing: border-box;
-    position: relative;
-}
-
-#user-delete-dialog::backdrop {
-    background: rgba(0,0,0,0.3);
-}
-
-#user-delete-modalBtn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: none;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.input-success input {
-    border: 2px solid yellowgreen;
-}
 
 .error {
     color: red;
 }
 .PRM-bt{
-   
-    border: 0.25px solid gray;
-    border-radius: 20%;
+    width: 120px;
+    height: 60px;
+   border: none;
    background-color: white;
+   font-size: 18px;
+    font-weight: bold;
 }
 .PRM-bt:hover{
    background-color: #f0f0f0;
