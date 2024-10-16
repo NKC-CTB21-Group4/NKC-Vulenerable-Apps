@@ -53,7 +53,8 @@ interface PostRepository
     /**
      * @param array $searchCriteria
      * - 'keyword': string, optional - The keyword to search in posts
-     * - 'userId': int, optional - The user ID to filter posts by author
+     * - 'authorId': int, optional - The user ID to filter posts by author
+     * - 'authorName': string optional - The username to filiter posts by author
      * - 'dateFrom': string (Y-m-d), optional - The start date for filtering posts
      * - 'dateTo': string (Y-m-d), optional - The end date for filtering posts
      * - 'sortBy': string, optional - The field to sort the results (e.g., 'created_at')
