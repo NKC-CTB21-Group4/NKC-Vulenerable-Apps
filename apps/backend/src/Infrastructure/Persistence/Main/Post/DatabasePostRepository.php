@@ -90,28 +90,35 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
   {
     try {
       // 基本的なクエリ構築
-      $query = $this->createBaseQuery();
+      $query = $this->createQueryBuilder('p');
 
       // キーワードによる検索
       if (!empty($searchCriteria['keyword'])) {
-          $query->where('content', 'LIKE', '%' . $searchCriteria['keyword'] . '%');
+        $query->andWhere('LOWER(p.content) LIKE LOWER(:keyword)')
+        ->setParameter('keyword', '%' . $searchCriteria['keyword'] . '%');
       }
 
       // 特定ユーザーによるフィルタリング
       if (!empty($searchCriteria['authorId'])) {
-          $query->where('author_id', $searchCriteria['authorId']);
+          $query->andWhere('p.author = :author_id')
+          ->setParameter('author_id',$searchCriteria['authorId']);
       }
 
       if (!empty($searchCriteria['authorName'])) {
-        $query->where('author_name', 'LIKE','%' . $searchCriteria['authorName'] . '%');
+        $query->join('p.author', 'user')
+        ->andWhere('user.username LIKE :authorName')
+        ->setParameter('authorName', '%' . $searchCriteria['authorName'] . '%');
       }
-
-      // 日付範囲によるフィルタリング
+    
+    
+      // 日付範囲によるフィルタリング 次回ここから
       if (!empty($searchCriteria['dateFrom'])) {
-          $query->where('created_at', '>=', $searchCriteria['dateFrom']);
+          $query->andWhere('p.createdAt >= :dateFrom')
+          ->setParameter('dateFrom',new \DateTime($searchCriteria['dateFrom']));
       }
       if (!empty($searchCriteria['dateTo'])) {
-          $query->where('created_at', '<=', $searchCriteria['dateTo']);
+          $query->andWhere('p.createdAt <= :dateTo')
+          ->setParameter('dateTo',new \DateTime($searchCriteria['dateTo']));
       }
 
       // onlyFromFollowedUser オプションの処理
@@ -126,7 +133,7 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
       }
 
       // クエリの実行と結果の取得
-      $posts = $query->get()->toArray();
+      $posts = $query->getQuery()->getResult();
 
       if (empty($posts)) {
           throw new PostNotFoundException();
