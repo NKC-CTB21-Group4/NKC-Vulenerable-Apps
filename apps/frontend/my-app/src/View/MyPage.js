@@ -16,12 +16,15 @@ import Header from '../Component/Header';
 import AuthContext from '../Utils/AuthProvider';
 import Logout from '../Component/Logout';
 import Search from '../Component/Search';
+import Userinfo from '../Component/ContentInfo/Userinfo';
 
-function MyPage() {
+function MyPage({}) {
   const { user,isAuthenticated } = useContext(AuthContext);
   const [searchKeyword, setSearchKeyword] = useState('');
   const userid = user?.id;
+  const username = user?.username;
   const navigate = useNavigate();
+  console.log('user:', user);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -32,6 +35,9 @@ function MyPage() {
   useEffect(() => {
     if(!userid)return;
   }, [userid]);
+  useEffect(() => {
+    if(!username)return;
+  }, [username]);
 
   const handleClearSearch = () => {
     setSearchKeyword('');
@@ -115,6 +121,9 @@ function MyPage() {
       <Linkview links={links} onLinkClick={handleClearSearch} />
     <div className="mypage-header-posts-container">
       <Header/>
+      <div className="mypage-userinfo">
+      <Userinfo src={userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz}  username={username} userid={userid} />
+      </div>
       <MyPostview searchKeyword={searchKeyword}/>
     </div>
     <Search setSearchKeyword={setSearchKeyword} searchKeyword={searchKeyword} />
