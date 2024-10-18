@@ -121,16 +121,16 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
           ->setParameter('dateTo',new \DateTime($searchCriteria['dateTo']));
       }
 
-      // onlyFromFollowedUser オプションの処理
-      if (!empty($searchCriteria['onlyFromFollowedUser']) && $searchCriteria['onlyFromFollowedUser'] === true) {
-          $followedUserIds = $this->getFollowedUserIds($searchCriteria['currentUserId']);
-          $query->whereIn('user_id', $followedUserIds);
-      }
+      // onlyFromFollowedUser オプションの処理 
+      // if (!empty($searchCriteria['onlyFromFollowedUser']) && $searchCriteria['onlyFromFollowedUser'] === true) {
+      //     $followedUserIds = $this->getFollowedUserIds($searchCriteria['currentUserId']);
+      //     $query->whereIn('user_id', $followedUserIds);
+      // }
 
       // ソート順
-      if (!empty($searchCriteria['sortBy'])) {
-          $query->orderBy($searchCriteria['sortBy'], 'desc');
-      }
+      // if (!empty($searchCriteria['sortBy'])) {
+      //     $query->orderBy($searchCriteria['sortBy'], 'desc');
+      // }
 
       // クエリの実行と結果の取得
       $posts = $query->getQuery()->getResult();
