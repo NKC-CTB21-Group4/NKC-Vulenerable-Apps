@@ -17,11 +17,13 @@ import AuthContext from '../Utils/AuthProvider';
 import Logout from '../Component/Logout';
 import Search from '../Component/Search';
 
-function MyPage() {
+function MyPage({}) {
   const { user,isAuthenticated } = useContext(AuthContext);
   const [searchKeyword, setSearchKeyword] = useState('');
   const userid = user?.id;
+  const username = user?.username;
   const navigate = useNavigate();
+  console.log('user:', user);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -32,7 +34,7 @@ function MyPage() {
   useEffect(() => {
     if(!userid)return;
   }, [userid]);
-
+  
   const handleClearSearch = () => {
     setSearchKeyword('');
   };

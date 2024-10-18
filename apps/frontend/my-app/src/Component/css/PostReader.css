@@ -1,0 +1,19 @@
+/* 共通のスタイルを設定 */
+.post-leader {
+    width: 40px; /* 適切な幅 */
+    height: 40px; /* 適切な高さ */
+    cursor: pointer;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    margin-left: 22em;
+    margin-top: 0.8em;
+    /* その他の共通スタイル */
+  }
+  .post-reader-container{
+    position: relative;
+  }
+
+  
+  /* スタイルを変更したい場合は、クラス名を追加しても良い */
+ 
+  
