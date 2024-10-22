@@ -18,6 +18,7 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
 {
   private EntityManager $entityManager;
 
+  //user,followの引数として追加
   public function __construct(EntityManager $entityManager)
   {
     $this->entityManager = $entityManager;
@@ -39,6 +40,13 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
   {
       return array_filter(parent::findAll(),function($post) {
         return !$this->isDeleted($post);
+    });
+  }
+
+  public function findAllPublicPosts():array{
+    return array_fillter(parent::findAll(),function($post){
+      $user = $post->getUser();//投稿者のユーザーを取得
+      return !$this->isDeleted($post) && !$user->getIsPrivate();// 投稿が削除されていないかつユーザーが公開の場合のみ表示
     });
   }
 
@@ -64,12 +72,12 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
     return $post;
   }
 
-  public function findPublicPostOfId(int $myUserId, int $otherUserId, bool $otherUserPostId): ?Post
+  public function findPublicPostOfId(int $followerId, int $userId, int $postId): ?Post
 {
   //ユーザーが相互かつprivateを確認
   //PostActionに書く
     $userRepository = $this->_em->getRepository(User::class);
-    $otherUser = $userRepository->find($otherUserId);
+    $otherUser = $userRepository->find($userId);
 
     if ($otherUser === null) {
         throw new PostNotFoundException('User not found');
@@ -79,19 +87,19 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
 
     $followRepository = $this->_em->getRepository(User::class);
 
-    $bothFollowcheck = $followRepository->bothFollowChecker($myUserId, $otherUserId);
+    $bothFollowcheck = $followRepository->bothFollowChecker($followerId, $userId);
 
     
 
     if ($isPrivate && $bothFollowcheck) {
-      $post = parent::find((string) $otherUserPostId);
+      $post = parent::find((string) $follwerId);
       if ($post === null || $this->isDeleted($post)) {
           throw new PostNotFoundException();
       }
       return $post;
     }
 
-    $post = parent::find((string) $otherUserPostId);
+    $post = parent::find((string) $userId);
     if ($post === null || $this->isDeleted($post)) {
         throw new PostNotFoundException();
     }
