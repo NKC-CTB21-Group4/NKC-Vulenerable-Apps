@@ -38,4 +38,11 @@ interface UserRepository
      * @return User
      */
     public function findByEmailAndPassword(string $email, string $password): User;
+
+    /**
+     * @param int $id
+     * @param array $userInfo
+     * @return User
+     */
+    public function updateUser(int $id,array $userInfo):User;
 }
