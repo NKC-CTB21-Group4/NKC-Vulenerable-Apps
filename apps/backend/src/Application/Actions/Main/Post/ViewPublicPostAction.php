@@ -7,7 +7,7 @@ namespace App\Application\Actions\Main\Post;
 use Psr\Http\Message\ResponseInterface as Response;
 use App\Domain\Main\Post\PostNotFoundException;
 
-class ViewPostAction extends PostAction
+class ViewPublicPostAction extends PostAction
 {
     protected function action(): Response
     {
