@@ -47,7 +47,7 @@ interface PostRepository
      * @return Post|null
      * @throws PostNotFoundException
      */
-    public function findPublicPostOfId(int $myUserId, int $otherUserId, bool $otherUserPostId): ?Post;
+    public function findPublicPostOfId(int $followerId, int $userId, int $postId): ?Post;
 
     /**
      * @param Post $post
