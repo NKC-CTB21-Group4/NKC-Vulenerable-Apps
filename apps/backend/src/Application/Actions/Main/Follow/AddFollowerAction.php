@@ -35,9 +35,14 @@ class AddFollowerAction extends FollowAction
         $followerId = $follower->getId();
         $followedId = $followed->getId();
 
+        // 自分自身をフォローしようとしている場合をチェック
+        if ($followerId === $followedId) {
+            return $this->respondWithData(['message' => 'Cannot follow yourself'], 400);
+        }
+
         // リポジトリからuniqueCheckerメソッドを呼び出す
         if ($this->followRepository->uniqueChecker($followerId, $followedId)) {
-            return $this->respondWithData(['message' => '重複']);
+            return $this->respondWithData(['message' => 'Already following'], 400);
         }
 
         // フォローを追加する処理を実行
