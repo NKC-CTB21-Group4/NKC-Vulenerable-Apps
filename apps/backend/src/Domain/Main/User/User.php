@@ -101,6 +101,14 @@ class User implements JsonSerializable
         return $this->deletedAt;
     }
 
+    public function fromArray(array $userInput): void
+    {
+        foreach ($userInput as $key => $value) {
+            if ($key == 'password')$this->setPassword($value);
+            else $this->$key = $value;
+        }
+    }
+
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): array
     {
