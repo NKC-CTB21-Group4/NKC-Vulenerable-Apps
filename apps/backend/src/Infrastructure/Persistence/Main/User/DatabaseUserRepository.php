@@ -90,4 +90,14 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
 
         return $user;
     }
+    public function updateUser(int $id,array $userInfo):User{
+        $user = $this->findUserOfId($id);
+        if ($user === null || $this->isdeletedAtSet($user)) {
+            throw new UserNotFoundException();
+        }
+        $user->fromArray($userInfo);
+        $this->_em->persist($user);
+        $this->_em->flush();
+        return $user;
+    }
 }
