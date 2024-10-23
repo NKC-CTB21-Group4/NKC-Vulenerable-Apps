@@ -21,7 +21,7 @@ import LinkiconProfileedit from '../images/haguruma.png';
 import Profileedit from './Profileedit';
 
 function MyPage() {
-  const { user, isAuthenticated, updateUser } = useContext(AuthContext);
+  const { user, isAuthenticated, updateUser,updateToken } = useContext(AuthContext);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false); // プロフィール編集モーダルの状態管理
   const [updatedUsername, setUpdatedUsername] = useState(user?.username); // ユーザー名の更新用状態
@@ -48,13 +48,11 @@ function MyPage() {
   };
 
   // プロフィール情報が保存されたときの処理
-  const handleProfileSave = (updatedUser) => {
+  const handleProfileSave = (updatedUser,token) => {
     setUpdatedUsername(updatedUser.username);
     setUpdatedIcon(updatedUser.icon); // 新しいアイコンがアップロードされた場合、そのプレビューURLを設定
-
-    // AuthProvider内のユーザー情報を更新
-    updateUser(updatedUser); // ここでユーザー情報を更新
-
+    updateUser(updatedUser.user);
+    updateToken(token);
     handleProfileEditClose();
   };
 
