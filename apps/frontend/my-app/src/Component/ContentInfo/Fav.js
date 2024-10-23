@@ -18,7 +18,7 @@ function Fav({ postid }) {
   // データが取得できた場合、状態を更新
   useEffect(() => {
     if (data) {
-      setFavorites(data.data);
+      setFavorites(data);
     }
     if (fetchError) {
       setError('お気に入り情報を取得できませんでした。');
