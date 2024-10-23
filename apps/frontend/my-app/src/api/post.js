@@ -1,5 +1,4 @@
-import useSWR from 'swr';
-import { mutate, useSWRConfig } from 'swr/_internal';
+import useSWR,{mutate,useSWRConfig} from 'swr';
 
 // 認証トークンを取得する関数
 const getAuthHeaders = () => {
@@ -21,7 +20,7 @@ const fetcher = async (url, options = { needsAuth: false, headers: {} }) => {
     throw new Error(responseData.message || 'データの取得に失敗しました');
   }
 
-  return responseData;
+  return responseData.data;
 };
 
 // ポスト取得
