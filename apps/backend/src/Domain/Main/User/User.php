@@ -30,6 +30,9 @@ class User implements JsonSerializable
     #[Column(name: 'is_admin', type: 'boolean')]
     private bool $isAdmin;
 
+    #[Column(name: 'profile', type: 'text', nullable: true)]
+    private ?string $profile;
+
     #[Column(name: 'registered_at', type: 'datetime', nullable: false)]
     private DateTime $registeredAt;
 
@@ -42,6 +45,7 @@ class User implements JsonSerializable
         $this->email = $email;
         $this->securePassword = password_hash($password,PASSWORD_DEFAULT);
         $this->isAdmin = $isAdmin;
+        $this->profile = $profile;
         $this->registeredAt = new DateTime('now');
         $this->deletedAt = null;
     }
@@ -66,6 +70,10 @@ class User implements JsonSerializable
         $this->isAdmin = $isAdmin;
     }
 
+    public function setProfile(string $profile): void 
+    {
+        $this->profile = $profile;
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +98,11 @@ class User implements JsonSerializable
     public function getIsAdmin(): bool
     {
         return $this->isAdmin;
+    }
+
+    public function getProfile():string 
+    {
+        return $this->profile;
     }
 
     public function setDeletedAt():void
@@ -117,6 +130,7 @@ class User implements JsonSerializable
             'email' => $this->email,
             'username' => $this->username,
             'is_admin' => $this->isAdmin,
+            'profile' => $this->profile,
             'registered_at' => $this->registeredAt->format('Y-m-d H:i:s'),
         ];
     }

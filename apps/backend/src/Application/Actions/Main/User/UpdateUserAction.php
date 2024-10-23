@@ -26,7 +26,7 @@
             }
             // データを検証
             //必要なデータが一個もない場合
-            if (empty($data['username']) && empty($data['email']) && empty($data['password'])) {
+            if (empty($data['username']) && empty($data['email']) && empty($data['password']) && empty($data['profile'])) {
               $this->logger->info("User update failed");
               return $this->respondWithData('Invalid input',400);
             }
