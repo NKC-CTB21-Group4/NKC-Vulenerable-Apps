@@ -3,7 +3,7 @@ import './css/PostCreateButton.css'; // スタイリング用のCSSファイル�
 import AuthContext from '../Utils/AuthProvider';
 import tegakiwrite from '../images/tegakiwrite.png'; // 画像ファイルをインポート
 import tegakiimage from '../images/tegakiimage.png';
-import { createPost } from '../api/post';
+import { createPost} from '../api/post';
 
 const PostCreateButton = () => {
   const [content, setContent] = useState(''); // テキストエリアの内容を保持する状態
@@ -11,7 +11,7 @@ const PostCreateButton = () => {
   const [imagePreview, setImagePreview] = useState(null); // 画像プレビューのための状態
   const [fileInputKey, setFileInputKey] = useState(0); // ファイル選択インプットのキー
   const { user } = useContext(AuthContext);
-
+  
   useEffect(() => {
     const postCreateBtn = document.querySelector("#post-create-btn");
     const postCreateModalBtn = document.querySelector("#post-create-modalBtn");
