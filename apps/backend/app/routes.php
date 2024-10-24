@@ -115,7 +115,7 @@ return function (App $app) {
         $group->post('/{userId}/follow/{followedId}',AddFollowerAction::class)->add(JwtMiddleware::class);
         $group->delete('/{userId}/follow/{followedId}',DeleteFollowerAction::class)->add(JwtMiddleware::class);
         $group->group('/{userId}/posts', function (Group $group) {
-            $group->get('',ListUserPostsAction::class);
+            $group->get('',ListUserPostsAction::class)->add(JwtMiddleware::class);
             $group->post('',CreatePostAction::class)->add(JwtMiddleware::class);
             $group->get('/{postId}', ViewPublicPostAction::class)->add(JwtMiddleware::class);
             $group->delete('/{postId}',DeletePostAction::class)->add(JwtMiddleware::class);
