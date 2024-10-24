@@ -48,7 +48,7 @@ class User implements JsonSerializable
         $this->email = $email;
         $this->securePassword = password_hash($password,PASSWORD_DEFAULT);
         $this->isAdmin = $isAdmin;
-        $this->profile = $profile;
+        $this->profile = null;
         $this->avatarPath = null;
         $this->registeredAt = new DateTime('now');
         $this->deletedAt = null;
@@ -82,6 +82,14 @@ class User implements JsonSerializable
     public function setAvatarPath(string $avatarPath): void 
     {
         $this->avatarPath = $avatarPath;
+    }
+
+    public function updateAvatarPath():void 
+    {
+        if($this->avatarPath == null)$this->avatarPath = "/users" ."/" . $this->id . "/avatar"; 
+        $basePath = explode('?', $this->avatarPath)[0];
+        $timestamp = time();
+        $this->avatarPath = $basePath . '?v=' . $timestamp;
     }
 
     public function getId(): ?int
