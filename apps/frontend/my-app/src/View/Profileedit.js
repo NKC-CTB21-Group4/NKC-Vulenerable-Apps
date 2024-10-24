@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // 追加
 import './css/Profileedit.css';
 
-const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onSave }) => {
+const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onSave ,dialogOpen}) => {
   const [username, setUsername] = useState(initialUsername); // ユーザー名の状態
   const [icon, setIcon] = useState(null); // 新しく選択されたアイコン画像
   const [iconPreview, setIconPreview] = useState(initialIcon); // 画像プレビューの状態
@@ -63,10 +63,7 @@ const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onS
 
   // モーダルの閉じる処理（保存せずに閉じる）
   const handleCancel = () => {
-    const dialog = document.getElementById("profile-edit-dialog");
-    if (dialog) {
-      dialog.close(); // モーダルを閉じる
-    }
+    dialogOpen(false);
   };
 
   return (
