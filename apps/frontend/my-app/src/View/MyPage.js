@@ -26,6 +26,7 @@ function MyPage() {
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false); // プロフィール編集モーダルの状態管理
   const [updatedUsername, setUpdatedUsername] = useState(user?.username); // ユーザー名の更新用状態
   const [updatedIcon, setUpdatedIcon] = useState(null); // アイコンの更新用状態
+  const [render,setRender] = useState(0); //MyPostView再レンダリング用
 
   const userid = user?.id;
   const username = updatedUsername || user?.username; // 更新されたユーザー名を表示
@@ -53,6 +54,7 @@ function MyPage() {
     setUpdatedIcon(updatedUser.icon); // 新しいアイコンがアップロードされた場合、そのプレビューURLを設定
     updateUser(updatedUser.user);
     updateToken(token);
+    setRender(render+1);
     handleProfileEditClose();
   };
 
@@ -152,7 +154,7 @@ function MyPage() {
               />
             </div>
           </div>
-          <MyPostview searchKeyword={searchKeyword}/>
+          <MyPostview searchKeyword={searchKeyword} render={render}/>
         </div>
         <Search setSearchKeyword={setSearchKeyword} searchKeyword={searchKeyword} />
       </div>
@@ -165,6 +167,7 @@ function MyPage() {
           username={username}
           icon={updatedIcon || (userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz)}
           onSave={handleProfileSave} // 保存時の処理を設定
+          dialogOpen={setIsProfileEditOpen}
         />
       )}
     </header>
