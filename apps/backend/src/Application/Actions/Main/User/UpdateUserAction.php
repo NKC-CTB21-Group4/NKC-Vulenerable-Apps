@@ -38,8 +38,10 @@
                 return $this->respondWithData('Update failed', 404);
             }
             $this->logger->info("User update successfully");
+            $payload = ['user' => $user];
+            $token = $this->jwtService->generateToken($payload);
 
-            return $this->respondWithData($user, 200);
+            return $this->respondWithData(['user' => $user,'token' => $token], 200);
         }
     }
 ?>
