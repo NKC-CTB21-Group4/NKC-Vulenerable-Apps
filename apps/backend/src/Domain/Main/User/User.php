@@ -45,7 +45,7 @@ class User implements JsonSerializable
         $this->email = $email;
         $this->securePassword = password_hash($password,PASSWORD_DEFAULT);
         $this->isAdmin = $isAdmin;
-        $this->profile = $profile;
+        $this->profile = null;
         $this->registeredAt = new DateTime('now');
         $this->deletedAt = null;
     }
