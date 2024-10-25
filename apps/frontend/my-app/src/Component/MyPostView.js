@@ -34,7 +34,6 @@ function MyPostView() {
 
     // カスタムイベントをリッスンして検索結果を取得する関数
     const handleSearchEvent = async (event) => {
-      console.log(event.detail);
       const { keyword, authorName, dateFrom, dateTo } = event.detail;
 
       // 検索パラメータをクエリストリングとして生成
