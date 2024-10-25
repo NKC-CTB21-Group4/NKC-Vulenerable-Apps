@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // 追加
 import './css/Profileedit.css';
 
-const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onSave }) => {
+const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onSave ,dialogOpen}) => {
   const [username, setUsername] = useState(initialUsername); // ユーザー名の状態
   const [icon, setIcon] = useState(null); // 新しく選択されたアイコン画像
   const [iconPreview, setIconPreview] = useState(initialIcon); // 画像プレビューの状態
@@ -27,7 +27,7 @@ const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onS
   const handleSave = async () => {
     try {
       // ユーザー名を送信
-      await fetch(`http://localhost:8080/users/${userid}`, {
+      const response = await fetch(`http://localhost:8080/users/${userid}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -35,6 +35,7 @@ const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onS
         },
         body: JSON.stringify({ username }), // ユーザー名を送信
       });
+      const json = (await response.json()).data;
 
       if (icon) {
         const formData = new FormData();
@@ -49,9 +50,9 @@ const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onS
         body: formData,
         });
       }
-
+      console.log(json);
       // 更新情報を親コンポーネントに渡す
-      onSave({ id: userid, username, icon: iconPreview });
+      onSave({ id: json.user.id, username : json.user.username, user:json.user, icon: iconPreview },json.token);
 
       // 保存後にMypageへリダイレクト
       navigate('/mypage');
@@ -62,10 +63,7 @@ const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onS
 
   // モーダルの閉じる処理（保存せずに閉じる）
   const handleCancel = () => {
-    const dialog = document.getElementById("profile-edit-dialog");
-    if (dialog) {
-      dialog.close(); // モーダルを閉じる
-    }
+    dialogOpen(false);
   };
 
   return (

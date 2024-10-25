@@ -40,8 +40,8 @@ class UploadUserAvatarAction extends UserAction
   
 
         $this->moveUploadedFile($directory, $avatar, $userId);
-        
-        return $this->respondWithData("upload success" , 200);
+        $path = $this->userRepository->updateUserAvatarPath($user);
+        return $this->respondWithData(["message" => "upload success","path"=>$path] , 200);
     }
 
     private function moveUploadedFile(string $directory, UploadedFileInterface $uploadedFile, int $userId)

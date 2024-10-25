@@ -38,7 +38,7 @@ export function AuthProvider({ children }) {
       const json = await response.json();
       const receivedToken = json.data;
       const parts = receivedToken.split('.');
-      const decodedPayload = atob(parts[1]); // Base64デコード
+      const decodedPayload = atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')); // Base64デコード
       const payload = JSON.parse(decodedPayload); // JSONパース
       setUser(payload.user);
       if (payload.user["is_admin"] === true) setIsAdmin(true);
@@ -85,8 +85,12 @@ export function AuthProvider({ children }) {
     setUser(updatedUser);
   };
 
+  const updateToken = (token) => {
+    localStorage.setItem('authToken', token);
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, isAdmin, login, logout, updateUser }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, isAdmin, login, logout, updateUser ,updateToken}}>
       {children}
     </AuthContext.Provider>
   );
