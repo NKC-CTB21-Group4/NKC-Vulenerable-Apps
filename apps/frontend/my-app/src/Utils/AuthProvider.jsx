@@ -11,7 +11,7 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('authToken');
     if (token) {
       const parts = token.split('.');
-      const decodedPayload = atob(parts[1]); // Base64デコード
+      const decodedPayload = atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')); // Base64デコード
       const payload = JSON.parse(decodedPayload); // JSONパース
       setUser(payload.user);
       if (payload.user["is_admin"] === true) setIsAdmin(true);
