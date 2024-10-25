@@ -45,4 +45,16 @@ interface UserRepository
      * @return User
      */
     public function updateUser(int $id,array $userInfo):User;
+
+    /**
+     * @param array $searchParam
+     * - 'keyword': string, optional - The keyword to search in users
+     * - 'userId': int, optional - The user ID to filter users
+     * - 'onlyFromFollowedUser': - boolean , optional - If true, only followed users will be included
+     * @return array $users
+     * @throws UserNotFoundException
+     * @throws UserSearchFailedException
+     */
+
+    public function search(array $searchParam): array;
 }
