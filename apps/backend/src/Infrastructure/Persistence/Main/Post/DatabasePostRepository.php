@@ -52,7 +52,7 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
     public function findAllPublicPosts(): array
     {
         return array_filter(parent::findAll(), function ($post) {
-            $user = $post->getUser(); // 投稿者のユーザーを取得
+            $user = $post->getAuthor(); // 投稿者のユーザーを取得
             return !$this->isDeleted($post) && !$user->getIsPrivate(); // 投稿が削除されていないかつユーザーが公開の場合のみ表示
         });
     }
