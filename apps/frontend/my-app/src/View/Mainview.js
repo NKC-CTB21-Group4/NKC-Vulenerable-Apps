@@ -19,6 +19,7 @@ import Search from '../Component/Search';
 function Mainview() {
   const { user } = useContext(AuthContext);
   const userid = user?.id;
+  const userAvatarPath = user?.avatar_path;
   const [searchKeyword, setSearchKeyword] = useState('');
 
   useEffect(() => {
@@ -80,7 +81,7 @@ function Mainview() {
   } else {
     links.push(
       {
-        src: userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz,
+        src: userid ? `http://localhost:8080${userAvatarPath}` : Iconhavertz,
         alt: 'Linkicon1',
         to: '/Mypage',
         text: "マイページ"

@@ -33,6 +33,9 @@ class User implements JsonSerializable
     #[Column(name: 'profile', type: 'text', nullable: true)]
     private ?string $profile;
 
+    #[Column(name:'avatar_path', type: 'string', nullable: true)]
+    private ?string $avatarPath;
+
     #[Column(name: 'registered_at', type: 'datetime', nullable: false)]
     private DateTime $registeredAt;
 
@@ -46,6 +49,7 @@ class User implements JsonSerializable
         $this->securePassword = password_hash($password,PASSWORD_DEFAULT);
         $this->isAdmin = $isAdmin;
         $this->profile = null;
+        $this->avatarPath = null;
         $this->registeredAt = new DateTime('now');
         $this->deletedAt = null;
     }
@@ -73,6 +77,19 @@ class User implements JsonSerializable
     public function setProfile(string $profile): void 
     {
         $this->profile = $profile;
+    }
+
+    public function setAvatarPath(string $avatarPath): void 
+    {
+        $this->avatarPath = $avatarPath;
+    }
+
+    public function updateAvatarPath():void 
+    {
+        if($this->avatarPath == null)$this->avatarPath = "/users" ."/" . $this->id . "/avatar"; 
+        $basePath = explode('?', $this->avatarPath)[0];
+        $timestamp = time();
+        $this->avatarPath = $basePath . '?v=' . $timestamp;
     }
 
     public function getId(): ?int
@@ -122,6 +139,11 @@ class User implements JsonSerializable
         }
     }
 
+    public function getAvatarPath(): string 
+    {
+        return $this->avatarPath;
+    }
+
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): array
     {
@@ -131,6 +153,7 @@ class User implements JsonSerializable
             'username' => $this->username,
             'is_admin' => $this->isAdmin,
             'profile' => $this->profile,
+            'avatar_path' => $this->avatarPath,
             'registered_at' => $this->registeredAt->format('Y-m-d H:i:s'),
         ];
     }

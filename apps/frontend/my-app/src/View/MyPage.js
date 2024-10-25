@@ -1,4 +1,4 @@
-import React,{useContext,useEffect,useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/MyPage.css'; // CSSファイルをインポート
 import LinkiconHome from '../images/tegakihome.png';
@@ -16,14 +16,22 @@ import Header from '../Component/Header';
 import AuthContext from '../Utils/AuthProvider';
 import Logout from '../Component/Logout';
 import Search from '../Component/Search';
+import Userinfo from '../Component/ContentInfo/Userinfo';
+import LinkiconProfileedit from '../images/haguruma.png';
+import Profileedit from './Profileedit';
 
-function MyPage({}) {
-  const { user,isAuthenticated } = useContext(AuthContext);
+function MyPage() {
+  const { user, isAuthenticated, updateUser,updateToken } = useContext(AuthContext);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [isProfileEditOpen, setIsProfileEditOpen] = useState(false); // プロフィール編集モーダルの状態管理
+  const [updatedUsername, setUpdatedUsername] = useState(user?.username); // ユーザー名の更新用状態
+  const [updatedIcon, setUpdatedIcon] = useState(null); // アイコンの更新用状態
+  const [render,setRender] = useState(0); //MyPostView再レンダリング用
+
   const userid = user?.id;
-  const username = user?.username;
+  const username = updatedUsername || user?.username; // 更新されたユーザー名を表示
+  const userAvatarPath = user?.avatar_path;
   const navigate = useNavigate();
-  console.log('user:', user);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -31,14 +39,29 @@ function MyPage({}) {
     }
   }, [isAuthenticated, navigate]);
 
-  useEffect(() => {
-    if(!userid)return;
-  }, [userid]);
-  
+  // プロフィール編集モーダルを開く
+  const handleProfileEditOpen = () => {
+    setIsProfileEditOpen(true);
+  };
+
+  // プロフィール編集モーダルを閉じる
+  const handleProfileEditClose = () => {
+    setIsProfileEditOpen(false);
+  };
+
+  // プロフィール情報が保存されたときの処理
+  const handleProfileSave = (updatedUser,token) => {
+    setUpdatedUsername(updatedUser.username);
+    setUpdatedIcon(updatedUser.icon); // 新しいアイコンがアップロードされた場合、そのプレビューURLを設定
+    updateUser(updatedUser.user);
+    updateToken(token);
+    setRender(render+1);
+    handleProfileEditClose();
+  };
+
   const handleClearSearch = () => {
     setSearchKeyword('');
   };
-
 
   const links = [
     {
@@ -72,7 +95,7 @@ function MyPage({}) {
       text: "メッセージ"
     },
     {
-      src: userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz,
+      src: updatedIcon || (userid ? `http://localhost:8080${userAvatarPath}` : Iconhavertz), // 更新されたアイコンを表示
       alt: 'Linkicon1',
       to: '/Mypage',
       text: "マイページ"
@@ -114,14 +137,40 @@ function MyPage({}) {
   return (
     <header className='mypage-App-header'>
       <div className="mypage-container">
-      <Linkview links={links} onLinkClick={handleClearSearch} />
-    <div className="mypage-header-posts-container">
-      <Header/>
-      <MyPostview searchKeyword={searchKeyword}/>
-    </div>
-    <Search setSearchKeyword={setSearchKeyword} searchKeyword={searchKeyword} />
-    </div>
-    <Logout />
+        <Linkview links={links} onLinkClick={handleClearSearch} />
+        <div className="mypage-header-posts-container">
+          <Header />
+          <div className="mypage-userinfo">
+            <Userinfo
+              src={updatedIcon || (userid ? `http://localhost:8080${userAvatarPath}` : Iconhavertz)} // 更新されたアイコンを表示
+              username={username}
+              userid={userid}
+            />
+            <div className="profile-edit">
+              <img
+                className="profile-edit-icon"
+                src={LinkiconProfileedit}
+                alt="プロフィール編集"
+                onClick={handleProfileEditOpen} // アイコンクリックでモーダルを開く
+              />
+            </div>
+          </div>
+          <MyPostview searchKeyword={searchKeyword} render={render}/>
+        </div>
+        <Search setSearchKeyword={setSearchKeyword} searchKeyword={searchKeyword} />
+      </div>
+      <Logout />
+
+      {/* プロフィール編集モーダル */}
+      {isProfileEditOpen && (
+        <Profileedit
+          userid={userid}
+          username={username}
+          icon={updatedIcon || (userid ? `http://localhost:8080${userAvatarPath}` : Iconhavertz)}
+          onSave={handleProfileSave} // 保存時の処理を設定
+          dialogOpen={setIsProfileEditOpen}
+        />
+      )}
     </header>
   );
 }
