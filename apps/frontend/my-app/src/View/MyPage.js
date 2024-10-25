@@ -30,6 +30,7 @@ function MyPage() {
 
   const userid = user?.id;
   const username = updatedUsername || user?.username; // 更新されたユーザー名を表示
+  const userAvatarPath = user?.avatar_path;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -94,7 +95,7 @@ function MyPage() {
       text: "メッセージ"
     },
     {
-      src: updatedIcon || (userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz), // 更新されたアイコンを表示
+      src: updatedIcon || (userid ? `http://localhost:8080${userAvatarPath}` : Iconhavertz), // 更新されたアイコンを表示
       alt: 'Linkicon1',
       to: '/Mypage',
       text: "マイページ"
@@ -141,7 +142,7 @@ function MyPage() {
           <Header />
           <div className="mypage-userinfo">
             <Userinfo
-              src={updatedIcon || (userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz)} // 更新されたアイコンを表示
+              src={updatedIcon || (userid ? `http://localhost:8080${userAvatarPath}` : Iconhavertz)} // 更新されたアイコンを表示
               username={username}
               userid={userid}
             />
@@ -165,7 +166,7 @@ function MyPage() {
         <Profileedit
           userid={userid}
           username={username}
-          icon={updatedIcon || (userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz)}
+          icon={updatedIcon || (userid ? `http://localhost:8080${userAvatarPath}` : Iconhavertz)}
           onSave={handleProfileSave} // 保存時の処理を設定
           dialogOpen={setIsProfileEditOpen}
         />
