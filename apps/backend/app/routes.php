@@ -13,6 +13,7 @@ use App\Application\Actions\Main\User\DeleteUserAction;
 use App\Application\Actions\Main\User\UpdateUserAction;
 use App\Application\Actions\Main\User\UploadUserAvatarAction;
 use App\Application\Actions\Main\User\GetUserAvatarAction;
+use App\Application\Actions\Main\User\SearchUsersAction;
 use App\Application\Actions\Main\Auth\GenerateTokenAction;
 use App\Application\Actions\Main\Auth\RevokeTokenAction;
 
@@ -105,6 +106,7 @@ return function (App $app) {
 
     $app->group('/users', function (Group $group) {
         $group->post('', CreateUserAction::class);
+        $group->get('/search',SearchUsersAction::class);
         $group->get('/{id}', ViewUserAction::class);
         $group->delete('/{userId}', DeleteUserAction::class)->add(JwtMiddleware::class);
         $group->put('/{userId}',UpdateUserAction::class)->add(JwtMiddleware::class);
