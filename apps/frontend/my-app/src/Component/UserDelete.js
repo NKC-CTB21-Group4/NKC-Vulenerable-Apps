@@ -82,6 +82,7 @@ const UserDelete = ({ userId }) => {
   return (
     <dialog id="user-delete-dialog">
       <h2>ユーザー削除</h2>
+      <button id="user-delete-modalBtn">×</button>
       <p>本当に削除しますか？</p>
       <form>
         <div className={authSuccess ? 'input-success' : ''}>
