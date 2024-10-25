@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
       const payload = JSON.parse(decodedPayload); // JSONパース
       setUser(payload.user);
       if (payload.user["is_admin"] === true) setIsAdmin(true);
-      // 認証トークンをlocalStorageに保存
+      // 認証トークンをlocalStorageに保存 
       localStorage.setItem('authToken', receivedToken);
       setIsAuthenticated(true);
     } catch (error) {
