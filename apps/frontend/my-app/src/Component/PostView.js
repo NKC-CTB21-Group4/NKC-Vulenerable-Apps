@@ -43,7 +43,9 @@ function PostView({}) {
         // 検索APIにリクエスト
         const response = await fetch(`http://localhost:8080/posts/search?${queryParams.toString()}`);
         const json = await response.json();
-        const searchpostarray = Object.values(json.data).reverse(); // 逆順にソート
+        const searchpostarray = Object.values(json.data)
+        .reverse()  // 逆順にソート
+        .filter((post) => post.deleted_at === null); // deleted_at が null の場合のみ
         setPosts(searchpostarray);
       } catch (error) {
         console.error('Error fetching search results:', error);
