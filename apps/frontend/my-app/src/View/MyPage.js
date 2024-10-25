@@ -21,7 +21,6 @@ function MyPage({}) {
   const { user,isAuthenticated } = useContext(AuthContext);
   const [searchKeyword, setSearchKeyword] = useState('');
   const userid = user?.id;
-  const username = user?.username;
   const navigate = useNavigate();
   console.log('user:', user);
 
@@ -117,9 +116,9 @@ function MyPage({}) {
       <Linkview links={links} onLinkClick={handleClearSearch} />
     <div className="mypage-header-posts-container">
       <Header/>
-      <MyPostview searchKeyword={searchKeyword}/>
+      <MyPostview/>
     </div>
-    <Search setSearchKeyword={setSearchKeyword} searchKeyword={searchKeyword} />
+    <Search/>
     </div>
     <Logout />
     </header>
