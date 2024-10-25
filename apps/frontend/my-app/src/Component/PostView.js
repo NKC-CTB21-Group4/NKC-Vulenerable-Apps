@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './css/PostView.css'; // CSSファイルをインポート
 import Contentinfo from './ContentInfo/Contentinfo';
 
-function PostView({ searchKeyword }) {
+function PostView({}) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -25,9 +25,38 @@ function PostView({ searchKeyword }) {
 
     window.addEventListener('newPost', handleNewPost);
 
+     // カスタムイベントをリッスンして検索結果を取得する関数
+     const handleSearchEvent = async (event) => {
+      console.log(event.detail);
+      const { keyword, authorId, authorName, dateFrom, dateTo } = event.detail;
+
+      // 検索パラメータをクエリストリングとして生成
+      const queryParams = new URLSearchParams({
+        keyword,
+        authorId,
+        authorName,
+        dateFrom,
+        dateTo
+      });
+
+      try {
+        // 検索APIにリクエスト
+        const response = await fetch(`http://localhost:8080/posts/search?${queryParams.toString()}`);
+        const json = await response.json();
+        const searchpostarray = Object.values(json.data).reverse(); // 逆順にソート
+        setPosts(searchpostarray);
+      } catch (error) {
+        console.error('Error fetching search results:', error);
+      }
+    };
+
+    // 検索イベントをリッスン
+    window.addEventListener('SearchPost', handleSearchEvent);
+
     // クリーンアップ
     return () => {
       window.removeEventListener('newPost', handleNewPost);
+      window.removeEventListener('SearchPost',handleSearchEvent);
     };
   }, []);
 
@@ -35,14 +64,11 @@ function PostView({ searchKeyword }) {
     setPosts(posts.filter((post) => post.id !== postid));
   };
 
-  const filteredPosts = posts.filter(post => 
-    post.content.toLowerCase().includes(searchKeyword.toLowerCase()) ||
-    post.author_name.toLowerCase().includes(searchKeyword.toLowerCase())
-  );
+  
 
   return (
     <div className="postview-container">
-      {filteredPosts.map((post) => (
+      {posts.map((post) => (
         <Contentinfo
           key={post.id}
           src={`http://localhost:8080/users/${post.author_id}/avatar`} // srcとaltはUserinfoコンポーネントが使っている場合に設定
