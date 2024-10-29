@@ -26,16 +26,6 @@ const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onS
   // 保存ボタンクリック時の処理
   const handleSave = async () => {
     try {
-      // ユーザー名を送信
-      const response = await fetch(`http://localhost:8080/users/${userid}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authtoken}`,
-        },
-        body: JSON.stringify({ username }), // ユーザー名を送信
-      });
-      const json = (await response.json()).data;
 
       if (icon) {
         const formData = new FormData();
@@ -50,6 +40,19 @@ const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onS
         body: formData,
         });
       }
+
+      // ユーザー名を送信
+      const response = await fetch(`http://localhost:8080/users/${userid}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authtoken}`,
+        },
+        body: JSON.stringify({ username }), // ユーザー名を送信
+      });
+      const json = (await response.json()).data;
+
+      
       console.log(json);
       // 更新情報を親コンポーネントに渡す
       onSave({ id: json.user.id, username : json.user.username, user:json.user, icon: iconPreview },json.token);
