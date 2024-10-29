@@ -16,7 +16,7 @@ import Header from '../Component/Header';
 import AuthContext from '../Utils/AuthProvider';
 import Logout from '../Component/Logout';
 import Search from '../Component/Search';
-import Userinfo from '../Component/ContentInfo/Userinfo';
+import Profileinfo from '../Component/ContentInfo/Profileinfo';
 import LinkiconProfileedit from '../images/haguruma.png';
 import Profileedit from './Profileedit';
 
@@ -25,11 +25,13 @@ function MyPage() {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false); // プロフィール編集モーダルの状態管理
   const [updatedUsername, setUpdatedUsername] = useState(user?.username); // ユーザー名の更新用状態
+  const [updatedProfile, setUpdatedProfile] = useState(user?.profile); // ユーザー名の更新用状態
   const [updatedIcon, setUpdatedIcon] = useState(null); // アイコンの更新用状態
   const [render,setRender] = useState(0); //MyPostView再レンダリング用
 
   const userid = user?.id;
   const username = updatedUsername || user?.username; // 更新されたユーザー名を表示
+  const profile = updatedProfile || user?.profile; // 更新されたユーザー名を表示
   const userAvatarPath = user?.avatar_path;
   const navigate = useNavigate();
 
@@ -52,6 +54,7 @@ function MyPage() {
   // プロフィール情報が保存されたときの処理
   const handleProfileSave = (updatedUser,token) => {
     setUpdatedUsername(updatedUser.username);
+    setUpdatedProfile(updatedUser.profile);
     setUpdatedIcon(updatedUser.icon); // 新しいアイコンがアップロードされた場合、そのプレビューURLを設定
     updateUser(updatedUser.user);
     updateToken(token);
@@ -141,10 +144,11 @@ function MyPage() {
         <div className="mypage-header-posts-container">
           <Header />
           <div className="mypage-userinfo">
-            <Userinfo
+            <Profileinfo
               src={updatedIcon || (userid ? `http://localhost:8080${userAvatarPath}` : Iconhavertz)} // 更新されたアイコンを表示
               username={username}
               userid={userid}
+              profile={profile}
             />
             <div className="profile-edit">
               <img
@@ -166,6 +170,7 @@ function MyPage() {
         <Profileedit
           userid={userid}
           username={username}
+          profile={profile}
           icon={updatedIcon || (userid ? `http://localhost:8080${userAvatarPath}` : Iconhavertz)}
           onSave={handleProfileSave} // 保存時の処理を設定
           dialogOpen={setIsProfileEditOpen}
