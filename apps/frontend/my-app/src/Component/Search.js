@@ -26,34 +26,17 @@ function Search() {
     let keyword = input.trim(); // キーワードをトリムして取り出す
 
     // 特定のパラメータ形式に基づいて分割・解析
-    if (input.includes('authorId:')) {
-      const match = input.match(/authorId:(\d+)/);
-      if (match) {
-        advancedSearchParams.authorId = match[1];
-        keyword = keyword.replace(match[0], '').trim(); // 残りの部分をキーワードとして扱う
-      }
+    const matches = input.matchAll(/(?:authorId:(\d+))?\s*(?:authorName:([^\s]+))?\s*(?:dateFrom:([^\s]+))?\s*(?:dateTo:([^\s]+))?/g);
+    for(const match of matches){
+      console.log(match);
+      if(match[1] && !advancedSearchParams.authorId)advancedSearchParams.authorId = match[1];
+      if(match[2] && !advancedSearchParams.authorName)advancedSearchParams.authorName = match[2];
+      if(match[3] && !advancedSearchParams.dateFrom)advancedSearchParams.dateFrom = match[3];
+      if(match[4] && !advancedSearchParams.dateTo)advancedSearchParams.dateTo = match[4];
     }
-    if (input.includes('authorName:')) {
-      const match = input.match(/authorName:([^\s]+)/);
-      if (match) {
-        advancedSearchParams.authorName = match[1];
-        keyword = keyword.replace(match[0], '').trim(); // 残りの部分をキーワードとして扱う
-      }
-    }
-    if (input.includes('dateFrom:')) {
-      const match = input.match(/dateFrom:([^\s]+)/);
-      if (match) {
-        advancedSearchParams.dateFrom = match[1];
-        keyword = keyword.replace(match[0], '').trim();
-      }
-    }
-    if (input.includes('dateTo:')) {
-      const match = input.match(/dateTo:([^\s]+)/);
-      if (match) {
-        advancedSearchParams.dateTo = match[1];
-        keyword = keyword.replace(match[0], '').trim();
-      }
-    }
+      keyword = keyword
+      .replace(/authorId:\d+|authorName:[^\s]+|dateFrom:[^\s]+|dateTo:[^\s]+/g, '')
+      .trim(); // 残りの部分をキーワードとして扱う
 
     // 検索パラメータをカスタムイベントで送信
     const event = new CustomEvent('SearchPost', {
