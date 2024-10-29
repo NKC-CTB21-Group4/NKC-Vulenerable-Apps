@@ -28,7 +28,6 @@ function Search() {
     // 特定のパラメータ形式に基づいて分割・解析
     const matches = input.matchAll(/(?:authorId:(\d+))?\s*(?:authorName:([^\s]+))?\s*(?:dateFrom:([^\s]+))?\s*(?:dateTo:([^\s]+))?/g);
     for(const match of matches){
-      console.log(match);
       if(match[1] && !advancedSearchParams.authorId)advancedSearchParams.authorId = match[1];
       if(match[2] && !advancedSearchParams.authorName)advancedSearchParams.authorName = match[2];
       if(match[3] && !advancedSearchParams.dateFrom)advancedSearchParams.dateFrom = match[3];
