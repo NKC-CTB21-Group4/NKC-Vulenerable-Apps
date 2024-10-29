@@ -39,9 +39,9 @@ class ListUserPostsAction extends PostAction
     try {
       // 例外を返す可能性がある
       $posts = $this->postRepository->findPostOfUser($user);
-  } catch (PostNotFoundException $e) {
-      $this->logger->info("Post with id `$postId` not found.");
-      return $this->respondWithData("Post Not Found.", 404);
+    } catch (PostNotFoundException $e) {
+        $this->logger->info("Post with id `$postId` not found.");
+        return $this->respondWithData("Post Not Found.", 404);
   }
 
   if ($posts == null) {
