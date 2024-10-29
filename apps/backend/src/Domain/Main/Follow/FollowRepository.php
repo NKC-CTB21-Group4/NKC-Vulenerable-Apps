@@ -38,4 +38,18 @@ interface FollowRepository
      * @throws FollowerDeleteFailedException
      */
     public function deleteFollower(int $followerId, int $followedId): void;
+
+    /**
+     * @param int $followerId
+     * @param int $followedId
+     * @return bool
+     */
+    public function uniqueChecker(int $followerId, int $followedId): bool;
+    
+    /**
+     * @param int $followerId
+     * @param int $followedId
+     * @return bool
+     */
+    public function bothFollowChecker(int $followerId, int $followedId): bool;
 }
