@@ -19,6 +19,11 @@ interface UserRepository
     public function findUserOfId(int $id): User;
 
     /**
+     * @return array
+     */
+    public function findAllUserIds() : array;
+
+    /**
      * @param User $user
      * @return User
      */
