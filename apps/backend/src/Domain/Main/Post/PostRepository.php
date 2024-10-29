@@ -50,6 +50,12 @@ interface PostRepository
     public function findPublicPostOfId(int $followerId, int $userId, int $postId): ?Post;
 
     /**
+     * @param User $user
+     * @return Post[]
+     */
+    public function findPostsForUser(User $user) : array;
+
+    /**
      * @param Post $post
      * @return Post
      * @throws PostCreateFailedException
