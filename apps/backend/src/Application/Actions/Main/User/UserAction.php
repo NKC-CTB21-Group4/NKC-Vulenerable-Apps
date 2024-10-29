@@ -7,6 +7,7 @@
     use App\Application\Actions\Action;
     use Psr\Log\LoggerInterface;
     use App\Domain\Main\User\UserRepository;
+    use App\Infrastructure\Persistence\Main\Auth\JwtService;
     use App\Domain\Main\User\User;
     use Psr\Http\Message\ResponseInterface as Response;
 
@@ -16,10 +17,12 @@
 
         public function __construct(
             LoggerInterface $logger,
-            UserRepository $userRepository
+            UserRepository $userRepository,
+            JwtService $jwtService
         ){
             parent::__construct($logger);
             $this->userRepository = $userRepository;
+            $this->jwtService = $jwtService;
         }
 
         protected function getUserFromToken():?object
