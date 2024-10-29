@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo} from 'react';
 import './css/Mainview.css'; // CSSファイルをインポート
 import LinkiconHome from '../images/tegakihome.png';
 import LinkiconBell from '../images/tegakibell.png';
@@ -21,10 +21,12 @@ function Mainview() {
   const userid = user?.id;
   const userAvatarPath = user?.avatar_path;
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [render,setRender] = useState(0);
 
   useEffect(() => {
     if (!userid) return;
-  }, [userid]);
+    setRender((prevRender) => prevRender + 1);
+  }, [userid,userAvatarPath]);
 
   const handleClearSearch = () => {
     setSearchKeyword('');
