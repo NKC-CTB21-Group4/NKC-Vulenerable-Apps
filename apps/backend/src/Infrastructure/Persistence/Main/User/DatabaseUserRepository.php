@@ -47,6 +47,16 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
         return $user;
     }
 
+    public function findAllUserIds(): array
+    {
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+        $queryBuilder->select('u.id')
+                    ->from(User::class, 'u')
+                    ->where('u.deletedAt IS NULL');
+
+        return array_column($queryBuilder->getQuery()->getResult(), 'id');
+    }
+
     public function createUser(User $user):User 
     {
         $this->save($user);
