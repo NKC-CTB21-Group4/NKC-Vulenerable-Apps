@@ -6,6 +6,7 @@ namespace App\Infrastructure\Persistence\Main\User;
 
 use App\Domain\Main\User\User;
 use App\Domain\Main\User\UserNotFoundException;
+use App\Domain\Main\User\UserSearchFailedException;
 use App\Domain\Main\User\UserRepository;
 use App\Domain\Main\User\UserDeleteFailedException;
 
@@ -113,5 +114,59 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
         }
 
         return $user;
+    }
+
+    public function updateUser(int $id,array $userInfo):User{
+        $user = $this->findUserOfId($id);
+        if ($user === null || $this->isdeletedAtSet($user)) {
+            throw new UserNotFoundException();
+        }
+        $user->fromArray($userInfo);
+        $this->_em->persist($user);
+        $this->_em->flush();
+        return $user;
+    }
+
+    public function updateUserAvatarPath(User $user):string {
+        $user->updateAvatarPath();
+        $this->_em->persist($user);
+        $this->_em->flush();
+        return $user->getAvatarPath();
+    }
+    
+    public function search($searchParam):array {
+        try {
+            // 基本的なクエリ構築
+            $query = $this->createQueryBuilder('u');
+      
+            // キーワードによる検索
+            if (!empty($searchParam['keyword'])) {
+              $query->andWhere('LOWER(u.username) LIKE LOWER(:keyword)')
+              ->setParameter('keyword', '%' . $searchParam['keyword'] . '%');
+            }
+      
+            // 特定ユーザーによるフィルタリング
+            if (!empty($searchParam['userId'])) {
+                $query->andWhere('u.id = :user_id')
+                ->setParameter('user_id',$searchParam['userId']);
+            }
+      
+            // onlyFromFollowedUser オプションの処理 
+            // if (!empty($searchCriteria['onlyFromFollowedUser']) && $searchCriteria['onlyFromFollowedUser'] === true) {
+            //     $followedUserIds = $this->getFollowedUserIds($searchCriteria['currentUserId']);
+            //     $query->whereIn('user_id', $followedUserIds);
+            // }
+
+            // クエリの実行と結果の取得
+            $users = $query->getQuery()->getResult();
+      
+            if (empty($users)) {
+                throw new UserNotFoundException();
+            }
+      
+            return $users;
+          } catch (Exception $e) {
+              throw new UserSearchFailedException('An error occurred during the search.');
+          }
     }
 }

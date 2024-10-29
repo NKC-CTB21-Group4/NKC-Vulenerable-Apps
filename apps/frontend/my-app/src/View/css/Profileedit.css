@@ -1,0 +1,19 @@
+.profile-edit-button-container{
+    display: flex;  
+}
+.cancel-button{
+    float: left;
+    margin-right:24em;
+    width: 6em;
+    height:3em;
+}
+.save-button{
+    float: right;   
+    width: 6em;
+    height:3em;
+    margin-right: 0;
+}
+.icon-preview{
+    width: 4em; 
+    height: 4em; 
+}

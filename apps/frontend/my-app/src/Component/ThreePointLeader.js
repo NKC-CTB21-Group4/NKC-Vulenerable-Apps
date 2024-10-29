@@ -4,6 +4,7 @@ import './css/ThreePointLeader.css';
 import ThreePointLeaderMenu from './ThreePointLeaderMenu';
 import UserDelete from './UserDelete';
 import tegakileader from '../images/tegakileader.png';
+import UserChange from './UserChange';
 
 const ThreePointLeader = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,6 +42,7 @@ const ThreePointLeader = () => {
       <img src={tegakileader} id="leader-btn" className={`three-point-leader ${isOpen ? 'open' : ''}`} onClick={toggleMenu} />
       <ThreePointLeaderMenu isOpen={isOpen} onClose={closeMenu} />
       <UserDelete userId={userid} />
+      <UserChange userId={userid} />
     </div>
   );
 };
