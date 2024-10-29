@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // 追加
 import './css/Profileedit.css';
 
-const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onSave ,dialogOpen}) => {
+const Profileedit = ({ userid, username: initialUsername,profile: initialProfile, icon: initialIcon, onSave ,dialogOpen}) => {
   const [username, setUsername] = useState(initialUsername); // ユーザー名の状態
+  const [profile, setProfile] = useState(initialProfile);
   const [icon, setIcon] = useState(null); // 新しく選択されたアイコン画像
   const [iconPreview, setIconPreview] = useState(initialIcon); // 画像プレビューの状態
   const authtoken = localStorage.getItem('authToken');
@@ -21,6 +22,11 @@ const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onS
   // ユーザー名変更ハンドラ
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
+  };
+
+  // プロフィール文変更ハンドラ
+  const handleProfileChange = (e) => {
+    setProfile(e.target.value);
   };
 
   // 保存ボタンクリック時の処理
@@ -48,14 +54,15 @@ const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onS
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authtoken}`,
         },
-        body: JSON.stringify({ username }), // ユーザー名を送信
+        body: JSON.stringify({ username,profile }),
+         // ユーザー名とプロフィール文を送信
       });
       const json = (await response.json()).data;
 
       
       console.log(json);
       // 更新情報を親コンポーネントに渡す
-      onSave({ id: json.user.id, username : json.user.username, user:json.user, icon: iconPreview },json.token);
+      onSave({ id: json.user.id, username : json.user.username, profile : json.user.profile, user:json.user, icon: iconPreview },json.token);
 
       // 保存後にMypageへリダイレクト
       navigate('/mypage');
@@ -101,6 +108,17 @@ const Profileedit = ({ userid, username: initialUsername, icon: initialIcon, onS
                 value={username}
                 onChange={handleUsernameChange}
                 className="username-input"
+              />
+            </td>
+          </tr>
+          <tr className="profile-edit-profile-container">
+            <td><p className="profile-text">プロフィールを編集:</p></td>
+            <td>
+              <textarea
+                type="text"
+                value={profile}
+                onChange={handleProfileChange}
+                className="profile-input"
               />
             </td>
           </tr>
