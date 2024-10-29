@@ -1,6 +1,7 @@
 <?php
-include("../config/progressdata.php");
-include("../config/icon_links.php");
+include("./api/get_progress.php");
+include("./api/get_links.php");
+$progressLevels = $result;
 
 function generate_dynamic_link($icon_path, $alt_attr, $title, $max_level) {
     // ボックス内のHTMLを生成

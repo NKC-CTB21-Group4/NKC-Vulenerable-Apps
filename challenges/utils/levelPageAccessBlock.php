@@ -1,7 +1,8 @@
 <?php
 function AccessBlock(){
     include("getMinLevels.php");
-    include("../../config/progressdata.php");
+    include("../api/get_progress.php");
+    $progressLevels = $result;
     $pattern = "/\/(.*)\/Level(.*).php$/";
     $result = false;
     if(preg_match($pattern, $_SERVER['REQUEST_URI'], $matches)){
