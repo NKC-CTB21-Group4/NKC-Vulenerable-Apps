@@ -108,6 +108,34 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
         return $post;
     }
 
+    public function findPostsForUser(User $user): array
+    {
+        // すべてのユーザーIDを取得（仮メソッド）
+        $allUserIds = $this->userRepository->findAllUserIds();
+
+        $mutualFollowUserIds = [];
+        foreach ($allUserIds as $followedId) {
+            if ($user->getId() !== $followedId && $this->followRepository->bothFollowChecker($user->getId(), $followedId)) {
+                $mutualFollowUserIds[] = $followedId;
+            }
+        }
+
+        // 公開ユーザーのポストと、相互フォローしている鍵垢ユーザーのポストを取得
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->join('p.author', 'u')
+            ->where('u.isPrivate = false')  // 公開ユーザー
+            ->orWhere('u.isPrivate = true AND u.id IN (:mutualFollowUserIds)')  // 相互フォローユーザーの鍵アカウント
+            ->andWhere('p.deletedAt IS NULL')  // 削除されていないポスト
+            ->setParameter('mutualFollowUserIds', $mutualFollowUserIds)
+            ->getQuery();
+
+
+        error_log('mutualFollowUserIds: ' . implode(',', $mutualFollowUserIds));
+        return $queryBuilder->getResult();
+    }
+
+
+
     public function create(Post $post): Post
     {
         $this->_em->persist($post);
