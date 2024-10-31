@@ -10,9 +10,11 @@ use App\Application\Actions\Main\Follow\GetFollowedUsersAction;
 use App\Application\Actions\Main\User\ViewUserAction;
 use App\Application\Actions\Main\User\CreateUserAction;
 use App\Application\Actions\Main\User\DeleteUserAction;
+use App\Application\Actions\Main\User\UpdateUserAction;
 use App\Application\Actions\Main\User\PrivateUserAction;
 use App\Application\Actions\Main\User\UploadUserAvatarAction;
 use App\Application\Actions\Main\User\GetUserAvatarAction;
+use App\Application\Actions\Main\User\SearchUsersAction;
 use App\Application\Actions\Main\Auth\GenerateTokenAction;
 use App\Application\Actions\Main\Auth\RevokeTokenAction;
 
@@ -22,6 +24,7 @@ use App\Application\Actions\Main\Post\ListUserPostsAction;
 use App\Application\Actions\Main\Post\CreatePostAction;
 use App\Application\Actions\Main\Post\DeletePostAction;
 use App\Application\Actions\Main\Post\GetPostImageAction;
+use App\Application\Actions\Main\Post\SearchPostsAction;
 use App\Application\Actions\Main\Post\ListRecommendPostsAction;
 use App\Application\Middleware\Challenges\ChallengesJwtMiddleware;
 use App\Application\Middleware\Main\JwtMiddleware;
@@ -94,6 +97,7 @@ return function (App $app) {
     });
     
     $app->get('/posts',ListRecommendPostsAction::class);
+    $app->get('/posts/search',SearchPostsAction::class);
     $app->get('/posts/{imageId}',GetPostImageAction::class);
 
     $app->group('/favorite/posts',function(Group $group){
@@ -103,8 +107,10 @@ return function (App $app) {
 
     $app->group('/users', function (Group $group) {
         $group->post('', CreateUserAction::class);
+        $group->get('/search',SearchUsersAction::class);
         $group->get('/{id}', ViewUserAction::class);
         $group->delete('/{userId}', DeleteUserAction::class)->add(JwtMiddleware::class);
+        $group->put('/{userId}',UpdateUserAction::class)->add(JwtMiddleware::class);
         $group->post('/{userId}/avatar',UploadUserAvatarAction::class)->add(JwtMiddleware::class);
         $group->get('/{userId}/avatar',GetUserAvatarAction::class);
         $group->post('/{userId}/private',PrivateUserAction::class)->add(JwtMiddleware::class);

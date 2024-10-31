@@ -6,10 +6,11 @@ import Icon from './Icon'; // Iconコンポーネントのインポート
 
 
 
-function Userinfo({src, alt, username, userid}) {
+function Userinfo({src, alt, username, userid, profile}) {
   
 
   return (
+   
     <div className="userinfo-container">
       <Icon src={src} alt={alt} />
       <div className="userinfo-text">
@@ -17,6 +18,7 @@ function Userinfo({src, alt, username, userid}) {
         <Userid userid={userid} />
       </div>
     </div>
+
   );
 }
 

@@ -7,34 +7,10 @@ import deletePost from '../DeletePost';
 import AuthContext from '../../Utils/AuthProvider';
 import ReportPost from '../ReportPost';
 
-function Contentinfo({ src, alt, username, userid, postid, content, imagepath, handleDelete }) {
-  const { user } = useContext(AuthContext);
-  const currentUserId = user?.id;
-  const [isReportOpen, setIsReportOpen] = useState(false);
+import PostReader from './PostReader';
 
-  const handleDeleteClick = async () => {
-    const confirmDelete = window.confirm("本当にこのポストを削除しますか？");
-    if (!confirmDelete) {
-      return; // キャンセルされた場合は何もしない
-    }
+function Contentinfo({ src, alt, username, userid, postid, content, imagepath, handleDelete,postOwnerId }) {
 
-
-    try {
-      await deletePost(postid, userid);
-      handleDelete(postid);
-      alert('ポストが削除されました');
-    } catch (error) {
-      alert('ポストの削除に失敗しました');
-    } 
-  };
-
-  const handleReportClick = () => {
-    setIsReportOpen(true);
-  };
-
-  const handleReportClose = () => {
-    setIsReportOpen(false);
-  };
 
   return (
     <div className="contentinfo-container">
@@ -48,15 +24,7 @@ function Contentinfo({ src, alt, username, userid, postid, content, imagepath, h
         <div className="Fav">
           <Fav postid={postid} />
         </div>
-        <button className="post-report-button" onClick={handleReportClick}>
-          通報
-        </button>
-        {isReportOpen && <ReportPost postid={postid} onClose={handleReportClose} />}
-        {currentUserId === userid && (
-          <button className="post-delete-button" onClick={handleDeleteClick}>
-            削除
-          </button>
-        )}
+        <PostReader userid={userid} postid={postid} handleDelete={handleDelete} postOwnerId={postOwnerId} />
       </div>
     </div>
   );

@@ -33,6 +33,12 @@ class User implements JsonSerializable
     #[Column(name: 'is_admin', type: 'boolean')]
     private bool $isAdmin;
 
+    #[Column(name: 'profile', type: 'text', nullable: true)]
+    private ?string $profile;
+
+    #[Column(name:'avatar_path', type: 'string', nullable: true)]
+    private ?string $avatarPath;
+
     #[Column(name: 'registered_at', type: 'datetime', nullable: false)]
     private DateTime $registeredAt;
 
@@ -46,6 +52,8 @@ class User implements JsonSerializable
         $this->securePassword = password_hash($password,PASSWORD_DEFAULT);
         $this->isPrivate = false;
         $this->isAdmin = $isAdmin;
+        $this->profile = null;
+        $this->avatarPath = null;
         $this->registeredAt = new DateTime('now');
         $this->deletedAt = null;
     }
@@ -68,6 +76,24 @@ class User implements JsonSerializable
     public function setIsAdmin(bool $isAdmin): void
     {
         $this->isAdmin = $isAdmin;
+    }
+
+    public function setProfile(string $profile): void 
+    {
+        $this->profile = $profile;
+    }
+
+    public function setAvatarPath(string $avatarPath): void 
+    {
+        $this->avatarPath = $avatarPath;
+    }
+
+    public function updateAvatarPath():void 
+    {
+        if($this->avatarPath == null)$this->avatarPath = "/users" ."/" . $this->id . "/avatar"; 
+        $basePath = explode('?', $this->avatarPath)[0];
+        $timestamp = time();
+        $this->avatarPath = $basePath . '?v=' . $timestamp;
     }
 
     public function getId(): ?int
@@ -105,6 +131,11 @@ class User implements JsonSerializable
         return $this->isAdmin;
     }
 
+    public function getProfile():string 
+    {
+        return $this->profile;
+    }
+
     public function setDeletedAt():void
     {
         $this->deletedAt = new DateTime('now');
@@ -112,6 +143,19 @@ class User implements JsonSerializable
     public function getDeletedAt():?DateTime
     {
         return $this->deletedAt;
+    }
+
+    public function fromArray(array $userInput): void
+    {
+        foreach ($userInput as $key => $value) {
+            if ($key == 'password')$this->setPassword($value);
+            else $this->$key = $value;
+        }
+    }
+
+    public function getAvatarPath(): string 
+    {
+        return $this->avatarPath;
     }
 
     #[\ReturnTypeWillChange]
@@ -123,6 +167,8 @@ class User implements JsonSerializable
             'username' => $this->username,
             'is_private' => $this->isPrivate,
             'is_admin' => $this->isAdmin,
+            'profile' => $this->profile,
+            'avatar_path' => $this->avatarPath,
             'registered_at' => $this->registeredAt->format('Y-m-d H:i:s'),
         ];
     }

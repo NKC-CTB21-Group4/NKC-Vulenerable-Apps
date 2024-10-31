@@ -1,5 +1,6 @@
 <?php
-require_once '../config/progressdata.php';
+require_once 'api/get_progress.php';
+$progressLevels = $result;
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['issue'])) {
     $selectedIssue = $_GET['issue'];

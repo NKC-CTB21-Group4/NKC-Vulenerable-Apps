@@ -88,6 +88,7 @@ class Post implements JsonSerializable
             'id' => $this->id,
             'author_id' => $this->author->getId(),
             'author_name' =>$this->author->getUsername(),
+            'author_avatar' => $this->author->getAvatarPath(),
             'content' => $this->content,
             'image_path' => $this->imagePath,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),

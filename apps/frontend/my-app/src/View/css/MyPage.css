@@ -13,5 +13,24 @@
     font-size: calc(10px + 2vmin);
     color: white;
     justify-content: flex-start;
-  }
-  
+}
+.mypage-userinfo{
+    display: flex;
+}
+.mypage-userinfo .user-icon {
+    width: 4em; /* 必要に応じて幅を調整 */
+    height: 4em; /* 必要に応じて高さを調整 */
+}
+.mypage-userinfo .username {
+    font-size:  1.5em;/*この文字サイズだけ変わんない*/
+    padding-top: 0.3em;
+}
+.mypage-userinfo .userid {
+    font-size: 1.5em; /* フォントサイズを設定 */
+}
+.profile-edit-icon{
+    width: 1.5em;
+    height: 1.5em;
+    padding-top: 0.7em;
+    cursor: pointer;
+}
