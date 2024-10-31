@@ -159,9 +159,6 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
         /**アルゴリズムを実装 */
         return $posts;
     }
-    /**アルゴリズムを実装 */
-    return $posts;
-  }
 
   public function search(array $searchCriteria):array 
   {
