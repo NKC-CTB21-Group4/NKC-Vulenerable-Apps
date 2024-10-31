@@ -3,7 +3,7 @@ import './css/MyPostView.css'; // CSSファイルをインポート
 import Contentinfo from './ContentInfo/Contentinfo';
 import AuthContext from '../Utils/AuthProvider';
 
-function MyPostView({ searchKeyword ,render}) { // デフォルト値として空の配列を設定
+function MyPostView({ render}) { // デフォルト値として空の配列を設定
   const [posts, setPosts] = useState([]); 
   const { user } = useContext(AuthContext);
   const userid = user?.id;
