@@ -109,9 +109,9 @@ function Mainview() {
         <Linkview links={links} onLinkClick={handleClearSearch} />
         <div className="header-posts-container">
           <Header />
-          <PostView searchKeyword={searchKeyword} />
+          <PostView/>
         </div>
-        <Search setSearchKeyword={setSearchKeyword} searchKeyword={searchKeyword} />
+        <Search/>
       </div>
       <Logout />
     </header>
