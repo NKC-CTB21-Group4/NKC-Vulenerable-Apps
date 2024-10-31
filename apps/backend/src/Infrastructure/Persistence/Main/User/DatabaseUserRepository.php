@@ -103,6 +103,13 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
         return $user;
     }
 
+    public function updateUserAvatarPath(User $user):string {
+        $user->updateAvatarPath();
+        $this->_em->persist($user);
+        $this->_em->flush();
+        return $user->getAvatarPath();
+    }
+    
     public function search($searchParam):array {
         try {
             // 基本的なクエリ構築

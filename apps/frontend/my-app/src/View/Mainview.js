@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo} from 'react';
 import './css/Mainview.css'; // CSSファイルをインポート
 import LinkiconHome from '../images/tegakihome.png';
 import LinkiconBell from '../images/tegakibell.png';
@@ -19,11 +19,14 @@ import Search from '../Component/Search';
 function Mainview() {
   const { user } = useContext(AuthContext);
   const userid = user?.id;
+  const userAvatarPath = user?.avatar_path;
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [render,setRender] = useState(0);
 
   useEffect(() => {
     if (!userid) return;
-  }, [userid]);
+    setRender((prevRender) => prevRender + 1);
+  }, [userid,userAvatarPath]);
 
   const handleClearSearch = () => {
     setSearchKeyword('');
@@ -80,7 +83,7 @@ function Mainview() {
   } else {
     links.push(
       {
-        src: userid ? `http://localhost:8080/users/${userid}/avatar` : Iconhavertz,
+        src: userid ? `http://localhost:8080${userAvatarPath}` : Iconhavertz,
         alt: 'Linkicon1',
         to: '/Mypage',
         text: "マイページ"

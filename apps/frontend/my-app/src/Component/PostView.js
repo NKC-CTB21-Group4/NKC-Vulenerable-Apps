@@ -72,7 +72,7 @@ function PostView({}) {
       {posts.map((post) => (
         <Contentinfo
           key={post.id}
-          src={`http://localhost:8080/users/${post.author_id}/avatar`} // srcとaltはUserinfoコンポーネントが使っている場合に設定
+          src={`http://localhost:8080${post.author_avatar}`} // srcとaltはUserinfoコンポーネントが使っている場合に設定
           alt=""
           username={post.author_name}
           userid={post.author_id}
