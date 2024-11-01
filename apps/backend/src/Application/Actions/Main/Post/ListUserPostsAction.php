@@ -19,22 +19,22 @@ class ListUserPostsAction extends PostAction
     $userId = (int)$this->resolveArg('userId');
 
     // tokenからuserId特定->FollowerId特定
-    $userFromToken = $this->getUserFromToken();
-    $authenticatedUser = $this->checkUserAuthorization($userFromToken);
-    if ($authenticatedUser === null) {
-        return $this->respondWithData('Unauthorized', 403);
-    }
+    // $userFromToken = $this->getUserFromToken();
+    // $authenticatedUser = $this->checkUserAuthorization($userFromToken);
+    // if ($authenticatedUser === null) {
+    //     return $this->respondWithData('Unauthorized', 403);
+    // }
 
-    $followerId = $authenticatedUser->getId();
+    //$followerId = $this->userRepository->getId();
 
     // userIdからそのuserが鍵あかか判断
     $user = $this->userRepository->findUserOfId($userId);
-    $isPrivate = $user->getIsPrivate();
+    // $isPrivate = $user->getIsPrivate();
 
-    $bothFollowCheck = $this->followRepository->bothFollowChecker($followerId, $userId);
-    if ($isPrivate && !$bothFollowCheck) {
-        return $this->respondWithData("This user is Private and you are not mutual followers.", 403);
-    }
+    // $bothFollowCheck = $this->followRepository->bothFollowChecker($followerId, $userId);
+    // if ($isPrivate && !$bothFollowCheck) {
+    //     return $this->respondWithData("This user is Private and you are not mutual followers.", 403);
+    // }
 
     try {
       // 例外を返す可能性がある
