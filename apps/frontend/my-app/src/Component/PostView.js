@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'; // useNavigate をインポー�
 import './css/PostView.css';
 import Contentinfo from './ContentInfo/Contentinfo';
 
-function PostView({ searchKeyword }) {
+function PostView({}) {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
@@ -24,10 +24,41 @@ function PostView({ searchKeyword }) {
       setPosts((prevPosts) => [event.detail, ...prevPosts]);
     };
 
-    window.addEventListener('newPost', handleNewPost);
+ 
 
+     // カスタムイベントをリッスンして検索結果を取得する関数
+     const handleSearchEvent = async (event) => {
+      const { keyword, authorId, authorName, dateFrom, dateTo } = event.detail;
+
+      // 検索パラメータをクエリストリングとして生成
+      const queryParams = new URLSearchParams({
+        keyword,
+        authorId,
+        authorName,
+        dateFrom,
+        dateTo
+      });
+
+      try {
+        // 検索APIにリクエスト
+        const response = await fetch(`http://localhost:8080/posts/search?${queryParams.toString()}`);
+        const json = await response.json();
+        const searchpostarray = Object.values(json.data)
+        .reverse()  // 逆順にソート
+        .filter((post) => post.deleted_at === null); // deleted_at が null の場合のみ
+        setPosts(searchpostarray);
+      } catch (error) {
+        console.error('Error fetching search results:', error);
+      }
+    };
+
+    // 検索イベントをリッスン
+    window.addEventListener('SearchPost', handleSearchEvent);
+    window.addEventListener('newPost', handleNewPost);
+    // クリーンアップ
     return () => {
       window.removeEventListener('newPost', handleNewPost);
+      window.removeEventListener('SearchPost',handleSearchEvent);
     };
   }, []);
 
@@ -39,14 +70,9 @@ function PostView({ searchKeyword }) {
     navigate(`/users/${userid}/profile`)
   };
 
-  const filteredPosts = posts.filter(post => 
-    post.content.toLowerCase().includes(searchKeyword.toLowerCase()) ||
-    post.author_name.toLowerCase().includes(searchKeyword.toLowerCase())
-  );
-
   return (
     <div className="postview-container">
-      {filteredPosts.map((post) => (
+      {posts.map((post) => (
         <Contentinfo
           key={post.id}
           src={`http://localhost:8080${post.author_avatar}`}
