@@ -128,6 +128,10 @@ class DatabaseFollowRepository extends EntityRepository implements FollowReposit
 
     public function bothFollowChecker(int $followerId, int $followedId): bool
     {
+        if ($followerId === $followedId){
+            return true;
+        }
+
         $queryBuilder = $this->createQueryBuilder('f1')
             ->select('COUNT(f1.id)')
             ->innerJoin('App\Domain\Main\Follow\Follow', 'f2', Join::WITH, 'f1.follower = f2.followed AND f1.followed = f2.follower')
