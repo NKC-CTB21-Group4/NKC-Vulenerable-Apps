@@ -1,0 +1,97 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    margin-top: 30px;
+}
+
+form {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+form input[type="submit"] {
+    width: 500px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    
+}
+input.btpost {
+    width: 100px; /* 幅を100ピクセルに設定 */
+}
+
+
+a {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    text-decoration: none;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+#title {
+    width: 50%; /* タイトル入力部分の幅を50%に設定 */
+}
+#contet {
+    width: 150%; /* タイトル入力部分の幅を50%に設定 */
+}
+input[type="submit"][name="logout"] {
+    background-color: #FF0033;
+}
+input[type="submit"][name="btpostt"]{
+    
+}
+   
+hr{
+    width: 60%;
+    border-top: 2px solid skyblue;
+}
+input[type="submit"][name="btdelete"]{
+    width: 60px;
+}
+h2[name="upload"]{
+    text-align: center;
+}
+

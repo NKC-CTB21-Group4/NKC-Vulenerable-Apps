@@ -1,0 +1,86 @@
+/* コンテンツ全体のスタイル */
+.content-item {
+    width: 30em; /* 必要に応じて幅を調整 */
+    color: white;    height: auto;
+    margin: 1em auto; /* 中央に配置 */
+    padding: 1em; /* 内側の余白を設定 */
+    box-sizing: border-box; /* パディングとボーダーを含めたボックスサイズを計算 */
+    margin-top: 0;
+    
+}
+
+
+/* テキストのスタイル */
+.content-text {
+    font-size: 1.1em; /* 必要に応じてフォントサイズを調整 */
+    color: #333; /* フォントカラーを濃いグレーに設定 */
+    line-height: 1.6; /* 行間を設定 */
+}
+
+/* コンテナ全体のスタイル */
+.contentinfo-container {
+    text-align: left;
+    background-color: white; /* 背景色を白に設定 */
+    border: 0.25px solid #f4f3f3; /* 枠線を薄いグレーに設定 */
+    width: 50vw; 
+}
+
+  
+.post-actions {
+display: flex;
+align-items: center;
+}
+
+.post-delete-button {
+background-color: #ff4d4d;
+color: white;
+border: none;
+padding: 5px 10px;
+margin-left: 10px;
+cursor: pointer;
+border-radius: 3px;
+}
+
+.post-report-button{
+background-color: blue;
+color: white;
+border: none;
+padding: 5px 10px;
+margin-left: 1px;
+cursor: pointer;
+border-radius: 3px;
+}
+
+.delete-button:hover {
+background-color: #ff1a1a;
+}
+
+
+/* ホバー効果を追加 */
+.contentinfo-container:hover {
+    background-color: #f5f3f3; /* 背景色をややグレーの白に設定 */
+}
+
+
+.post-actions{
+   margin-left:2em ;
+   margin-bottom: 1em;
+}
+.Fav{
+    width: 1em;
+}
+.post-delete-button{
+    margin-left: 36em;
+    border: 0.25px solid black;
+}
+@media (max-width: 768px) {
+    .content-item {
+        width: 90%; /* 画面幅が768px以下の場合の幅 */
+    }
+}
+
+@media (max-width: 480px) {
+    .content-item {
+        width: 95%; /* 画面幅が480px以下の場合の幅 */
+    }
+}

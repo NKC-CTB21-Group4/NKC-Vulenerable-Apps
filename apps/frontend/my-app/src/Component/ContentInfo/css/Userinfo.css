@@ -1,0 +1,17 @@
+.userinfo-container {
+  display: flex;
+  padding: 10px;
+  justify-content: flex-start;
+
+}
+
+.userinfo-text {
+  display: flex;
+  flex-direction: column; /* ユーザーネームとユーザーIDを縦方向に配置 */
+  margin-top: 0.6em;
+ 
+}
+
+
+
+

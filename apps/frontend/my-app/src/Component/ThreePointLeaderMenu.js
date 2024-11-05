@@ -1,0 +1,58 @@
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import './css/ThreePointLeaderMenu.css';
+
+const MenuContent = ({ isOpen }) => {
+  useEffect(() => {
+    // User削除モーダルのイベントリスナーを追加
+    const userDeleteBtn = document.querySelector("#user-delete-btn");
+    const userDeleteDialog = document.querySelector("#user-delete-dialog");
+
+    const openDeleteDialog = () => {
+      if (userDeleteDialog) {
+        userDeleteDialog.showModal();
+      }
+    };
+
+    if (userDeleteBtn) {
+      userDeleteBtn.addEventListener("click", openDeleteDialog);
+    }
+
+    // Email, Password変更モーダルのイベントリスナーを追加
+    const userChangeBtn = document.querySelector("#user-change-btn");
+    const userChangeDialog = document.querySelector("#user-change-dialog");
+
+    const openChangeDialog = () => {
+      if (userChangeDialog) {
+        userChangeDialog.showModal();
+      }
+    };
+
+    if (userChangeBtn) {
+      userChangeBtn.addEventListener("click", openChangeDialog);
+    }
+
+    return () => {
+      if (userDeleteBtn) {
+        userDeleteBtn.removeEventListener("click", openDeleteDialog);
+      }
+      if (userChangeBtn) {
+        userChangeBtn.removeEventListener("click", openChangeDialog);
+      }
+    };
+  }, []);
+
+  return (
+    <nav className={`nav-menu ${isOpen ? 'open' : ''}`}>
+      <ul>
+        <li><Link to="#" id="user-change-btn">Email,Password変更</Link></li>
+        <li><Link to="#" id="user-delete-btn">User削除</Link></li>
+        <li><Link to="#about">About</Link></li>
+        <li><Link to="#services">Services</Link></li>
+        <li><Link to="#contact">Contact</Link></li>
+      </ul>
+    </nav>
+  );
+};
+
+export default MenuContent;

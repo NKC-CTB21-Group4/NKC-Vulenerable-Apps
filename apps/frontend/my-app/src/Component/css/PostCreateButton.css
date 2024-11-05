@@ -1,0 +1,106 @@
+#post-create-btn{
+    width: 3em;
+    height: 3em;
+    margin: 0.4em;
+    margin-left: 1.7em;
+    cursor: pointer; 
+}
+#post-create-dialog  {
+    border: none;
+    border-radius: 8px;
+    width: 400px;
+    height: 350px; /* ダイアログの高さをコンテンツに合わせて自動調整 */
+    z-index: 10;
+    padding: 20px; /* 内側のスペースを確保します */
+    box-sizing: border-box; /* 要素の総幅と高さにパディングとボーダーを含めます */
+    position: relative; /* 子要素の位置を確保します */
+}
+
+#post-create-dialog::backdrop {
+    background: rgba(0,0,0,0.3);
+}
+
+#post-create-modalBtn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#post-create-textArea {
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    margin: 0 auto 10px auto;
+    width: calc(100% - 40px); /* ダイアログ内に収まるように幅を調整 */
+    height: 150px; /* 視認性を高めるために高さを調整 */
+    display: block;
+    padding: 10px; /* テキスト間隔を改善するためのパディングを追加 */
+    box-sizing: border-box;
+}
+
+.image-preview {
+    margin: 10px 0; /* スペースのためのマージンを追加 */
+    text-align: center; /* 画像を中央に配置 */
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 200px; /* 最大高さを設定して画像が大きすぎないように */
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.custom-file-input img {
+    cursor: pointer;
+    width: 100px; /* 画像のサイズを調整 */
+    height: auto;
+}
+
+#post-create-fileInput {
+    display: none; /* ファイル入力を隠す */
+}
+
+#post-create-submitBtn {
+    bottom: 10px; /* 下端から10pxの位置に配置 */
+    background: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin-left: 22em;
+    width: 5em;
+}
+
+#post-create-submitBtn:hover {
+    background: #0056b3;
+}
+
+.cancel-upload-button {
+    position: absolute;
+    top: 45px;
+    right: 91px;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明の背景色 */
+    color: black;
+    border: none;
+    padding: 6px 12px; /* ボタンの内側の余白 */
+    border-radius: 4px; /* 角丸 */
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* ホバー時のアニメーション */
+  
+    /* ホバー時のスタイル */
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.7); /* より濃い背景色 */
+    }
+  }
+  #post-create-image{
+    width: 1.5em;
+    height: 1.5em;
+  }
+  

@@ -1,0 +1,58 @@
+/* MenuContent.css */
+.PRM-nav-menu {
+    position: absolute;
+    left:440px;
+    top: 50px;
+    width: 120px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    z-index: 10;
+}
+
+.PRM-nav-menu.open {
+    transform: translateY(0);
+    display: block;
+}
+
+.PRM-nav-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.PRM-nav-menu ul li {
+    
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.PRM-nav-menu ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+}
+
+.PRM-nav-menu ul li:hover {
+    background-color: #f0f0f0;
+}
+
+
+.error {
+    color: red;
+}
+.PRM-bt{
+    width: 120px;
+    height: 60px;
+   border: none;
+   background-color: white;
+   font-size: 18px;
+    font-weight: bold;
+}
+.PRM-bt:hover{
+   background-color: #f0f0f0;
+}
+

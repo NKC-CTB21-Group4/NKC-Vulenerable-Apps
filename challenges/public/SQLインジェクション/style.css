@@ -1,0 +1,63 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff; /* ライトブルー */
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #4169e1; /* ロイヤルブルー */
+}
+
+.filters {
+    margin-bottom: 20px;
+}
+
+.filters label {
+    font-weight: bold;
+}
+
+.filters select {
+    margin-right: 10px;
+}
+
+.results {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+.login-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #4169e1; /* ロイヤルブルー */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.login-btn:hover {
+    background-color: #003366; /* ダークブルー */
+}

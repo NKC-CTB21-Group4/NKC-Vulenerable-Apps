@@ -1,0 +1,23 @@
+import React, { useContext } from 'react';
+import AuthContext from '../../Utils/AuthProvider';
+import {Link} from 'react-router-dom';
+
+function UserList({ users, onUserSelect }) {
+    const {user} = useContext(AuthContext);
+    const userid = user.id;
+  return (
+    <div className="userlist-container">
+        <Link to="/" className="back-button-mainview">←</Link>
+    <div className="direct-message-user-list">
+      {users.map((user) => (
+        <div key={user.id} onClick={() => onUserSelect(user)} className="direct-message-user">
+           <strong>{userid === user.receiver.id ? user.sender.username : user.receiver.username}</strong><br></br>
+           <strong>{user.message.substring(0, 5)}...</strong>
+        </div>
+      ))}
+    </div>
+    </div>
+  );
+}
+
+export default UserList;

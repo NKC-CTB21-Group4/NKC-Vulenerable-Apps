@@ -1,0 +1,17 @@
+.mypostview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0px; /* コンポーネント間のスペース */
+    max-height: 25em; /* スクロール可能にする最大の高さを指定 */
+  overflow-y: auto; /* 垂直方向のスクロールを有効にする */
+}
+.mypostview-container::-webkit-scrollbar {
+width: 0;
+height: 0;
+}
+
+/* Firefoxのスクロールバーを非表示にする */
+.mypostview-container {
+scrollbar-width: none; /* Firefox用 */
+}

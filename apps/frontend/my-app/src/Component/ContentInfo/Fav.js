@@ -1,0 +1,73 @@
+import React, { useEffect, useState,useContext } from 'react';
+import './css/Fav.css';
+import AuthContext from '../../Utils/AuthProvider';
+
+function Fav({ postid }) {
+    const [favorites, setFavorites] = useState({});
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const { user } = useContext(AuthContext);
+    const userid = user.id;
+
+    useEffect(() => {
+        const fetchFavorites = async () => {
+            try {
+                const authtoken = localStorage.getItem('authToken');
+                const response = await fetch(`http://localhost:8080/favorite/posts/${postid}`, {
+                    headers: {
+                        'Authorization': `Bearer ${authtoken}`,
+                    },
+                });
+                const json = await response.json();
+                setFavorites(json.data);
+            } catch (err) {
+                setError('Failed to fetch favorites');
+            }
+        };
+        fetchFavorites();
+    }, [postid]);
+
+    const handleFavoriteClick = async () => {
+        if(!userid){
+            return;
+        }
+        setError(null);
+        setIsLoading(true);
+        try {
+            const authtoken = localStorage.getItem('authToken');
+            const response = await fetch(`http://localhost:8080/favorite/posts/${postid}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authtoken}`,
+                },
+            });
+            const json = await response.json();
+            setFavorites({
+                fav: json.data ? favorites.fav + 1 : favorites.fav - 1,
+                clicked: json.data
+            });
+        } catch (err) {
+            setError('Failed to update favorites');
+        }
+        setIsLoading(false);
+    };
+
+    return (
+        <div className='fav-container'>
+            <span 
+                onClick={!isLoading ? handleFavoriteClick : null} 
+                style={{
+                    cursor: 'pointer', 
+                    color: favorites.clicked ? 'red' : 'black',
+                }}
+            >
+                ♥
+            </span>
+            <span style={{ color: 'black' }}>{favorites.fav}</span>
+            {error && <span>{error}</span>}
+        </div>
+    );
+}
+
+export default Fav;
