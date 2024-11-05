@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // useNavigate をインポート
-import './css/PostView.css';
+import {useParams, useNavigate } from 'react-router-dom'; // useNavigate をインポート
 import Contentinfo from './ContentInfo/Contentinfo';
 
-function PostView({ searchKeyword }) {
+function UserPostsView({  }) {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
-
+  const { userid } = useParams(); // URLからユーザーIDを取得
+  const [searchKeyword, setSearchKeyword] = useState('');
+    
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/posts`);
+        const response = await fetch(`http://localhost:8080/users/${userid}/posts`);
         const json = await response.json();
         const postarray = Object.values(json.data).reverse(); // 逆順にソート
         setPosts(postarray);
@@ -64,4 +65,4 @@ function PostView({ searchKeyword }) {
   );
 }
 
-export default PostView;
+export default UserPostsView;

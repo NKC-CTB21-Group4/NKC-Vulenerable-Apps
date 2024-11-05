@@ -8,6 +8,7 @@ import CreateUser from './View/CreateUser';
 import Mypage from './View/MyPage';
 import Logout from './Component/Logout';
 import DirectMessage from './Component/DirectMessage/DirectMessage';
+import UserProfileView from './View/UserprofileView';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/admin/*" element={<AdminView />} />
           <Route path="/mypage" element={<Mypage/>}/>
           <Route path="/dm" element={<DirectMessage/>}/>
+          <Route path="/users/:userid/profile" element={<UserProfileView />} /> {/* OthersPage へのルート */}
         </Routes>
       </Router>
     </AuthProvider>
