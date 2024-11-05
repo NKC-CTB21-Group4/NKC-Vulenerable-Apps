@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useMemo} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './css/Mainview.css'; // CSSファイルをインポート
 import LinkiconHome from '../images/tegakihome.png';
 import LinkiconBell from '../images/tegakibell.png';
@@ -109,7 +109,7 @@ function Mainview() {
         <Linkview links={links} onLinkClick={handleClearSearch} />
         <div className="header-posts-container">
           <Header />
-          <PostView/>
+          <PostView />
         </div>
         <Search/>
       </div>
