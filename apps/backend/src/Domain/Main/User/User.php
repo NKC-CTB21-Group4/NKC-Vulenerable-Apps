@@ -131,7 +131,7 @@ class User implements JsonSerializable
         return $this->isAdmin;
     }
 
-    public function getProfile():string 
+    public function getProfile():?string 
     {
         return $this->profile;
     }
@@ -153,7 +153,7 @@ class User implements JsonSerializable
         }
     }
 
-    public function getAvatarPath(): string 
+    public function getAvatarPath(): ?string 
     {
         return $this->avatarPath;
     }
