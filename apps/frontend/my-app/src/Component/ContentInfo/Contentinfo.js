@@ -9,13 +9,13 @@ import ReportPost from '../ReportPost';
 
 import PostReader from './PostReader';
 
-function Contentinfo({ src, alt, username, userid, postid, content, imagepath, handleDelete,postOwnerId }) {
+function Contentinfo({ src, alt, username, userid, postid, content, imagepath, onUserIconClick, handleDelete,postOwnerId }) {
 
 
   return (
     <div className="contentinfo-container">
       <div className="userinfo-content">
-        <Userinfo src={src} alt={alt} username={username} userid={userid} />
+        <Userinfo src={src} alt={alt} username={username} userid={userid} onUserIconClick={onUserIconClick} />
         <div className="content">
           <Content content={content} imagepath={imagepath}/>
         </div>
