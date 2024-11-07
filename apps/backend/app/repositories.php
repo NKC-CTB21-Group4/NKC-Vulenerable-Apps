@@ -47,7 +47,11 @@ return function (ContainerBuilder $containerBuilder) {
             return new JwtMiddleware($c->get(MainEntityManager::class));
         },
         PostRepository::class => function(ContainerInterface $c): PostRepository{
-            return new DatabasePostRepository($c->get(MainEntityManager::class));
+            return new DatabasePostRepository(
+                $c->get(MainEntityManager::class),
+                $c->get(UserRepository::class),
+                $c->get(FollowRepository::class)
+            );
         },
         ReactionRepository::class => function(ContainerInterface $c):ReactionRepository{
             return new DatabaseReactionRepository($c->get(MainEntityManager::class));
