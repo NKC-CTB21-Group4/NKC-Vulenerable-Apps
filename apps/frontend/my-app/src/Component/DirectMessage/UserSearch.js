@@ -25,18 +25,16 @@ function UserSearch() {
       const advancedSearchParams = {};
       let keyword = input.trim(); // キーワードをトリムして取り出す
 
-      if (input.includes('userId:')) {
         const match = input.match(/userId:(\d+)/);
         if (match) {
           advancedSearchParams.userId = match[1];
           keyword = keyword.replace(match[0], '').trim(); // 残りの部分をキーワードとして扱う
         }
-      }
 
       const event = new CustomEvent('SearchUser',{
         detail:{
             keyword:keyword || '',
-            userId:advancedSearchParams.userId || ''
+            searchUserId:advancedSearchParams.userId || ''
         }
       });
       window.dispatchEvent(event);
@@ -44,16 +42,16 @@ function UserSearch() {
 
     return (
     <div className="direct-message-search-container">
-      <img className="search-icon" src={tegakisearch} alt="Search Icon" />
+      <img className="direct-message-search-icon" src={tegakisearch} alt="Search Icon" />
       <input
-        className="search-user"
+        className="direct-message-search-user"
         type="text"
         placeholder="検索"
         value={searchTerm} // インプットの値をsearchTermにバインド
         onChange={handleChange}
         onKeyDown={handleKeyDown} // エンターキーの押下を検出
       />
-      <button className="clear-button" onClick={handleClear}>
+      <button className="direct-message-clear-button" onClick={handleClear}>
         <img src={tegakiclear} alt="Clear Icon" />
       </button>
     </div>

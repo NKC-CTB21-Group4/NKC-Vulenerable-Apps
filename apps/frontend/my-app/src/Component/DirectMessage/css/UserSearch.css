@@ -1,10 +1,9 @@
 .direct-message-search-container{
-    width: 13.5em;
     text-align: center;
    }
-   .search-post{
+   .direct-message-search-user{
        margin-top: 0.2em;
-       width:16.5em;
+       width:9.25em;
        height: 3em;
        border-radius: 1.5em;
        border: none;
@@ -12,23 +11,23 @@
        padding-left: 2.5em;
        padding-right: 2.5em;
    }
-   .search-icon{
-       width: 0.8em;
-       height: 0.8em;
+   .direct-message-search-icon{
+       width: 1em;
+       height: 1em;
        position: absolute;
        margin-left:0.5em;
-       margin-top: 0.7em;
+       margin-top: 1.0em;
        color: #efeeee;
    }
-   .clear-button{
+   .direct-message-clear-button{
        border-radius: 1.5em;
        border: none;
        background-color: rgb(40, 179, 218);
        position: absolute;
-       margin-top: 1.15em;
-       right:2.4em;
+       margin-top: 1em;
+       right:1.8em;
    }
-   .clear-button img {
+   .direct-message-clear-button img {
        width: 1em; /* クリアアイコンの幅を適宜調整 */
        height: 1em; /* クリアアイコンの高さを適宜調整 */
     }
