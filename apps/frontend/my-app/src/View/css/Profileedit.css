@@ -1,0 +1,33 @@
+.profile-edit-button-container{
+    display: flex;  
+}
+.cancel-button{
+    float: left;
+    margin-right:24em;
+    width: 6em;
+    height:3em;
+}
+.save-button{
+    float: right;   
+    width: 6em;
+    height:3em;
+    margin-right: 0;
+}
+.icon-preview{
+    width: 4em; 
+    height: 4em; 
+}
+.profile-input{
+    font:bold;
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    font-family:cursive;
+    margin: 0 auto 10px auto;
+    width: calc(100%); /* ダイアログ内に収まるように幅を調整 */
+    height: 150px; /* 視認性を高めるために高さを調整 */
+    display: block;
+    padding: 10px; /* テキスト間隔を改善するためのパディングを追加 */
+    box-sizing: border-box;
+}

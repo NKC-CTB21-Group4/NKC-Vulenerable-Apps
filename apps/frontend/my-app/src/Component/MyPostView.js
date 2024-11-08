@@ -3,7 +3,7 @@ import './css/MyPostView.css'; // CSSファイルをインポート
 import Contentinfo from './ContentInfo/Contentinfo';
 import AuthContext from '../Utils/AuthProvider';
 
-function MyPostView() { 
+function MyPostView({ render}) { // デフォルト値として空の配列を設定
   const [posts, setPosts] = useState([]); 
   const { user } = useContext(AuthContext);
   const userid = user?.id;
@@ -66,7 +66,7 @@ function MyPostView() {
       window.removeEventListener('SearchPost', handleSearchEvent);
       window.removeEventListener('newPost', handleNewPost);
     };
-  }, []);
+  },[render]);
 
   // 投稿削除時にリストを更新する関数
   const handleDelete = (postid) => {
@@ -79,7 +79,7 @@ function MyPostView() {
         posts.map((post) => (
           <Contentinfo
             key={post.id}
-            src={`http://localhost:8080/users/${userid}/avatar`} // srcとaltはUserinfoコンポーネントが使っている場合に設定
+            src={`http://localhost:8080${post.author_avatar}`} // srcとaltはUserinfoコンポーネントが使っている場合に設定
             alt=""
             username={post.author_name}
             userid={post.author_id}

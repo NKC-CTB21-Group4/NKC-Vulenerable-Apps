@@ -1,0 +1,15 @@
+.profile-container {
+    padding: 1em ;
+    width: 22em;
+}
+
+  
+.profile {
+    color:black;
+    font-size:  0.75em;/*この文字サイズだけ変わんない*/
+    font-family:cursive;
+    line-height: 1.2; /* 行の高さを設定 */
+    overflow-wrap: break-word;/* 単語の途中で折り返す */
+    height: auto;
+
+}

@@ -27,11 +27,17 @@ class User implements JsonSerializable
     #[Column(name: 'securePassword', type: 'string', length: 256)]
     private string $securePassword;
 
+    #[Column(name: 'is_private', type: 'boolean')]
+    private bool $isPrivate;
+
     #[Column(name: 'is_admin', type: 'boolean')]
     private bool $isAdmin;
 
     #[Column(name: 'profile', type: 'text', nullable: true)]
     private ?string $profile;
+
+    #[Column(name:'avatar_path', type: 'string', nullable: true)]
+    private ?string $avatarPath;
 
     #[Column(name: 'registered_at', type: 'datetime', nullable: false)]
     private DateTime $registeredAt;
@@ -39,13 +45,15 @@ class User implements JsonSerializable
     #[Column(name: 'deleted_at', type: 'datetime', nullable: true)]
     private ?DateTime $deletedAt;
 
-    public function __construct(string $username, string $email, string $password, bool $isAdmin)
+    public function __construct(string $username, string $email, string $password, bool $isAdmin, bool $isPrivate = false)
     {
         $this->username = $username;
         $this->email = $email;
         $this->securePassword = password_hash($password,PASSWORD_DEFAULT);
+        $this->isPrivate = false;
         $this->isAdmin = $isAdmin;
         $this->profile = null;
+        $this->avatarPath = null;
         $this->registeredAt = new DateTime('now');
         $this->deletedAt = null;
     }
@@ -75,6 +83,19 @@ class User implements JsonSerializable
         $this->profile = $profile;
     }
 
+    public function setAvatarPath(string $avatarPath): void 
+    {
+        $this->avatarPath = $avatarPath;
+    }
+
+    public function updateAvatarPath():void 
+    {
+        if($this->avatarPath == null)$this->avatarPath = "/users" ."/" . $this->id . "/avatar"; 
+        $basePath = explode('?', $this->avatarPath)[0];
+        $timestamp = time();
+        $this->avatarPath = $basePath . '?v=' . $timestamp;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -95,12 +116,22 @@ class User implements JsonSerializable
         return $this->securePassword;
     }
 
+    public function getIsPrivate(): bool
+    {
+        return $this->isPrivate;
+    }
+
+    public function setIsPrivate(bool $isPrivate): void
+    {
+        $this->isPrivate = $isPrivate;
+    }
+
     public function getIsAdmin(): bool
     {
         return $this->isAdmin;
     }
 
-    public function getProfile():string 
+    public function getProfile():?string 
     {
         return $this->profile;
     }
@@ -122,6 +153,11 @@ class User implements JsonSerializable
         }
     }
 
+    public function getAvatarPath(): ?string 
+    {
+        return $this->avatarPath;
+    }
+
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): array
     {
@@ -129,8 +165,10 @@ class User implements JsonSerializable
             'id' => $this->id,
             'email' => $this->email,
             'username' => $this->username,
+            'is_private' => $this->isPrivate,
             'is_admin' => $this->isAdmin,
             'profile' => $this->profile,
+            'avatar_path' => $this->avatarPath,
             'registered_at' => $this->registeredAt->format('Y-m-d H:i:s'),
         ];
     }

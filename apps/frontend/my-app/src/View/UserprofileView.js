@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './css/Mainview.css'; // CSSファイルをインポート
+import {useParams,  useNavigate } from 'react-router-dom';
 import LinkiconHome from '../images/tegakihome.png';
 import LinkiconBell from '../images/tegakibell.png';
 import LinkiconMassage from '../images/tegakimessage.png';
@@ -8,25 +8,36 @@ import Linkiconbutton from '../images/tegakibutton.png';
 import LinkiconLogin from '../images/tegakilogin.png';
 import LinkiconCreateUser from '../images/tegakicreateuser.png';
 import LinkiconLogout from '../images/tegakilogout.png';
-import Linkview from '../Component/LinkView/Linkview';
 import LinkiconApp from '../images/tegakiappicon.png';
-import PostView from '../Component/PostView';
+import Linkview from '../Component/LinkView/Linkview';
 import Header from '../Component/Header';
 import AuthContext from '../Utils/AuthProvider';
 import Logout from '../Component/Logout';
 import Search from '../Component/Search';
+import Profileinfo from '../Component/ContentInfo/Profileinfo';
+import UserPostsView from '../Component/UserPostsView';
 
-function Mainview() {
-  const { user } = useContext(AuthContext);
-  const userid = user?.id;
-  const userAvatarPath = user?.avatar_path;
-  const [searchKeyword, setSearchKeyword] = useState('');
-  const [render,setRender] = useState(0);
+function UserProfileView() {
+    const { userid } = useParams(); // URLからユーザーIDを取得
+    const { auth } = useContext(AuthContext);
+    const [userData, setUserData] = useState({}); // 指定ユーザーのデータを保存する状態
+    const [searchKeyword, setSearchKeyword] = useState('');
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!userid) return;
-    setRender((prevRender) => prevRender + 1);
-  }, [userid,userAvatarPath]);
+    useEffect(() => {
+        const fetchUserData = async () => {
+          try {
+            const response = await fetch(`http://localhost:8080/users/${userid}`);
+            const data = await response.json();
+            setUserData(data.data); 
+          } catch (error) {
+            console.error('Error fetching user data:', error);
+            navigate('/'); // エラーがあればホームページにリダイレクト
+          }
+        };
+    
+        fetchUserData();
+      }, [userid]);
 
   const handleClearSearch = () => {
     setSearchKeyword('');
@@ -54,14 +65,20 @@ function Mainview() {
     {
       src: LinkiconBell,
       alt: 'Linkicon4',
-      to: '#',
+      to: '',
       text: "通知"
     },
     {
       src: LinkiconMassage,
       alt: 'Linkicon1',
-      to: 'dm',
+      to: '/dm',
       text: "メッセージ"
+    },
+    {
+      src: (auth?.avatar_path ? `http://localhost:8080${userData.avatar_path}` : Iconhavertz), // 更新されたアイコンを表示
+      alt: 'Linkicon1',
+      to: '/Mypage',
+      text: "マイページ"
     }
   ];
 
@@ -83,12 +100,6 @@ function Mainview() {
   } else {
     links.push(
       {
-        src: userid ? `http://localhost:8080${userAvatarPath}` : Iconhavertz,
-        alt: 'Linkicon1',
-        to: '/Mypage',
-        text: "マイページ"
-      },
-      {
         src: LinkiconLogout,
         alt: 'LinkiconLogout',
         to: '#',
@@ -104,18 +115,26 @@ function Mainview() {
   }
 
   return (
-    <header className='App-header'>
-      <div className="mainview-container">
+    <header className="mypage-App-header">
+      <div className="mypage-container">
         <Linkview links={links} onLinkClick={handleClearSearch} />
-        <div className="header-posts-container">
+        <div className="mypage-header-posts-container">
           <Header />
-          <PostView />
+          <div className="mypage-userinfo">
+              <Profileinfo
+                src={userData.avatar_path ? `http://localhost:8080${userData.avatar_path}` : Iconhavertz}
+                username={userData.username}
+                userid={userData.id}
+                profile={userData.profile}
+              />
+          </div>
+          <UserPostsView /> {/* 他のユーザーの投稿表示 */}
         </div>
-        <Search/>
+        <Search setSearchKeyword={setSearchKeyword} searchKeyword={searchKeyword} />
       </div>
       <Logout />
     </header>
   );
 }
 
-export default Mainview;
+export default UserProfileView;

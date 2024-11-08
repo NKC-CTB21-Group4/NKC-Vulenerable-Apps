@@ -48,9 +48,33 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
         return $user;
     }
 
+    public function findAllUserIds(): array
+    {
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+        $queryBuilder->select('u.id')
+                    ->from(User::class, 'u')
+                    ->where('u.deletedAt IS NULL');
+
+        return array_column($queryBuilder->getQuery()->getResult(), 'id');
+    }
+
     public function createUser(User $user):User 
     {
         $this->save($user);
+        return $user;
+    }
+//setisprivateflag
+    public function setisprivateflag(int $userId, bool $isPrivate):User 
+    {
+        $user = $this->_em->getRepository(User::class)->find($userId);
+        
+        if ($user !== null) {
+            $user->setIsPrivate($isPrivate);
+            $this->save($user);
+        }
+        else {
+            throw new UserNotFoundException();
+        }
         return $user;
     }
 
@@ -103,6 +127,13 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
         return $user;
     }
 
+    public function updateUserAvatarPath(User $user):string {
+        $user->updateAvatarPath();
+        $this->_em->persist($user);
+        $this->_em->flush();
+        return $user->getAvatarPath();
+    }
+    
     public function search($searchParam):array {
         try {
             // 基本的なクエリ構築

@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // useNavigate をインポート
-import './css/PostView.css';
+import {useParams, useNavigate } from 'react-router-dom'; // useNavigate をインポート
 import Contentinfo from './ContentInfo/Contentinfo';
 
-function PostView({}) {
+function UserPostsView({  }) {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
-
+  const { userid } = useParams(); // URLからユーザーIDを取得
+  const [searchKeyword, setSearchKeyword] = useState('');
+    
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/posts`);
+        const response = await fetch(`http://localhost:8080/users/${userid}/posts`);
         const json = await response.json();
         const postarray = Object.values(json.data).reverse(); // 逆順にソート
         setPosts(postarray);
@@ -24,16 +25,15 @@ function PostView({}) {
       setPosts((prevPosts) => [event.detail, ...prevPosts]);
     };
 
- 
+    window.addEventListener('newPost', handleNewPost);
 
-     // カスタムイベントをリッスンして検索結果を取得する関数
-     const handleSearchEvent = async (event) => {
-      const { keyword, authorId, authorName, dateFrom, dateTo } = event.detail;
+    const handleSearchEvent = async (event) => {
+    const { keyword, authorId, authorName, dateFrom, dateTo } = event.detail;
 
       // 検索パラメータをクエリストリングとして生成
       const queryParams = new URLSearchParams({
         keyword,
-        authorId,
+        authorId: userid,
         authorName,
         dateFrom,
         dateTo
@@ -62,6 +62,8 @@ function PostView({}) {
     };
   }, []);
 
+  
+
   const handleDelete = (postid) => {
     setPosts(posts.filter((post) => post.id !== postid));
   };
@@ -69,6 +71,8 @@ function PostView({}) {
   const handleUserIconClick = (userid) => {
     navigate(`/users/${userid}/profile`)
   };
+
+  
 
   return (
     <div className="postview-container">
@@ -90,4 +94,4 @@ function PostView({}) {
   );
 }
 
-export default PostView;
+export default UserPostsView;
