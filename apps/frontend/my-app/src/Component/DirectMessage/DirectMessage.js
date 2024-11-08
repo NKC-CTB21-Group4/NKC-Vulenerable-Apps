@@ -5,18 +5,19 @@ import MessageInput from './MessageInput';
 import './css/DirectMessage.css';
 import AuthContext from '../../Utils/AuthProvider.jsx';
 import UserSearch from './UserSearch.js';
+import PullDownUserList from './PullDownUserList.js';
 
 function DirectMessage() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const { user } = useContext(AuthContext);
   const userid = user?.id;
 
   const getUserList = () => {
-    if (!userid) {
-      return;
-    }
+    if (!userid) return;
+
     fetch(`http://localhost:8080/users/${userid}/direct-message`, {
       headers: {
         "Authorization": "Bearer " + localStorage.getItem('authToken')
@@ -29,67 +30,44 @@ function DirectMessage() {
 
   useEffect(() => {
     getUserList();
-  
+
     const handleSearchUser = async (event) => {
       const { keyword, searchUserId } = event.detail;
-      const queryParams = new URLSearchParams({
-        keyword,
-        userId: searchUserId
-      });
-  
+      const queryParams = new URLSearchParams({ keyword, userId: searchUserId });
+
       fetch(`http://localhost:8080/users/search?${queryParams.toString()}`)
         .then(response => response.json())
         .then(json => {
           if (!json.data || json.data.length === 0) {
-            // 検索結果が存在しない場合
             console.warn("User not found. Resetting selected user.");
-            setSelectedUser(null); // 選択ユーザーをリセット
-            setMessages([]); // メッセージリストも空にする
+            setSearchResults([]); // 検索結果をリセット
+            setSelectedUser(null);
+            setMessages([]);
             return;
           }
-  
-          const searchedUserId = json.data[0].id;
-          const existingConversation = users.find(user =>
-            (user.sender.id === searchedUserId && user.receiver.id === userid) ||
-            (user.receiver.id === searchedUserId && user.sender.id === userid)
-          );
-  
-          if (existingConversation) {
-            // 過去にDMした相手が検索された場合
-            setSelectedUser({ sender: { id: userid }, receiver: { id: searchedUserId } });
-            fetch(`http://localhost:8080/direct-message/${userid}/${searchedUserId}`, {
-              headers: {
-                "Authorization": "Bearer " + localStorage.getItem('authToken')
-              }
-            })
-              .then(response => response.json())
-              .then(json => setMessages(json.data))
-              .catch(error => console.error('Error fetching messages:', error));
-          } else {
-            // 新しいユーザーとのDMを開始
-            setSelectedUser({ sender: { id: userid }, receiver: { id: searchedUserId } });
-            setMessages([]); // 新しいユーザーなのでメッセージは空に
-          }
+
+          setSearchResults(json.data); // 検索結果を保存
         })
         .catch(error => {
           console.error("Error fetching search results:", error);
-          setSelectedUser(null); // エラーの場合も選択ユーザーをリセット
-          setMessages([]); // メッセージリストを空に
+          setSearchResults([]);
+          setSelectedUser(null);
+          setMessages([]);
         });
     };
-  
+
     window.addEventListener('SearchUser', handleSearchUser);
-  
+
     return () => {
       window.removeEventListener('SearchUser', handleSearchUser);
     };
-  }, [userid, users]);
-  
+  }, [userid]);
 
   const handleUserSelect = (selectedUser) => {
     setSelectedUser(selectedUser);
     const senderid = selectedUser.sender.id;
     const receiverid = selectedUser.receiver.id;
+
     fetch(`http://localhost:8080/direct-message/${userid}/${userid === receiverid ? senderid : receiverid}`, {
       headers: {
         "Authorization": "Bearer " + localStorage.getItem('authToken')
@@ -101,15 +79,15 @@ function DirectMessage() {
   };
 
   const handleSendMessage = (message) => {
-    const receiverid = selectedUser.receiver.id;
-    const senderid = selectedUser.sender.id;
-     // メッセージが空白または空文字でないことを確認
     if (!message.trim()) {
       console.warn("Cannot send an empty message.");
-      return; // 空のメッセージの場合は送信を中断
-  }
+      return;
+    }
 
-    if(senderid != receiverid){
+    const receiverid = selectedUser.receiver.id;
+    const senderid = selectedUser.sender.id;
+
+    if (senderid !== receiverid) {
       fetch(`http://localhost:8080/direct-message/${userid}/${userid === receiverid ? senderid : receiverid}`, {
         method: 'POST',
         headers: {
@@ -120,27 +98,34 @@ function DirectMessage() {
       })
         .then(response => response.json())
         .then(json => {
-          setMessages(prevMessages => [...prevMessages, { sender: json.data.sender, receiver: json.data.receiver, message, sent_at: new Date().toISOString() }]);
+          setMessages(prevMessages => [
+            ...prevMessages,
+            { sender: json.data.sender, receiver: json.data.receiver, message, sent_at: new Date().toISOString() }
+          ]);
           getUserList();
         })
         .catch(error => console.error('Error sending message:', error));
     }
   };
 
+  const handleSearchResultClick = (user) => {
+    setSelectedUser({ sender: { id: userid }, receiver: { id: user.id } });
+    setSearchResults([]); // プルダウンリストを非表示にする
+    handleUserSelect({ sender: { id: userid }, receiver: { id: user.id } });
+  };
+
   return (
     <div className="direct-message-container">
       <UserList users={users} onUserSelect={handleUserSelect} />
-      
-        <div className="direct-chat-container">
-          <MessageList messages={messages} currentUserid={userid} />
-        {selectedUser &&(
-          <MessageInput onSendMessage={handleSendMessage} />
-         )}
-          
-        </div>
-      
+      <div className="direct-chat-container">
+        <MessageList messages={messages} currentUserid={userid} />
+        {selectedUser && <MessageInput onSendMessage={handleSendMessage} />}
+      </div>
       <div className="direct-search-container">
         <UserSearch />
+        {searchResults.length > 0 && (
+          <PullDownUserList users={searchResults} onUserClick={handleSearchResultClick} />
+        )}
       </div>
     </div>
   );
