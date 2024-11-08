@@ -6,7 +6,8 @@ const PullDownUserList = ({ users, onUserClick }) => {
     <ul className="pull-down-user-list">
       {users.map(user => (
         <li key={user.id} onClick={() => onUserClick(user)}>
-          {user.username}
+        <img src={`http://localhost:8080${user.avatar_path}`} alt={`${user.username}'s avatar`} />
+        {user.username}
         </li>
       ))}
     </ul>

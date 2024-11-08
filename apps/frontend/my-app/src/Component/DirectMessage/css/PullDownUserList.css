@@ -15,9 +15,24 @@
   .pull-down-user-list li {
     padding: 8px;
     cursor: pointer;
+    align-items: center;
   }
   
   .pull-down-user-list li:hover {
     background-color: #f0f0f0;
+  }
+
+  .pull-down-user-list img{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-right: 8px;
+    object-fit: cover;
+  }
+
+  .pull-down-user-list li span {
+    font-size: 16px;   /* テキストのサイズ */
+    line-height: 1.2;  /* テキストの行の高さ */
+    color: #333;       /* テキストの色 */
   }
   
