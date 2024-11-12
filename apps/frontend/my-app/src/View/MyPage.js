@@ -35,6 +35,8 @@ function MyPage() {
   const userAvatarPath = user?.avatar_path;
   const navigate = useNavigate();
 
+
+
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/');
@@ -60,6 +62,10 @@ function MyPage() {
     updateToken(token);
     setRender(render+1);
     handleProfileEditClose();
+  };
+
+  const handleUserIconClick = () => {
+    navigate("/Mypage")
   };
 
   const handleClearSearch = () => {
@@ -149,6 +155,7 @@ function MyPage() {
               username={username}
               userid={userid}
               profile={profile}
+              onUserIconClick={handleUserIconClick}
             />
             <div className="profile-edit">
               <img
@@ -181,3 +188,4 @@ function MyPage() {
 }
 
 export default MyPage;
+
