@@ -1,3 +1,9 @@
+#profile-edit-dialog{
+    border: 0.5px solid black;
+}
+#profile-edit-dialog::backdrop {
+    background: rgba(0,0,0,0.3);
+}
 .profile-edit-button-container{
     display: flex;  
 }
@@ -16,6 +22,7 @@
 .icon-preview{
     width: 4em; 
     height: 4em; 
+    border-radius: 50%; /*アイコンプレビューを円形に*/
 }
 .profile-input{
     font:bold;

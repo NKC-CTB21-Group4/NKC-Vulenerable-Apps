@@ -1,5 +1,6 @@
 .mainview-container{
     display: flex;
+    overflow-x: hidden;
 }
 .header-posts-container{
     flex-direction: column;
