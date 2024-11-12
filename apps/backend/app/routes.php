@@ -11,6 +11,7 @@ use App\Application\Actions\Main\User\ViewUserAction;
 use App\Application\Actions\Main\User\CreateUserAction;
 use App\Application\Actions\Main\User\DeleteUserAction;
 use App\Application\Actions\Main\User\UpdateUserAction;
+use App\Application\Actions\Main\User\PrivateUserAction;
 use App\Application\Actions\Main\User\UploadUserAvatarAction;
 use App\Application\Actions\Main\User\GetUserAvatarAction;
 use App\Application\Actions\Main\User\SearchUsersAction;
@@ -18,7 +19,7 @@ use App\Application\Actions\Main\Auth\GenerateTokenAction;
 use App\Application\Actions\Main\Auth\RevokeTokenAction;
 
 
-use App\Application\Actions\Main\Post\ViewPostAction;
+use App\Application\Actions\Main\Post\ViewPublicPostAction;
 use App\Application\Actions\Main\Post\ListUserPostsAction;
 use App\Application\Actions\Main\Post\CreatePostAction;
 use App\Application\Actions\Main\Post\DeletePostAction;
@@ -112,6 +113,7 @@ return function (App $app) {
         $group->put('/{userId}',UpdateUserAction::class)->add(JwtMiddleware::class);
         $group->post('/{userId}/avatar',UploadUserAvatarAction::class)->add(JwtMiddleware::class);
         $group->get('/{userId}/avatar',GetUserAvatarAction::class);
+        $group->post('/{userId}/private',PrivateUserAction::class)->add(JwtMiddleware::class);
         $group->get('/{userId}/direct-message',GetDirectMessagePartnersAction::class)->add(JwtMiddleware::class);
         $group->delete('/{userId}/direct-message/{messageId}',DeleteDirectMessageAction::class)->add(JwtMiddleware::class);
         $group->get('/{userId}/follower',GetFollowersAction::class)->add(JwtMiddleware::class);
@@ -121,7 +123,7 @@ return function (App $app) {
         $group->group('/{userId}/posts', function (Group $group) {
             $group->get('',ListUserPostsAction::class);
             $group->post('',CreatePostAction::class)->add(JwtMiddleware::class);
-            $group->get('/{postId}', ViewPostAction::class);
+            $group->get('/{postId}', ViewPublicPostAction::class)->add(JwtMiddleware::class);
             $group->delete('/{postId}',DeletePostAction::class)->add(JwtMiddleware::class);
         });
     });
