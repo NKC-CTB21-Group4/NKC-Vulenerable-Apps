@@ -19,7 +19,6 @@ import Search from '../Component/Search';
 import Profileinfo from '../Component/ContentInfo/Profileinfo';
 import LinkiconProfileedit from '../images/haguruma.png';
 import Profileedit from './Profileedit';
-import DefaultIcon from '../images/tegakicreateuser.png';
  
 function MyPage() {
   const { user, isAuthenticated, updateUser,updateToken } = useContext(AuthContext);
