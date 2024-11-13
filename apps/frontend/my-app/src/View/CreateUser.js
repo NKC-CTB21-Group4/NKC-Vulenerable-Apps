@@ -63,12 +63,16 @@ const CreateUser = () => {
         <div className="create-user-form-group">
           <label className='create-user-label'>ユーザーネーム:</label>
           <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="create-user-input"
-            required
-          />
+           type="text"
+           value={username}
+           onChange={(e) => {
+             const newValue = e.target.value.replace(/[^a-zA-Z0-9_]/g, '');
+             setUsername(newValue);
+           }}
+           className="create-user-input"
+           required
+           maxLength={14} // 14文字の制限を追加
+         />         
         </div>
         <div className="create-user-form-group">
           <label className='create-user-label'>Eメール:</label>
