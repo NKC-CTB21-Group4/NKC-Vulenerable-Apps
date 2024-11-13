@@ -83,7 +83,7 @@ function Mainview() {
   } else {
     links.push(
       {
-        src: userid ? `http://localhost:8080${userAvatarPath}` : Iconhavertz,
+        src: userAvatarPath ? `http://localhost:8080${userAvatarPath}` : LinkiconCreateUser,
         alt: 'Linkicon1',
         to: '/Mypage',
         text: "マイページ"
