@@ -10,7 +10,11 @@ function PostView({}) {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/posts`);
+        const response = await fetch(`http://localhost:8080/posts`,{
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          }
+        });;
         const json = await response.json();
         const postarray = Object.values(json.data).reverse(); // 逆順にソート
         setPosts(postarray);
