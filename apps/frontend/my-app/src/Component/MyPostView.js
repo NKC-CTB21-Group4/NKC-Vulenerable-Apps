@@ -98,7 +98,7 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
           />
         ))
       ) : (
-        <p>表示する投稿がありません。</p>
+        <p className='MyPostView-message'>表示する投稿がありません。</p>
       )}
     </div>
   );

@@ -17,3 +17,7 @@ height: 0;
 .mypostview-container {
 scrollbar-width: none; /* Firefox用 */
 }
+
+.MyPostView-message{
+    color: black;
+}
