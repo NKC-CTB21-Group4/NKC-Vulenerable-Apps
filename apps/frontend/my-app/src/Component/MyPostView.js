@@ -15,8 +15,15 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
     const fetchUserPosts = async () => {
       if (!userid) return;
       try {
-        const response = await fetch(`http://localhost:8080/users/${userid}/posts`);
+        const response = await fetch(`http://localhost:8080/users/${userid}/posts`,{
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          }
+        });;
         const json = await response.json();
+        if(json.statusCode !== 200){
+          throw new Error("fetch faild");
+        }
         const mypostarray = Object.values(json.data).reverse(); // 逆順にソート
         setPosts(mypostarray);
       } catch (error) {
