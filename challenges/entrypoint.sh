@@ -3,9 +3,12 @@
 # Start the PHP server in the background
 php -S 0.0.0.0:8081 -t public &
 
+php public/worker/processQueue.php & 
+
 # Start the main process in the background and save its PID
 ./main &
 main_pid=$!
+
 
 # Wait for the main process to exit and check its status
 wait $main_pid
