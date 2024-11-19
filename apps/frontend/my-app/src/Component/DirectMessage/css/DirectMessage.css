@@ -2,10 +2,14 @@
   .direct-message-container {
     display: flex;
     height: 100vh;
+    overflow-y: hidden;
   }
-  
+  .direct-message-container::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+  } 
   .direct-message-user-list {
-    width: 110px;
+    width: 120px;
     padding: 10px;
   }
   
@@ -27,7 +31,7 @@
     overflow-wrap: break-word; /* 長い単語がある場合に改行する */
   }
   
-  .message-list {
+  .direct-message-list {
     flex: 1;
     padding: 10px;
     overflow-y: auto;
@@ -67,7 +71,7 @@
   
   .back-button-mainview {
     display: inline-block;
-    padding: 10px ;
+    padding: 0px ;
     background-color: #007bff;
     color: #fff;
     text-decoration: none;
@@ -77,8 +81,8 @@
 
   .userlist-container{
     border-right: 1px solid #ccc;;
-    margin-right: 1em;
-width: 8em;
+    padding-right: 1em;
+    width: 8em;
   }
   
   .back-button-mainview {
@@ -87,4 +91,13 @@ width: 8em;
     font-size: 3em;
   }
 
-  
+  .direct-search-container {
+    right: 0.8em;
+    width: 15%;
+    padding: 0px 10px 0px 10px;
+    display: flex;
+    align-items: right;
+    background-color: #fff; /* 背景色 */
+    border-left: 1px solid #ccc;
+    height: 100vh;
+}

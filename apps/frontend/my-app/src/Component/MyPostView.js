@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // useNavigate をインポート
 import './css/MyPostView.css'; // CSSファイルをインポート
 import Contentinfo from './ContentInfo/Contentinfo';
 import AuthContext from '../Utils/AuthProvider';
@@ -7,14 +8,22 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
   const [posts, setPosts] = useState([]); 
   const { user } = useContext(AuthContext);
   const userid = user?.id;
+  const navigate = useNavigate();
 
   useEffect(() => {
     // 初回読み込み時にユーザーの投稿を取得する関数
     const fetchUserPosts = async () => {
       if (!userid) return;
       try {
-        const response = await fetch(`http://localhost:8080/users/${userid}/posts`);
+        const response = await fetch(`http://localhost:8080/users/${userid}/posts`,{
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          }
+        });;
         const json = await response.json();
+        if(json.statusCode !== 200){
+          throw new Error("fetch faild");
+        }
         const mypostarray = Object.values(json.data).reverse(); // 逆順にソート
         setPosts(mypostarray);
       } catch (error) {
@@ -68,6 +77,11 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
     };
   },[render]);
 
+  const handleUserIconClick = () => {
+    navigate("/Mypage")
+  };
+
+
   // 投稿削除時にリストを更新する関数
   const handleDelete = (postid) => {
     setPosts(posts.filter((post) => post.id !== postid));
@@ -87,10 +101,11 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
             postid={post.id}
             imagepath={post.image_path}
             handleDelete={handleDelete} // handleDelete関数のプロップス名を修正
+            onUserIconClick={handleUserIconClick}
           />
         ))
       ) : (
-        <p>表示する投稿がありません。</p>
+        <p className='MyPostView-message'>表示する投稿がありません。</p>
       )}
     </div>
   );

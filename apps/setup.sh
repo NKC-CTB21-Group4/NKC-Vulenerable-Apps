@@ -1,6 +1,5 @@
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-
 # MySQLの接続情報
 MYSQL_USER="root"
 MYSQL_PASSWORD=""

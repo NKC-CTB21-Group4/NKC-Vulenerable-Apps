@@ -19,7 +19,7 @@ import Search from '../Component/Search';
 import Profileinfo from '../Component/ContentInfo/Profileinfo';
 import LinkiconProfileedit from '../images/haguruma.png';
 import Profileedit from './Profileedit';
-
+ 
 function MyPage() {
   const { user, isAuthenticated, updateUser,updateToken } = useContext(AuthContext);
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -34,6 +34,8 @@ function MyPage() {
   const profile = updatedProfile || user?.profile; // 更新されたユーザー名を表示
   const userAvatarPath = user?.avatar_path;
   const navigate = useNavigate();
+
+
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -60,6 +62,10 @@ function MyPage() {
     updateToken(token);
     setRender(render+1);
     handleProfileEditClose();
+  };
+
+  const handleUserIconClick = () => {
+    navigate("/Mypage")
   };
 
   const handleClearSearch = () => {
@@ -98,7 +104,7 @@ function MyPage() {
       text: "メッセージ"
     },
     {
-      src: updatedIcon || (userid ? `http://localhost:8080${userAvatarPath}` : Iconhavertz), // 更新されたアイコンを表示
+      src: updatedIcon || (userAvatarPath ? `http://localhost:8080${userAvatarPath}` : LinkiconCreateUser), // 更新されたアイコンを表示
       alt: 'Linkicon1',
       to: '/Mypage',
       text: "マイページ"
@@ -145,10 +151,11 @@ function MyPage() {
           <Header />
           <div className="mypage-userinfo">
             <Profileinfo
-              src={updatedIcon || (userid ? `http://localhost:8080${userAvatarPath}` : Iconhavertz)} // 更新されたアイコンを表示
+              src={updatedIcon || (userAvatarPath ? `http://localhost:8080${userAvatarPath}` : LinkiconCreateUser)} // 更新されたアイコンを表示
               username={username}
               userid={userid}
               profile={profile}
+              onUserIconClick={handleUserIconClick}
             />
             <div className="profile-edit">
               <img
@@ -181,3 +188,4 @@ function MyPage() {
 }
 
 export default MyPage;
+

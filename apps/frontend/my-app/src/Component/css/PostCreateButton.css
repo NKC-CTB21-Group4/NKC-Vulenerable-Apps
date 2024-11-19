@@ -1,9 +1,10 @@
 #post-create-btn{
     width: 3em;
     height: 3em;
-    margin: 0.4em;
+    margin:0;
     margin-left: 1.7em;
     cursor: pointer; 
+    margin-top: 0em;
 }
 #post-create-dialog  {
     border: none;
