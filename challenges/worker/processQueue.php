@@ -87,6 +87,13 @@ function processQueue()
                     ':message' => $message,
                 ]);
                 echo "Data saved to database.\n";
+
+                if($passed == 1){
+                    echo "pass";
+                    require_once "/app/public/api/change_state.php";
+                    list($vulnerability, $level) = explode('-', $request["level"]);
+                    change_state($pdo,$vulnerability,$level,1);
+                }
             } catch (PDOException $e) {
                 echo "Database insert failed: " . $e->getMessage() . "\n";
             }

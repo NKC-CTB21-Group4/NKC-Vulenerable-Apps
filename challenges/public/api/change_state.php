@@ -1,7 +1,4 @@
 <?php 
-// データベース接続をインクルード
-$pdo = require '../config/database.php';
-
 function change_state($pdo, $name, $level, $status) {
   try {
     
