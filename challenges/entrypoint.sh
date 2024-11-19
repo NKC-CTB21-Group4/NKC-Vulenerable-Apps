@@ -3,7 +3,7 @@
 # Start the PHP server in the background
 php -S 0.0.0.0:8081 -t public &
 
-php public/worker/processQueue.php & 
+php worker/processQueue.php & 
 
 # Start the main process in the background and save its PID
 ./main &
