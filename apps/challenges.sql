@@ -22,6 +22,15 @@ CREATE TABLE IF NOT EXISTS stage_clear_records (
     FOREIGN KEY (vulnerability_id) REFERENCES vulnerabilities(id)
 );
 
+CREATE TABLE IF NOT EXISTS evaluation_results (
+    id INT AUTO_INCREMENT PRIMARY KEY,           -- 一意のID (自動増分)
+    level VARCHAR(255) NOT NULL,                 -- テストレベル
+    code TEXT NOT NULL,                          -- テスト対象コード
+    passed TINYINT(1) NOT NULL,                  -- テスト合否 (1: true, 0: false)
+    message TEXT NOT NULL,                       -- レスポンスメッセージ
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- 作成日時 (デフォルトで現在の時刻)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 
 
