@@ -1,6 +1,6 @@
 <?php
 
-function addToQueue($level, $code)
+function addToQueue($level, $params)
 {
     $queueFile = '../request_queue.json';
 
@@ -10,7 +10,7 @@ function addToQueue($level, $code)
     // 新しいリクエストを追加
     $queue[] = [
         'level' => $level,
-        'code' => "http://localhost:8081" . $code
+        'params' => $params
     ];
 
     // キューを保存

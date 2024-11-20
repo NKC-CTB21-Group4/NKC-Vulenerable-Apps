@@ -33,13 +33,13 @@ function processQueue()
         // 動的データを作成
         $data = [
             "level" => $request['level'],
-            "params" => [
-                "code" => $request['code']
-            ]
+            "params" => $request['params']
         ];
 
+        var_dump($data);
         // JSONエンコード
         $payload = json_encode($data);
+        $payload = urlencode($payload);
 
         // cURLコマンドを構築
         $curl_command = sprintf(
@@ -82,7 +82,7 @@ function processQueue()
                 );
                 $stmt->execute([
                     ':level' => $request['level'],
-                    ':code' => $request['code'],
+                    ':code' => arrayToString($request['params']),
                     ':passed' => $passed,
                     ':message' => $message,
                 ]);
@@ -109,5 +109,14 @@ function processQueue()
 
 // キューを処理
 processQueue();
+
+function arrayToString(array $input): string {
+    $result = [];
+    foreach ($input as $key => $value) {
+        $result[] = "{$key}: {$value}";
+    }
+    return implode(", ", $result);
+}
+
 
 ?>
