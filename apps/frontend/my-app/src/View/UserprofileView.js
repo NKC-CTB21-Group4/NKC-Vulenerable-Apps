@@ -16,13 +16,48 @@ import Logout from '../Component/Logout';
 import Search from '../Component/Search';
 import Profileinfo from '../Component/ContentInfo/Profileinfo';
 import UserPostsView from '../Component/UserPostsView';
+import './css/UserprofileView.css'; 
 
 function UserProfileView() {
     const { userid } = useParams(); // URLからユーザーIDを取得
-    const { auth } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const [userData, setUserData] = useState({}); // 指定ユーザーのデータを保存する状態
     const [searchKeyword, setSearchKeyword] = useState('');
     const navigate = useNavigate();
+    const [isFollowed, setIsFollowed] = useState(false); // フォロー状態を管理
+    
+
+
+    const handleUserFollowClick = async () => {
+      console.log(`${user.id}`);
+      try {
+        const response = await fetch(`http://localhost:8080/users/${user.id}/follow/${userid}`, {
+          method: isFollowed ? 'DELETE' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error('認証に失敗しました');
+        }
+
+
+        const followResponse = await fetch(`http://localhost:8080/users/${user?.id}/follower`,{
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+          },
+        });
+        const followedUsers = await followResponse.json();
+        console.log('followedUsers:',followedUsers)
+        const isAlreadyFollowed = followedUsers.data.some(followedUser => followedUser.id === Number(userid));
+        setIsFollowed(isAlreadyFollowed);
+  
+      } catch (error) {
+      }
+    };
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -30,6 +65,17 @@ function UserProfileView() {
             const response = await fetch(`http://localhost:8080/users/${userid}`);
             const data = await response.json();
             setUserData(data.data); 
+
+            const followResponse = await fetch(`http://localhost:8080/users/${user?.id}/follower`,{
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+              },
+            });
+            const followedUsers = await followResponse.json();
+            console.log('followedUsers:',followedUsers)
+            const isAlreadyFollowed = followedUsers.data.some(followedUser => followedUser.id === Number(userid));
+            setIsFollowed(isAlreadyFollowed);
           } catch (error) {
             console.error('Error fetching user data:', error);
             navigate('/'); // エラーがあればホームページにリダイレクト
@@ -42,6 +88,9 @@ function UserProfileView() {
   const handleClearSearch = () => {
     setSearchKeyword('');
   };
+
+  
+
 
   const links = [
     {
@@ -75,7 +124,7 @@ function UserProfileView() {
       text: "メッセージ"
     },
     {
-      src: (auth?.avatar_path ? `http://localhost:8080${userData.avatar_path}` : Iconhavertz), // 更新されたアイコンを表示
+      src: (user?.avatar_path ? `http://localhost:8080${user.avatar_path}` : Iconhavertz), // 更新されたアイコンを表示
       alt: 'Linkicon1',
       to: '/Mypage',
       text: "マイページ"
@@ -115,17 +164,19 @@ function UserProfileView() {
   }
 
   return (
-    <header className="mypage-App-header">
-      <div className="mypage-container">
+    <header className="userpage-App-header">
+      <div className="userpage-container">
         <Linkview links={links} onLinkClick={handleClearSearch} />
-        <div className="mypage-header-posts-container">
+        <div className="userpage-header-posts-container">
           <Header />
-          <div className="mypage-userinfo">
+          <div className="userpage-userinfo">
               <Profileinfo
                 src={userData.avatar_path ? `http://localhost:8080${userData.avatar_path}` : Iconhavertz}
                 username={userData.username}
                 userid={userData.id}
                 profile={userData.profile}
+                onUserFollowClick={handleUserFollowClick}
+                isFollowed={isFollowed}
               />
           </div>
           <UserPostsView /> {/* 他のユーザーの投稿表示 */}
