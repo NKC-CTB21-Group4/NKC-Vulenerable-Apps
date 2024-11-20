@@ -29,7 +29,6 @@ function UserProfileView() {
 
 
     const handleUserFollowClick = async () => {
-      console.log(`${user.id}`);
       try {
         const response = await fetch(`http://localhost:8080/users/${user.id}/follow/${userid}`, {
           method: isFollowed ? 'DELETE' : 'POST',
@@ -51,7 +50,6 @@ function UserProfileView() {
           },
         });
         const followedUsers = await followResponse.json();
-        console.log('followedUsers:',followedUsers)
         const isAlreadyFollowed = followedUsers.data.some(followedUser => followedUser.id === Number(userid));
         setIsFollowed(isAlreadyFollowed);
   
@@ -73,7 +71,6 @@ function UserProfileView() {
               },
             });
             const followedUsers = await followResponse.json();
-            console.log('followedUsers:',followedUsers)
             const isAlreadyFollowed = followedUsers.data.some(followedUser => followedUser.id === Number(userid));
             setIsFollowed(isAlreadyFollowed);
           } catch (error) {
