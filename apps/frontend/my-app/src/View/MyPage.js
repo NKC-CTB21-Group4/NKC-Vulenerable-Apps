@@ -68,6 +68,8 @@ function MyPage() {
     navigate("/Mypage")
   };
 
+  
+
   const handleClearSearch = () => {
     setSearchKeyword('');
   };

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {useParams, useNavigate } from 'react-router-dom'; // useNavigate をインポート
 import Contentinfo from './ContentInfo/Contentinfo';
+import './css/UserPostsView.css';
+
 
 function UserPostsView({  }) {
   const [posts, setPosts] = useState([]);
@@ -75,7 +77,7 @@ function UserPostsView({  }) {
   
 
   return (
-    <div className="postview-container">
+    <div className="User-postview-container">
       {posts.map((post) => (
         <Contentinfo
           key={post.id}
