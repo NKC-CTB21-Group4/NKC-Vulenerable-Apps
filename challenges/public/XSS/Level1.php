@@ -1,7 +1,15 @@
 <?php
 require("../../utils/levelPageAccessBlock.php");
+require_once "/app/public/api/add_request_to_file.php";
+
 $name = $_GET['name'];
 $email = $_GET['email'];
+$PROBREM_NAME = "xss-1";
+
+if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
+    addToQueue($PROBREM_NAME,["code" => "http://localhost:8081" . $_SERVER['REQUEST_URI']]);
+}
+
 if(AccessBlock())header("Location: /");
 
 ?>

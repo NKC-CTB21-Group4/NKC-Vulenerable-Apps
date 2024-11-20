@@ -4,6 +4,14 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $PROBREM_NAME = "sqli-1";
+
+    require_once "/app/public/api/add_request_to_file.php";
+    if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
+        addToQueue($PROBREM_NAME,["username" => $username,"password"=> $password]);
+    }
+
+
 
     $db = new SQLite3('tmp.db');
 
