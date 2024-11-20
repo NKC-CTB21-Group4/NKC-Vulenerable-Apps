@@ -92,6 +92,10 @@ function processQueue()
                     echo "pass";
                     require_once "/app/public/api/change_state.php";
                     list($vulnerability, $level) = explode('-', $request["level"]);
+
+                    if($vulnerability == "sqli") $vulnerability = "SQLインジェクション";
+                    if($vulnerability == "osi") $vulnerability = "OSコマンドインジェクション";
+
                     change_state($pdo,$vulnerability,$level,1);
                 }
             } catch (PDOException $e) {
