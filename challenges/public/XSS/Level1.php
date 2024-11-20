@@ -7,7 +7,7 @@ $email = $_GET['email'];
 $PROBREM_NAME = "xss-1";
 
 if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
-    addToQueue($PROBREM_NAME,$_SERVER['REQUEST_URI']);
+    addToQueue($PROBREM_NAME,["code" => "http://localhost:8081" . $_SERVER['REQUEST_URI']]);
 }
 
 if(AccessBlock())header("Location: /");
