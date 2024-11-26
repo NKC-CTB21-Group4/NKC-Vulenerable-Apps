@@ -39,12 +39,16 @@ class SearchPostsAction extends PostAction
          $searchCriteria['dateTo'] = $queryParams['dateTo'];
      }
 
-     // 検索実行
-     $posts = $this->postRepository->search($searchCriteria);
+     if (!empty($queryParams['onlyFromFollowedUser'])) {
+        $searchCriteria['onlyFromFollowedUser'] = (bool)$queryParams['onlyFromFollowedUser'];
+    }
 
-     $this->logger->info("Post search was executed.");
+     // 検索実行
+    $posts = $this->postRepository->search($searchCriteria);
+
+    $this->logger->info("Post search was executed.");
 
      // 検索結果を返す
-     return $this->respondWithData($posts);
+    return $this->respondWithData($posts);
   }
 }
