@@ -1,12 +1,20 @@
 <?php
 require("../../utils/levelPageAccessBlock.php");
-if(AccessBlock())header("Location: /");
+require_once "/app/public/api/add_request_to_file.php";
+
 // 入力文字列の空白と<script>タグを削除
 $name = preg_replace('/<script.*?>.*?<\/script.*>/i', '', $_GET['name']);
 $name = trim($name); // 追加
 // 入力文字列の空白と<script>タグを削除
 $email = preg_replace('/<script.*?>.*?<\/script.*>/i', '', $_GET['email']);
 $email = trim($email); // 追加
+
+$PROBREM_NAME = "xss-2";
+
+if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
+    addToQueue($PROBREM_NAME,["code" => "http://localhost:8081" . $_SERVER['REQUEST_URI']]);
+}
+if(AccessBlock())header("Location: /");
 ?>
 
 <!DOCTYPE html>
