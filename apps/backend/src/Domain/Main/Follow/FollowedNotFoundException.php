@@ -6,7 +6,7 @@ namespace App\Domain\Main\Follow;
 
 use App\Domain\DomainException\DomainRecordNotFoundException;
 
-class FollwedNotFoundException extends DomainRecordNotFoundException
+class FollowedNotFoundException extends DomainRecordNotFoundException
 {
     public $message = 'The Follwed you requested does not exist.';
 }
