@@ -116,8 +116,8 @@ return function (App $app) {
         $group->post('/{userId}/private',PrivateUserAction::class)->add(JwtMiddleware::class);
         $group->get('/{userId}/direct-message',GetDirectMessagePartnersAction::class)->add(JwtMiddleware::class);
         $group->delete('/{userId}/direct-message/{messageId}',DeleteDirectMessageAction::class)->add(JwtMiddleware::class);
-        $group->get('/{userId}/follower',GetFollowersAction::class)->add(JwtMiddleware::class);
-        $group->get('/{userId}/followed',GetFollowedUsersAction::class)->add(JwtMiddleware::class);
+        $group->get('/{userId}/follower',GetFollowersAction::class);//->add(JwtMiddleware::class);
+        $group->get('/{userId}/followed',GetFollowedUsersAction::class);//->add(JwtMiddleware::class);
         $group->post('/{userId}/follow/{followedId}',AddFollowerAction::class)->add(JwtMiddleware::class);
         $group->delete('/{userId}/follow/{followedId}',DeleteFollowerAction::class)->add(JwtMiddleware::class);
         $group->group('/{userId}/posts', function (Group $group) {

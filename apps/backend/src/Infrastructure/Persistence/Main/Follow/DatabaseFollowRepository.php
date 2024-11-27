@@ -25,29 +25,33 @@ class DatabaseFollowRepository extends EntityRepository implements FollowReposit
         parent::__construct($entityManager, $entityManager->getClassMetadata(Follow::class));
     }
 
-    public function findOfFollower(int $followerId): array
+    public function findOfFollower(int $userId): array
     {
-            $queryBuilder = $this->createQueryBuilder('f')
-            ->innerJoin(User::class, 'u', 'WITH', 'f.followed = u.id')
-            ->where('f.follower = :followerId')
-            ->setParameter('followerId', $followerId)
-            ->select('u')
-            ->getQuery();
+        // フォローされているユーザーを取得
+        $queryBuilder = $this->createQueryBuilder('f')
+        ->innerJoin(User::class, 'u', 'WITH', 'f.follower = u.id') // follower ID でユーザー情報を結合
+        ->where('f.followed = :followedId') // followed に基づいて検索
+        ->setParameter('followedId', $userId)
+        ->select('u') // ユーザー情報を選択
+        ->getQuery();
+
         $results = $queryBuilder->getResult();
 
         if (empty($results)) {
             throw new FollowerNotFoundException();
-        }
+        };
 
         return $results;
     }
 
-    public function findOfFollowed(int $followedId): array
+
+
+    public function findOfFollowed(int $userId): array
     {
         $queryBuilder = $this->createQueryBuilder('f')
         ->innerJoin(User::class, 'u', 'WITH', 'f.followed = u.id')
-        ->where('f.followed = :followedId')
-        ->setParameter('followedId', $followedId)
+        ->where('f.follower = :userId') // フォローしたユーザー（follower）を指定
+        ->setParameter('userId', $userId)
         ->select('u')
         ->getQuery();
 

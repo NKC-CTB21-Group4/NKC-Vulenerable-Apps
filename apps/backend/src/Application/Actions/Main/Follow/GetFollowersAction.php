@@ -13,16 +13,27 @@ class GetFollowersAction extends FollowAction
 {
     protected function action(): Response
     {
-        // ユーザーのトークンからユーザー情報を取得
-        $user = $this->getUserFromToken();
-        
-        $authorizedUser = $this->checkUserAuthorization($user);
-        if ($authorizedUser === null) {
-            return $this->respondWithData('Unauthorized', 403);
+        // リクエストから対象ユーザーIDを取得
+        $targetUserId = (int)$this->resolveArg('userId');
+
+        if ($targetUserId === null) {
+            return $this->respondWithData('User ID is required', 400);
         }
 
-        try {
-            $followers = $this->followRepository->findOfFollower($authorizedUser->getId());
+        // 対象ユーザーの情報を取得
+        $targetUser = $this->userRepository->findUserOfId($targetUserId);
+
+        if (!$targetUser) {
+            return $this->respondWithData('User not found', 404);
+        }
+
+        // 鍵アカウントかどうかをチェック
+        if ($targetUser->getIsPrivate()) {
+            return $this->respondWithData('Cannot access private user', 403);
+        }
+
+        try {//任意のユーザー出ないといけない
+            $followers = $this->followRepository->findOfFollower($targetUserId);
             
             return $this->respondWithData($followers);
         } catch (FollowerNotFoundException $e) {
