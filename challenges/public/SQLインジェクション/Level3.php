@@ -1,6 +1,13 @@
 <?php
 session_start();
 
+$PROBREM_NAME = "sqli-3";
+
+    require_once "/app/public/api/add_request_to_file.php";
+    if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
+        addToQueue($PROBREM_NAME,["code" => "http://localhost:8081" . $_SERVER['REQUEST_URI']]);
+    }
+
 // ログイン処理
 if (isset($_GET['login'])) {
     session_unset();
