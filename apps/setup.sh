@@ -167,6 +167,7 @@ for ((i = 0; i < ${#USER_ARRAY[@]}; i++)); do
   user_id=$((i+1))
   avatar_endpoint="http://localhost:8080/users/$user_id/avatar" 
   post_endpoint="http://localhost:8080/users/$user_id/posts"
+  follow_endpoint="http://localhost:8080/users/$user_id/follow/1"
   echo "Setting avatar for user ID: $user_id"
   
   # 画像のパスを指定
@@ -176,6 +177,7 @@ for ((i = 0; i < ${#USER_ARRAY[@]}; i++)); do
 
   curl -X POST "$avatar_endpoint" -H "Authorization: Bearer $token" -F "avatar=@$user_icon_path" 
   curl -X POST "$post_endpoint" -H "Authorization: Bearer $token" -F "image=@$post_image_path" -F "content=${POST_ARRAY[$i]}"
+  curl -X POST "$follow_endpoint" -H "Authorization: Bearer $token"
 done
 
 

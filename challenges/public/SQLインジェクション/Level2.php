@@ -15,6 +15,13 @@ session_start();
 //     exit();
 // }
 
+$PROBREM_NAME = "sqli-2";
+
+    require_once "/app/public/api/add_request_to_file.php";
+    if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
+        addToQueue($PROBREM_NAME,["code" => "http://localhost:8081" . $_SERVER['REQUEST_URI']]);
+    }
+
 // データベースに接続
 $db = new SQLite3('tmp.db');
 

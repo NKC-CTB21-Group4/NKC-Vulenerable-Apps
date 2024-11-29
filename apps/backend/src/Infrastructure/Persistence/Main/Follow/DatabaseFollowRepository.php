@@ -25,40 +25,44 @@ class DatabaseFollowRepository extends EntityRepository implements FollowReposit
         parent::__construct($entityManager, $entityManager->getClassMetadata(Follow::class));
     }
 
-    public function findOfFollower(int $followerId): array
+    public function findOfFollower(int $userId): array
     {
-            $queryBuilder = $this->createQueryBuilder('f')
-            ->innerJoin(User::class, 'u', 'WITH', 'f.followed = u.id')
-            ->where('f.follower = :followerId')
-            ->setParameter('followerId', $followerId)
-            ->select('u')
-            ->getQuery();
-        $results = $queryBuilder->getResult();
-
-        if (empty($results)) {
-            throw new FollowerNotFoundException();
-        }
-
-        return $results;
-    }
-
-    public function findOfFollowed(int $followedId): array
-    {
+        // フォローされているユーザー（follower_id）を取得
         $queryBuilder = $this->createQueryBuilder('f')
-        ->innerJoin(User::class, 'u', 'WITH', 'f.followed = u.id')
-        ->where('f.followed = :followedId')
-        ->setParameter('followedId', $followedId)
-        ->select('u')
-        ->getQuery();
+            ->innerJoin(User::class, 'u', 'WITH', 'f.follower = u.id') // follower_id でユーザー情報を結合
+            ->where('f.followed = :userId') // followed_id に基づいて検索
+            ->setParameter('userId', $userId)
+            ->select('u') // follower_id に対応するユーザー情報を選択
+            ->getQuery();
 
         $results = $queryBuilder->getResult();
 
         if (empty($results)) {
-            throw new FollowedNotFoundException();
+            throw new FollowerNotFoundException(); // フォロワーがいない場合の例外
         }
 
         return $results;
     }
+
+    public function findOfFollowed(int $userId): array
+    {
+        // フォローしているユーザー（followed_id）を取得
+        $queryBuilder = $this->createQueryBuilder('f')
+            ->innerJoin(User::class, 'u', 'WITH', 'f.followed = u.id') // followed_id でユーザー情報を結合
+            ->where('f.follower = :userId') // follower_id に基づいて検索
+            ->setParameter('userId', $userId)
+            ->select('u') // followed_id に対応するユーザー情報を選択
+            ->getQuery();
+
+        $results = $queryBuilder->getResult();
+
+        if (empty($results)) {
+            throw new FollowedNotFoundException(); // フォローしているユーザーがいない場合の例外
+        }
+
+        return $results;
+    }
+
 
     public function addFollower(User $follower, User $followed): bool
     {

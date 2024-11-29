@@ -15,6 +15,13 @@
 
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        require_once "/app/public/api/add_request_to_file.php";
+        $PROBREM_NAME = "osi-2";
+        if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
+            addToQueue($PROBREM_NAME,["target" => $_POST["target"]]);
+        }
+
         $target = $_POST["target"];
         if (!empty($target)) {
             exec("ping -c 4 " . $target, $output); // 4回のping送信
