@@ -197,11 +197,7 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
 
       // onlyFromFollowedUser オプションの処理
       if (!empty($searchCriteria['onlyFromFollowedUser'])) {
-        //jwt使うと検索できなくなるからこっち使う
-        $userFromToken = $this->getUserFromHeader();
-        $userId = $userFromToken ? $userFromToken->getId() : null;
-
-        $followedUsers = $this->followRepository->findOfFollower($userId);
+        $followedUsers = $this->followRepository->findOfFollowed($searchCriteria['currentUserId']);
 
         // フォローしているユーザーのIDを配列として取得
         $followedUserIds = array_map(fn(User $user) => $user->getId(), $followedUsers);

@@ -40,10 +40,15 @@ class SearchPostsAction extends PostAction
      }
 
      if (!empty($queryParams['onlyFromFollowedUser'])) {
-        $searchCriteria['onlyFromFollowedUser'] = (bool)$queryParams['onlyFromFollowedUser'];
+        $searchCriteria['onlyFromFollowedUser'] = true;
+
+        $userFromToken = $this->getUserFromHeader();
+        
+        $searchCriteria['currentUserId'] = $userFromToken->getId();
     }
 
      // 検索実行
+    //var_dump($searchCriteria);
     $posts = $this->postRepository->search($searchCriteria);
 
     $this->logger->info("Post search was executed.");
