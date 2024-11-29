@@ -95,7 +95,6 @@ function MyPage() {
     fetchUserData();
     fetchFollowList();
     fetchFollowerList();
-    console.log(fetchFollowList);
   }, [isAuthenticated, navigate,user]);
 
   // プロフィール編集モーダルを開く
