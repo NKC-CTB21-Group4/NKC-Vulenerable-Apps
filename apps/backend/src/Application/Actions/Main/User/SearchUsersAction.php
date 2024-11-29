@@ -24,8 +24,16 @@
               $searchCriteria['keyword'] = $queryParams['keyword'];
             }
 
+            if (!empty($queryParams['onlyFromFollowedUser'])) {
+              $queryParams['onlyFromFollowedUser'] = true;
+      
+              $userFromToken = $this->getUserFromHeader();
+              
+              $queryParams['currentUserId'] = $userFromToken->getId();
+            }
+            
             // 検索実行
-            $users = $this->userRepository->search($searchCriteria);
+            $users = $this->userRepository->search($queryParams);
 
             $this->logger->info("user search was executed.");
 

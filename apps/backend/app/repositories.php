@@ -38,7 +38,10 @@ return function (ContainerBuilder $containerBuilder) {
     // Here we map our UserRepository interface to its in memory implementation
     $containerBuilder->addDefinitions([
         UserRepository::class => function(ContainerInterface $c): UserRepository{
-            return new DatabaseUserRepository($c->get(MainEntityManager::class));
+            return new DatabaseUserRepository(
+                $c->get(MainEntityManager::class),
+                $c->get(FollowRepository::class)
+            );
         },
         AuthTokenRepository::class => function (ContainerInterface $c): AuthTokenRepository{
             return new DatabaseAuthTokenRepository($c->get(MainEntityManager::class));
