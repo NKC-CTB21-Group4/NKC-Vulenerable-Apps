@@ -12,7 +12,6 @@ use App\Domain\Main\User\UserPrivatedNotFoundException;
 class PrivateUserAction extends UserAction
 {
     public function action() : Response{
-        $data = $this->getFormData();
         $user = $this->getUserFromToken();
 
         $user = $this->checkUserAuthorization($user);
@@ -26,14 +25,10 @@ class PrivateUserAction extends UserAction
             return $this->respondWithData('Invalid input', 400);
         }
 
-        if (isset($data['isPrivate'])) {
-            $this->userRepository->setisprivateflag($user->getId(), (bool)$data['isPrivate']);
-        } else {
-            return $this->respondWithData('Invalid input', 400);
-        }
+        $this->userRepository->toggleIsPrivate($user);
 
         $this->logger->info("User toggle private successfully with ID: " . $user->getId());
-        return $this->respondWithData($user);
+        return $this->respondWithData(["message"=>"User toggle private successfully","user"=>$user]);
 
     }
 }
