@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './css/UserFollowList.css';
+import defaultAvatar from '../images/tegakicreateuser.png'
 
 const UserFollowList = ({ users, onFollowListClick }) => {
   const [isOpen, setIsOpen] = useState(false); // プルダウンの開閉状態を管理
@@ -44,7 +45,7 @@ const UserFollowList = ({ users, onFollowListClick }) => {
               user.id ? ( // ユーザーに `id` がある場合のみ表示
                 <li key={user.id} onClick={() => onFollowListClick(user)}>
                   <img
-                    src={`http://localhost:8080${user.avatar_path}`}
+                    src={user.avatar_path ? `http://localhost:8080${user.avatar_path}` : defaultAvatar } 
                     alt={`${user.username}'s avatar`}
                   />
                   <span>{user.username}</span>

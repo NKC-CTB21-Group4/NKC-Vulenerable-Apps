@@ -164,7 +164,7 @@ function UserProfileView() {
       text: "メッセージ"
     },
     {
-      src: (user?.avatar_path ? `http://localhost:8080${user.avatar_path}` : Iconhavertz), // 更新されたアイコンを表示
+      src: (user?.avatar_path ? `http://localhost:8080${user.avatar_path}` : LinkiconCreateUser), // 更新されたアイコンを表示
       alt: 'Linkicon1',
       to: '/Mypage',
       text: "マイページ"
