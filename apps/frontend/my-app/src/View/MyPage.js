@@ -26,8 +26,11 @@ function MyPage() {
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false); // プロフィール編集モーダルの状態管理
   const [updatedUsername, setUpdatedUsername] = useState(user?.username); // ユーザー名の更新用状態
   const [updatedProfile, setUpdatedProfile] = useState(user?.profile); // ユーザー名の更新用状態
+  const [followusers, setfollowUsers] = useState([]);
+  const [followerusers, setfollowerUsers] = useState([]);
   const [updatedIcon, setUpdatedIcon] = useState(null); // アイコンの更新用状態
   const [render,setRender] = useState(0); //MyPostView再レンダリング用
+  
 
   const userid = user?.id;
   const username = updatedUsername || user?.username; // 更新されたユーザー名を表示
@@ -36,12 +39,64 @@ function MyPage() {
   const navigate = useNavigate();
 
 
+  const handleFollowListClick = (user) => {
+    navigate(`/users/${user.id}/profile`)
+  };
 
+  const fetchFollowList = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/users/${userid}/followed`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+        },
+      });
+      const followingUsers = await response.json();
+      setfollowUsers(Array.isArray(followingUsers.data) ? followingUsers.data : []); // フォローリストを保存
+    } catch (error) {
+      console.error('Error fetching follow list:', error);
+    }
+  };
+ 
+  const fetchFollowerList = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/users/${userid}/follower`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+        },
+      });
+      const followerUsers = await response.json();
+      setfollowerUsers(Array.isArray(followerUsers.data) ? followerUsers.data :  []); // フォロワーリストを保存
+    } catch (error) {
+      console.error('Error fetching follow list:', error);
+    }
+  };
+ 
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/');
     }
-  }, [isAuthenticated, navigate]);
+    const fetchUserData = async () => {
+      try {
+        const followlistResponse = await fetch(`http://localhost:8080/users/${user?.id}/followed`,{
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+          },
+        });
+        const followingUsers = await followlistResponse.json();
+        setfollowUsers(followingUsers);
+      }catch (error) {
+        console.error('Error fetching user data:', error);
+        navigate('/'); // エラーがあればホームページにリダイレクト
+      }
+    }
+    fetchUserData();
+    fetchFollowList();
+    fetchFollowerList();
+    console.log(fetchFollowList);
+  }, [isAuthenticated, navigate,user]);
 
   // プロフィール編集モーダルを開く
   const handleProfileEditOpen = () => {
@@ -158,6 +213,10 @@ function MyPage() {
               userid={userid}
               profile={profile}
               onUserIconClick={handleUserIconClick}
+              users={followusers.length > 0 ? followusers : null}
+              onFollowListClick={handleFollowListClick}
+              followerusers={followerusers.length > 0 ? followerusers : null}
+              onFollowerListClick={handleFollowListClick}
             />
             <div className="profile-edit">
               <img

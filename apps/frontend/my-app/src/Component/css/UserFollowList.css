@@ -1,0 +1,64 @@
+.user-follow-list {
+    position: absolute;
+    top: 12em;
+    width:8em;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: hidden;
+    scrollbar-width: none;/*スクロールバー消した*/
+  }
+
+  
+  .user-follow-list li {
+    padding: 8px;
+    cursor: pointer;
+    align-items: center;
+  }
+  
+  .user-follow-list li:hover {
+    background-color: #f0f0f0;
+  }
+
+  .user-follow-list img{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-right: 8px;
+    object-fit: cover;
+  }
+
+  .user-follow-list span{
+    font-size: 16px;   /* テキストのサイズ */
+    line-height: 1.2;  /* テキストの行の高さ */
+    color: #333;       /* テキストの色 */
+  }
+  .empty-follow-message{
+    color: black;
+    font-size: 15px;
+  }
+  .follow-list-button{
+    border:none;
+    background-color: #fff;
+    cursor: pointer;
+    position:relative;
+    font-weight: bold;
+  }
+  .follow-list-button::after{
+    position:absolute;
+    left:0;
+    content:'';
+    width:100%;
+    height: 2px;
+    background:#000000;
+    bottom: -1px;
+    visibility: hidden;
+  }
+  .follow-list-button:hover::after{
+    visibility: visible;
+  }

@@ -24,9 +24,47 @@ function UserProfileView() {
     const [userData, setUserData] = useState({}); // 指定ユーザーのデータを保存する状態
     const [searchKeyword, setSearchKeyword] = useState('');
     const navigate = useNavigate();
+    const [followusers, setfollowUsers] = useState([]);
+    const [followerusers, setfollowerUsers] = useState([]);
     const [isFollowed, setIsFollowed] = useState(false); // フォロー状態を管理
     
 
+    const handleFollowListClick = (clickedUser) => {
+      if (Number(clickedUser.id) === Number(user.id)) {
+        navigate("/Mypage"); // ログイン中のユーザーならマイページに遷移
+      } else {
+        navigate(`/users/${clickedUser.id}/profile`); // 他のユーザーならプロフィールページへ遷移
+      }
+    };
+
+    const fetchFollowList = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/users/${userid}/followed`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+          },
+        });
+        const followingUsers = await response.json();
+        setfollowUsers(Array.isArray(followingUsers.data) ? followingUsers.data : []); // フォローリストを保存
+      } catch (error) {
+        console.error('Error fetching follow list:', error);
+      }
+    };
+    const fetchFollowerList = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/users/${userid}/follower`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+          },
+        });
+        const followerUsers = await response.json();
+        setfollowerUsers(Array.isArray(followerUsers.data) ? followerUsers.data :  []); // フォロワーリストを保存
+      } catch (error) {
+        console.error('Error fetching follow list:', error);
+      }
+    };
 
     const handleUserFollowClick = async () => {
       try {
@@ -43,15 +81,17 @@ function UserProfileView() {
         }
 
 
-        const followResponse = await fetch(`http://localhost:8080/users/${user?.id}/follower`,{
+        const followResponse = await fetch(`http://localhost:8080/users/${userid}/follower`,{
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('authToken')
           },
         });
-        const followedUsers = await followResponse.json();
-        const isAlreadyFollowed = followedUsers.data.some(followedUser => followedUser.id === Number(userid));
-        setIsFollowed(isAlreadyFollowed);
+        const followerUsers = await followResponse.json();
+        if(Array.isArray(followerUsers.data)){
+          const isAlreadyFollowed = followerUsers.data.some(followerUser => followerUser.id === Number(user.id));
+          setIsFollowed(isAlreadyFollowed);
+        }else setIsFollowed(false);
   
       } catch (error) {
       }
@@ -64,22 +104,25 @@ function UserProfileView() {
             const data = await response.json();
             setUserData(data.data); 
 
-            const followResponse = await fetch(`http://localhost:8080/users/${user?.id}/follower`,{
+            const followResponse = await fetch(`http://localhost:8080/users/${userid}/follower`,{
               headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('authToken')
               },
             });
-            const followedUsers = await followResponse.json();
-            const isAlreadyFollowed = followedUsers.data.some(followedUser => followedUser.id === Number(userid));
-            setIsFollowed(isAlreadyFollowed);
+            const followerUsers = await followResponse.json();
+            if(Array.isArray(followerUsers.data)){
+              const isAlreadyFollowed = followerUsers.data.some(followerUser => followerUser.id === Number(user.id));
+              setIsFollowed(isAlreadyFollowed);
+            }else setIsFollowed(false);
           } catch (error) {
             console.error('Error fetching user data:', error);
-            navigate('/'); // エラーがあればホームページにリダイレクト
+            
           }
         };
-    
+        fetchFollowList();
         fetchUserData();
+        fetchFollowerList();
       }, [userid]);
 
   const handleClearSearch = () => {
@@ -174,6 +217,10 @@ function UserProfileView() {
                 profile={userData.profile}
                 onUserFollowClick={handleUserFollowClick}
                 isFollowed={isFollowed}
+                users={followusers}
+                onFollowListClick={handleFollowListClick}
+                followerusers={followerusers}
+                onFollowerListClick={handleFollowListClick}
               />
           </div>
           <UserPostsView /> {/* 他のユーザーの投稿表示 */}
