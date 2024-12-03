@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'; // useNavigate をインポー�
 import './css/MyPostView.css'; // CSSファイルをインポート
 import Contentinfo from './ContentInfo/Contentinfo';
 import AuthContext from '../Utils/AuthProvider';
+import defaultAvatar from '../images/tegakicreateuser.png'
 
 function MyPostView({ render}) { // デフォルト値として空の配列を設定
   const [posts, setPosts] = useState([]); 
@@ -93,7 +94,7 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
         posts.map((post) => (
           <Contentinfo
             key={post.id}
-            src={`http://localhost:8080${post.author_avatar}`} // srcとaltはUserinfoコンポーネントが使っている場合に設定
+            src={post.author_avatar ? `http://localhost:8080${post.author_avatar}` : defaultAvatar} 
             alt=""
             username={post.author_name}
             userid={post.author_id}

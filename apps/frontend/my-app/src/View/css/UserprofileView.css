@@ -34,3 +34,6 @@
 .userpage-userinfo .userid {
     font-size: 1.5em; /* フォントサイズを設定 */
 }
+.userpage-userinfo .Private-button{
+    display: none;
+}

@@ -62,4 +62,7 @@ interface UserRepository
      */
 
     public function search(array $searchParam): array;
+
+    public function toggleIsPrivate(User $user):User;
+
 }
