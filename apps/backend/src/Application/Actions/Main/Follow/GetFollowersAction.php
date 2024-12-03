@@ -13,6 +13,11 @@ class GetFollowersAction extends FollowAction
 {
     protected function action(): Response
     {
+
+        $userFromToken = $this->getUserFromHeader();
+        //ログインユーザーのidを取得
+        $userId = $userFromToken ? $userFromToken->getId() : null;
+
         // リクエストから対象ユーザーIDを取得
         $targetUserId = (int)$this->resolveArg('userId');
 
@@ -20,16 +25,23 @@ class GetFollowersAction extends FollowAction
             return $this->respondWithData('User ID is required', 400);
         }
 
-        // 対象ユーザーの情報を取得
-        $targetUser = $this->userRepository->findUserOfId($targetUserId);
+        //ログインユーザーとターゲットユーザーが同じだった場合はそのまま情報を出す
+        if ($userId !== $targetUserId){
+            // 対象ユーザーの情報を取得
+            $targetUser = $this->userRepository->findUserOfId($targetUserId);
 
-        if (!$targetUser) {
-            return $this->respondWithData('User not found', 404);
-        }
+            if (!$targetUser) {
+                return $this->respondWithData('User not found', 404);
+            }
 
-        // 鍵アカウントかどうかをチェック
-        if ($targetUser->getIsPrivate()) {
-            return $this->respondWithData('Cannot access private user', 403);
+            // 鍵アカウントかどうかをチェック
+            if ($targetUser->getIsPrivate()) {
+                $isMutualFollow = $this->followRepository->bothFollowChecker($userId, $targetUserId);
+
+                if (!$isMutualFollow) {
+                    return $this->respondWithData('Cannot access private user', 403);
+                }
+            }
         }
 
         try {//任意のユーザー出ないといけない

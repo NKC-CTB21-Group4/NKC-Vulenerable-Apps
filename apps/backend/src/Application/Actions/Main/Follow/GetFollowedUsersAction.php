@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace App\Application\Actions\Main\Follow;
 
 use Psr\Http\Message\ResponseInterface as Response;
+use App\Domain\Main\Follow\FollowedNotFoundException;
 use App\Domain\Main\User\UserNotFoundException;
 
 class GetFollowedUsersAction extends FollowAction
 {
     protected function action(): Response
     {
+        $userFromToken = $this->getUserFromHeader();
+        //ログインユーザーのidを取得
+        $userId = $userFromToken ? $userFromToken->getId() : null;
+
         // リクエストから対象ユーザーIDを取得
         $targetUserId = (int)$this->resolveArg('userId');
 
@@ -27,7 +32,11 @@ class GetFollowedUsersAction extends FollowAction
 
         // 鍵アカウントかどうかをチェック
         if ($targetUser->getIsPrivate()) {
-            return $this->respondWithData('Cannot access private user', 403);
+            $isMutualFollow = $this->followRepository->bothFollowChecker($userId, $targetUserId);
+
+            if (!$isMutualFollow) {
+                return $this->respondWithData('Cannot access private user', 403);
+            }
         }
 
         try {
@@ -35,7 +44,7 @@ class GetFollowedUsersAction extends FollowAction
             $followedUsers = $this->followRepository->findOfFollowed($targetUserId);
             return $this->respondWithData($followedUsers);
         } catch (FollowedNotFoundException $e) {
-            return $this->respondWithError('Failed to get followed users: ' . $e->getMessage(), 405);
+            return $this->respondWithData('No followed users found', 404);
         }
     }
 }
