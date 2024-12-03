@@ -3,7 +3,7 @@ import {useParams,  useNavigate } from 'react-router-dom';
 import LinkiconHome from '../images/tegakihome.png';
 import LinkiconBell from '../images/tegakibell.png';
 import LinkiconMassage from '../images/tegakimessage.png';
-import Iconhavertz from '../images/havertz.png';
+import defaultAvatar from '../images/tegakicreateuser.png'
 import Linkiconbutton from '../images/tegakibutton.png';
 import LinkiconLogin from '../images/tegakilogin.png';
 import LinkiconCreateUser from '../images/tegakicreateuser.png';
@@ -265,7 +265,7 @@ function UserProfileView() {
           <Header />
           <div className="userpage-userinfo">
               <Profileinfo
-                src={userData.avatar_path ? `http://localhost:8080${userData.avatar_path}` : Iconhavertz}
+                src={userData.avatar_path ? `http://localhost:8080${userData.avatar_path}` : defaultAvatar}
                 username={userData.username}
                 userid={userData.id}
                 profile={userData.profile}

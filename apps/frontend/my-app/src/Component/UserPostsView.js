@@ -2,37 +2,27 @@ import React, { useEffect, useState } from 'react';
 import {useParams, useNavigate } from 'react-router-dom'; // useNavigate をインポート
 import Contentinfo from './ContentInfo/Contentinfo';
 import './css/UserPostsView.css';
+import defaultAvatar from '../images/tegakicreateuser.png'
 
 
 function UserPostsView({  }) {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
-  const [isprivate, setisPrivate] = useState(''); // エラーメッセージ用のステート
   const { userid } = useParams(); // URLからユーザーIDを取得
   const [searchKeyword, setSearchKeyword] = useState('');
     
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const authtoken = localStorage.getItem('authToken');
-          const response = await fetch(`http://localhost:8080/users/${userid}/posts`,authtoken != undefined ? {
-            headers:{
-              'Authorization': `Bearer ${authtoken}`,
-            }
-          } : {});
+        const response = await fetch(`http://localhost:8080/users/${userid}/posts`);
         const json = await response.json();
         const postarray = Object.values(json.data).reverse(); // 逆順にソート
-        if (response.status === 404 && json.data === "This follower is private.") {
-          // プライベートユーザーの場合
-          setisPrivate("user private");
-        }
         setPosts(postarray);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
     };
     fetchPosts();
-
 
     const handleNewPost = (event) => {
       setPosts((prevPosts) => [event.detail, ...prevPosts]);
@@ -89,26 +79,20 @@ function UserPostsView({  }) {
 
   return (
     <div className="User-postview-container">
-       {isprivate ? (
-        // エラーメッセージがある場合はその内容を表示
-        <div className="private-message">ポストは非公開です。</div>
-      ) : (
-        // 投稿がある場合は投稿を表示
-        posts.map((post) => (
-          <Contentinfo
-            key={post.id}
-            src={`http://localhost:8080${post.author_avatar}`}
-            alt=""
-            username={post.author_name}
-            userid={post.author_id}
-            content={post.content}
-            postid={post.id}
-            imagepath={post.image_path}
-            handleDelete={handleDelete}
-            onUserIconClick={handleUserIconClick} // アイコンをクリックした際に呼び出す関数を渡す
-          />
-        ))
-      )}
+      {posts.map((post) => (
+        <Contentinfo
+          key={post.id}
+          src={post.author_avatar ? `http://localhost:8080${post.author_avatar}` : defaultAvatar}
+          alt=""
+          username={post.author_name}
+          userid={post.author_id}
+          content={post.content}
+          postid={post.id}
+          imagepath={post.image_path}
+          handleDelete={handleDelete}
+          onUserIconClick={handleUserIconClick} // アイコンをクリックした際に呼び出す関数を渡す
+        />
+      ))}
     </div>
   );
 }
