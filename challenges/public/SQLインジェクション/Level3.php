@@ -1,5 +1,19 @@
 <?php
 session_start();
+require_once("../../utils/back_button.php");
+require_once("../../utils/levelPageAccessBlock.php");
+
+if(AccessBlock()){
+    header("Location: /");
+    exit();
+}
+
+$PROBREM_NAME = "sqli-3";
+
+    require_once "/app/public/api/add_request_to_file.php";
+    if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
+        addToQueue($PROBREM_NAME,["code" => "http://localhost:8081" . $_SERVER['REQUEST_URI']]);
+    }
 
 // ログイン処理
 if (isset($_GET['login'])) {

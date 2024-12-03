@@ -5,7 +5,7 @@ $title = $_GET["title"];
 
 $level = $_GET["level"];
 
-$list = $result;
+$list = get_progress();
 
 if (!in_array($title, array_keys($list))) {
     // タイトルが含まれていない場合の処理（例えばエラーメッセージを表示して終了）

@@ -44,7 +44,7 @@ class GetFollowedUsersAction extends FollowAction
             $followedUsers = $this->followRepository->findOfFollowed($targetUserId);
             return $this->respondWithData($followedUsers);
         } catch (FollowedNotFoundException $e) {
-            return $this->respondWithData('No followed users found', 404);
+            return $this->respondWithData('Failed to get followed users: ' . $e->getMessage(), 404);
         }
     }
 }

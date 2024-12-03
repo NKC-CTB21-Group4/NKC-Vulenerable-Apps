@@ -49,7 +49,7 @@ class GetFollowersAction extends FollowAction
             
             return $this->respondWithData($followers);
         } catch (FollowerNotFoundException $e) {
-            return $this->respondWithError('Failed to get followers: ' . $e->getMessage(), 500);
+            return $this->respondWithData('Failed to get followers: ' . $e->getMessage(), 404);
         }
     }
 }
