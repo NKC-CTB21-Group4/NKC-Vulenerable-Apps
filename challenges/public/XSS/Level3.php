@@ -21,7 +21,10 @@ $PROBREM_NAME = "xss-3";
 if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
     addToQueue($PROBREM_NAME,["code" => "http://localhost:8081" . $_SERVER['REQUEST_URI']]);
 }
-if(AccessBlock())header("Location: /");
+if(AccessBlock()){
+    header("Location: /");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>

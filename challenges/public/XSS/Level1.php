@@ -1,6 +1,7 @@
 <?php
-require("../../utils/levelPageAccessBlock.php");
+require_once "../../utils/levelPageAccessBlock.php";
 require_once "/app/public/api/add_request_to_file.php";
+require_once "../../utils/back_button.php";
 
 $name = $_GET['name'];
 $email = $_GET['email'];
@@ -10,8 +11,10 @@ if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
     addToQueue($PROBREM_NAME,["code" => "http://localhost:8081" . $_SERVER['REQUEST_URI']]);
 }
 
-if(AccessBlock())header("Location: /");
-
+if(AccessBlock()){
+    header("Location: /");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -20,6 +23,7 @@ if(AccessBlock())header("Location: /");
     <title>基本的な入力フォーム</title>
 </head>
 <body>
+    <?php echo generateBackButtonHTML()?>
     <form action="./Level1.php" method="GET">
         <label for="name">名前:</label><br>
         <input type="text" id="name" name="name"><br>
