@@ -25,7 +25,6 @@ function UserPostsView({  }) {
         if (response.status === 404 && json.data === "This follower is private.") {
           // プライベートユーザーの場合
           setisPrivate("user private");
-          console.log(isprivate);
         }
         setPosts(postarray);
       } catch (error) {
