@@ -16,14 +16,14 @@ class GetFollowedUsersAction extends FollowAction
         $targetUserId = (int)$this->resolveArg('userId');
 
         if ($targetUserId === null) {
-            return $this->respondWithData('User ID is required', 401);
+            return $this->respondWithData('User ID is required', 400);
         }
 
         // 対象ユーザーの情報を取得
         $targetUser = $this->userRepository->findUserOfId($targetUserId);
 
         if (!$targetUser) {
-            return $this->respondWithData('User not found', 402);
+            return $this->respondWithData('User not found', 404);
         }
 
         if ($userFromToken === null) {
