@@ -1,5 +1,12 @@
 <?php
 session_start();
+require_once "../../utils/back_button.php";
+require_once "../../utils/levelPageAccessBlock.php";
+
+if(AccessBlock()){
+    header("Location: /");
+    exit();
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
@@ -10,8 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
         addToQueue($PROBREM_NAME,["username" => $username,"password"=> $password]);
     }
-
-
 
     $db = new SQLite3('tmp.db');
 
@@ -38,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Login</title>
 </head>
 <body>
+    <?php echo generateBackButtonHTML()?>
     <h2>Login</h2>
     <form method="post" action="">
         <label for="username">Username:</label><br>

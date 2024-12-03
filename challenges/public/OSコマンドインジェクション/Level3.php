@@ -1,3 +1,11 @@
+<?php
+require_once "../../utils/levelPageAccessBlock.php";
+
+if(AccessBlock()){
+    header("Location: /");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
