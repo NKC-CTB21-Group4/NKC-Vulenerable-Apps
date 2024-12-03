@@ -40,9 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Login</title>
 </head>
 <body>
+    <?php echo generateBackButtonHTML()?>
     <h2>Login</h2>
     <form method="post" action="">
-        <?php echo generateBackButtonHTML()?>
         <label for="username">Username:</label><br>
         <input type="text" id="username" name="username"><br>
         <label for="password">Password:</label><br>
