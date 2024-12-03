@@ -1,7 +1,7 @@
 <?php
-require_once "../../utils/levelPageAccessBlock.php";
+require_once "/app/utils/levelPageAccessBlock.php";
 require_once "/app/public/api/add_request_to_file.php";
-require_once "../../utils/back_button.php";
+require_once "/app/utils/back_button.php";
 
 if(AccessBlock()){
     header("Location: /");

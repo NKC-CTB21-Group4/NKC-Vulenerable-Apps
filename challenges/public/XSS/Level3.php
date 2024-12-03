@@ -1,6 +1,7 @@
 <?php
-require("../../utils/levelPageAccessBlock.php");
+require_once "/app/utils/levelPageAccessBlock.php";
 require_once "/app/public/api/add_request_to_file.php";
+require_once "/app/utils/back_button.php";
 
 if(AccessBlock()){
     header("Location: /");
@@ -35,7 +36,8 @@ if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
 <head>
     <title>基本的な入力フォーム</title>
 </head>
-<body>
+<body> 
+    <?php echo generateBackButtonHTML()?>
     <form action="./Level3.php" method="GET">
         <label for="name">名前:</label><br>
         <input type="text" id="name" name="name"><br>

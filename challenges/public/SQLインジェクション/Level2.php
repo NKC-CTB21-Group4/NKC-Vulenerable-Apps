@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("../../utils/back_button.php");
-require_once("../../utils/levelPageAccessBlock.php");
+require_once "/app/utils/back_button.php";
+require_once "/app/utils/levelPageAccessBlock.php";
 
 if(AccessBlock()){
     header("Location: /");
@@ -69,6 +69,7 @@ $result = $db->query($query);
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <?php echo generateBackButtonHTML()?>
     <div class="container">
         <h1>人事管理システム</h1>
         <!-- <div class="user-info">

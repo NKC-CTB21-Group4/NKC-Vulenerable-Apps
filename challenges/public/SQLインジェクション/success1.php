@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once "/app/utils/back_button.php";
 
 $username = $_SESSION['username'];
 ?>
@@ -10,6 +11,7 @@ $username = $_SESSION['username'];
     <title>Login Success</title>
 </head>
 <body>
+    <?php echo generateBackButtonHTML()?>
     <h1>Login Successful level1 !</h1>
     <p>Welcome, <?php echo $username; ?>!</p>
     <p>This is the protected content. Only logged-in users can see this.</p>
