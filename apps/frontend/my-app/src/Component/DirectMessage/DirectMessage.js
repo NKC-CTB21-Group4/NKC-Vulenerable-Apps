@@ -32,10 +32,18 @@ function DirectMessage() {
     getUserList();
 
     const handleSearchUser = async (event) => {
-      const { keyword, searchUserId } = event.detail;
-      const queryParams = new URLSearchParams({ keyword, userId: searchUserId });
+      const { keyword, searchUserId,onlyFromFollowedUser } = event.detail;
+      const queryParams = new URLSearchParams({ 
+        keyword, 
+        userId: searchUserId,
+        onlyFromFollowedUser
+      });
 
-      fetch(`http://localhost:8080/users/search?${queryParams.toString()}`)
+      fetch(`http://localhost:8080/users/search?${queryParams.toString()}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+        }
+      })
         .then(response => response.json())
         .then(json => {
           if (!json.data || json.data.length === 0) {

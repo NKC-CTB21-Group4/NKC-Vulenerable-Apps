@@ -25,16 +25,20 @@ function UserSearch() {
       const advancedSearchParams = {};
       let keyword = input.trim(); // キーワードをトリムして取り出す
 
-        const match = input.match(/userId:(\d+)/);
-        if (match) {
-          advancedSearchParams.userId = match[1];
-          keyword = keyword.replace(match[0], '').trim(); // 残りの部分をキーワードとして扱う
+        const matches = input.matchAll(/(?:userId:(\d+))?\s*(?:onlyFromFollowedUser:([^\s]+))?/g);
+        for(const match of matches) {
+          if(match[1] && !advancedSearchParams.userId)advancedSearchParams.userId = match[1];
+          if(match[2] && !advancedSearchParams.onlyFromFollowedUser)advancedSearchParams.onlyFromFollowedUser = match[2];
+          keyword = keyword
+          .replace(/userId:\d+|onlyFromFollowedUser:[^\s]+/g, '')
+          .trim(); // 残りの部分をキーワードとして扱う
         }
 
       const event = new CustomEvent('SearchUser',{
         detail:{
             keyword:keyword || '',
-            searchUserId:advancedSearchParams.userId || ''
+            searchUserId: advancedSearchParams.userId || '',
+            onlyFromFollowedUser: advancedSearchParams.onlyFromFollowedUser || ''
         }
       });
       window.dispatchEvent(event);
