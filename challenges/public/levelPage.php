@@ -1,6 +1,6 @@
 <?php
-include("switch.php");
-include("../utils/getMinLevels.php");
+require_once "switch.php";
+require_once "../utils/getMinLevels.php";
 ?>
 <!DOCTYPE html>
 <html lang="ja">
