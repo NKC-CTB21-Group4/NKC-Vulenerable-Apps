@@ -59,8 +59,6 @@ const Profileedit = ({ userid, username: initialUsername,profile: initialProfile
       });
       const json = (await response.json()).data;
 
-      
-      console.log(json);
       // 更新情報を親コンポーネントに渡す
       onSave({ id: json.user.id, username : json.user.username, profile : json.user.profile, user:json.user, icon: iconPreview },json.token);
 

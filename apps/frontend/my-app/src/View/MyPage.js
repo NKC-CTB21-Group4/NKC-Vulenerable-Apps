@@ -30,6 +30,7 @@ function MyPage() {
   const [followerusers, setfollowerUsers] = useState([]);
   const [updatedIcon, setUpdatedIcon] = useState(null); // アイコンの更新用状態
   const [render,setRender] = useState(0); //MyPostView再レンダリング用
+  const [isPrivated, setIsPrivated] = useState(false); // 鍵垢状態を管理
   
 
   const userid = user?.id;
@@ -39,9 +40,63 @@ function MyPage() {
   const navigate = useNavigate();
 
 
+
+  const handleUserPrivateClick = async () => {
+    try {
+      // プライベート設定のトグル操作
+      const response = await fetch(`http://localhost:8080/users/${user.id}/private`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('authToken'),
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('プライベート設定の更新に失敗しました');
+      }
+  
+      // プライベート状態の取得
+      const privateResponse = await fetch(`http://localhost:8080/users/${user.id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('authToken'),
+        },
+      });
+  
+      if (!privateResponse.ok) {
+        throw new Error('ユーザーデータの取得に失敗しました');
+      }
+  
+      const privateData = await privateResponse.json();
+      const isPrivate = privateData?.data?.is_private; // `is_private` プロパティを直接確認
+      setIsPrivated(isPrivate); // 状態を更新
+    } catch (error) {
+      console.error('Error handling user private click:', error);
+    }
+  };
+  
+  
   const handleFollowListClick = (user) => {
     navigate(`/users/${user.id}/profile`)
   };
+
+  const fetchprivate = async () => {
+    try {
+      const privateResponse = await fetch(`http://localhost:8080/users/${userid}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+        },
+      });
+      const privateData = await privateResponse.json();
+      const isPrivate = privateData?.data?.is_private; // `is_private` プロパティを直接確認
+      setIsPrivated(isPrivate); // 状態を更新
+    } catch (error) {
+      console.error('Error handling user private click:', error);
+    }
+  };
+
 
   const fetchFollowList = async () => {
     try {
@@ -95,6 +150,7 @@ function MyPage() {
     fetchUserData();
     fetchFollowList();
     fetchFollowerList();
+    fetchprivate();
   }, [isAuthenticated, navigate,user]);
 
   // プロフィール編集モーダルを開く
@@ -216,6 +272,8 @@ function MyPage() {
               onFollowListClick={handleFollowListClick}
               followerusers={followerusers.length > 0 ? followerusers : null}
               onFollowerListClick={handleFollowListClick}
+              onUserPrivateClick={handleUserPrivateClick}
+              isPrivated={isPrivated}
             />
             <div className="profile-edit">
               <img
