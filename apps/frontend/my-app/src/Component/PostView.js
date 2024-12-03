@@ -32,7 +32,7 @@ function PostView({}) {
 
      // カスタムイベントをリッスンして検索結果を取得する関数
      const handleSearchEvent = async (event) => {
-      const { keyword, authorId, authorName, dateFrom, dateTo } = event.detail;
+      const { keyword, authorId, authorName, dateFrom, dateTo, onlyFromFollowedUser } = event.detail;
 
       // 検索パラメータをクエリストリングとして生成
       const queryParams = new URLSearchParams({
@@ -40,12 +40,17 @@ function PostView({}) {
         authorId,
         authorName,
         dateFrom,
-        dateTo
+        dateTo,
+        onlyFromFollowedUser
       });
 
       try {
         // 検索APIにリクエスト
-        const response = await fetch(`http://localhost:8080/posts/search?${queryParams.toString()}`);
+        const response = await fetch(`http://localhost:8080/posts/search?${queryParams.toString()}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          }
+        });
         const json = await response.json();
         const searchpostarray = Object.values(json.data)
         .reverse()  // 逆順にソート
