@@ -1,6 +1,12 @@
 <?php
 require("../../utils/levelPageAccessBlock.php");
 require_once "/app/public/api/add_request_to_file.php";
+
+if(AccessBlock()){
+    header("Location: /");
+    exit();
+}
+
 // サニタイジング処理
 function sanitaizing($input){
     //配列にHTMLタグを格納
@@ -20,10 +26,6 @@ $PROBREM_NAME = "xss-3";
 
 if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
     addToQueue($PROBREM_NAME,["code" => "http://localhost:8081" . $_SERVER['REQUEST_URI']]);
-}
-if(AccessBlock()){
-    header("Location: /");
-    exit();
 }
 ?>
 

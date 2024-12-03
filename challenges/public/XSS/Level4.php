@@ -2,6 +2,11 @@
 require("../../utils/levelPageAccessBlock.php");
 require_once "/app/public/api/add_request_to_file.php";
 
+if(AccessBlock()){
+    header("Location: /");
+    exit();
+}
+
 // サニタイジング処理
 $name = preg_replace('/<(.|\n)*>/i', '', $_GET["name"]); // HTMLタグを削除
 $name = preg_replace('/<script.*?\/script.*>/i', '', $name); // JavaScriptコードを削除
@@ -15,10 +20,6 @@ $PROBREM_NAME = "xss-4";
 
 if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
     addToQueue($PROBREM_NAME,["code" => "http://localhost:8081" . $_SERVER['REQUEST_URI']]);
-}
-if(AccessBlock()){
-    header("Location: /");
-    exit();
 }
 ?>
 
