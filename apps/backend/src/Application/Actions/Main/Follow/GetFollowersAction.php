@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace App\Application\Actions\Main\Follow;
 
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use App\Domain\Main\Follow\Follow;
-use App\Domain\Main\Follow\FollowerNotFoundException;
+use App\Domain\Main\Follow\FollowedNotFoundException;
+use App\Domain\Main\User\UserNotFoundException;
 
 class GetFollowersAction extends FollowAction
 {
     protected function action(): Response
     {
-        // リクエストから対象ユーザーIDを取得
+        $userFromToken = $this->getUserFromHeader();
         $targetUserId = (int)$this->resolveArg('userId');
 
         if ($targetUserId === null) {
@@ -27,17 +26,30 @@ class GetFollowersAction extends FollowAction
             return $this->respondWithData('User not found', 404);
         }
 
-        // 鍵アカウントかどうかをチェック
-        if ($targetUser->getIsPrivate()) {
-            return $this->respondWithData('Cannot access private user', 403);
+        if ($userFromToken === null) {
+            // トークンがない（未ログインユーザー）の場合
+            if ($targetUser->getIsPrivate()) {
+                return $this->respondWithData('Cannot access private user', 403);
+            }
+        } else {
+            // トークンがある（ログインユーザー）の場合
+            $userId = $userFromToken->getId();
+
+            if ($userId !== $targetUserId && $targetUser->getIsPrivate()) {
+                $isMutualFollow = $this->followRepository->bothFollowChecker($userId, $targetUserId);
+
+                if (!$isMutualFollow) {
+                    return $this->respondWithData('Cannot access private user', 403);
+                }
+            }
         }
 
-        try {//任意のユーザー出ないといけない
-            $followers = $this->followRepository->findOfFollower($targetUserId);
-            
-            return $this->respondWithData($followers);
+        try {
+            // フォローされているユーザーを取得
+            $followerUsers = $this->followRepository->findOfFollower($targetUserId);
+            return $this->respondWithData($followerUsers);
         } catch (FollowerNotFoundException $e) {
-            return $this->respondWithData('Failed to get followers: ' . $e->getMessage(), 404);
+            return $this->respondWithData('No followed users found', 404);
         }
     }
 }
