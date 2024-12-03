@@ -1,5 +1,6 @@
 <?php
-require_once "../../utils/levelPageAccessBlock.php";
+require_once "/app/utils/levelPageAccessBlock.php";
+require_once "/app/utils/back_button.php";
 
 if(AccessBlock()){
     header("Location: /");
@@ -13,6 +14,7 @@ if(AccessBlock()){
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+    <?php echo generateBackButtonHTML()?>
     <div class="navindex">
         <form method="post" class="divindex">
             <label for="target">Enter hostname or IP address to ping:</label><br>

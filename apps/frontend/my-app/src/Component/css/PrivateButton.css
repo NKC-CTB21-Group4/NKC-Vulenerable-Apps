@@ -1,0 +1,12 @@
+.Private-button{
+    cursor: pointer;
+    border-radius: 100vh;
+    width: 9em;
+    height: 3em;
+    font-weight: bold;
+    background-color: #fff;
+    border:1px solid #d5d1d5dd;
+}
+.Private-button:hover{
+    background-color: #ecebeb;
+}

@@ -1,3 +1,8 @@
+.Private-button{
+    position: absolute;
+    right: 29em;
+    top: 8em;
+}
 .mypage-container{
     display: flex;
 }

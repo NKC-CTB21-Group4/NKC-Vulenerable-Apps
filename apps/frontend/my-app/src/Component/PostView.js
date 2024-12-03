@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigate をインポート
 import './css/PostView.css';
 import Contentinfo from './ContentInfo/Contentinfo';
+import defaultAvatar from '../images/tegakicreateuser.png'
 
 function PostView({}) {
   const [posts, setPosts] = useState([]);
@@ -84,7 +85,7 @@ function PostView({}) {
       {posts.map((post) => (
         <Contentinfo
           key={post.id}
-          src={`http://localhost:8080${post.author_avatar}`}
+          src={post.author_avatar ? `http://localhost:8080${post.author_avatar}` : defaultAvatar}
           alt=""
           username={post.author_name}
           userid={post.author_id}
