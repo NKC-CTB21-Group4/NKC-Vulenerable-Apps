@@ -25,16 +25,10 @@ if(AccessBlock()){
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         require_once "/app/public/api/add_request_to_file.php";
-        require_once "../../utils/levelPageAccessBlock.php";
 
         $PROBREM_NAME = "osi-2";
         if($_SERVER['HTTP_USER_AGENT'] != "evaluator"){
             addToQueue($PROBREM_NAME,["target" => $_POST["target"]]);
-        }
-
-        if(AccessBlock()){
-            header("Location: /");
-            exit();
         }
 
         $target = $_POST["target"];
