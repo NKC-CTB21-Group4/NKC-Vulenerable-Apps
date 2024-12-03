@@ -4,7 +4,7 @@ require_once "/app/utils/back_button.php";
 
 // ログイン済みの場合はリダイレクト
 if (isset($_SESSION['username'])) {
-    header("Location: level4.php");
+    header("Location: Level4.php");
     exit();
 }
 
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($row['username'] == 'adminuser') {
             $_SESSION['admin'] = true;
         }
-        header("Location: level4.php");
+        header("Location: Level4.php");
         exit();
     } else {
         echo "Invalid username or password.";
