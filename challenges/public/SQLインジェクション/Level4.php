@@ -1,6 +1,11 @@
 <?php
 session_start();
+require("../../utils/levelPageAccessBlock.php");
 
+if(AccessBlock()){
+    header("Location: /");
+    exit();
+}
 // セッションにusernameがセットされていない場合はログインページにリダイレクト
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
