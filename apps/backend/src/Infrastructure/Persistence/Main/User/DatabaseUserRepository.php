@@ -9,6 +9,7 @@ use App\Domain\Main\User\UserNotFoundException;
 use App\Domain\Main\User\UserSearchFailedException;
 use App\Domain\Main\User\UserRepository;
 use App\Domain\Main\User\UserDeleteFailedException;
+use App\Domain\Main\Follow\FollowRepository;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -16,11 +17,12 @@ use Doctrine\ORM\EntityRepository;
 class DatabaseUserRepository extends EntityRepository implements UserRepository
 {
     private EntityManager $entityManager;
+    private FollowRepository $followRepository;
 
-
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, FollowRepository $followRepository)
     {
         $this->entityManager = $entityManager;
+        $this->followRepository = $followRepository;
         parent::__construct($entityManager, $entityManager->getClassMetadata(User::class));
     }
 
@@ -142,7 +144,7 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
         return $user->getAvatarPath();
     }
     
-    public function search($searchParam):array {
+    public function search(array $searchParam):array {
         try {
             // 基本的なクエリ構築
             $query = $this->createQueryBuilder('u');
@@ -159,11 +161,20 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
                 ->setParameter('user_id',$searchParam['userId']);
             }
       
-            // onlyFromFollowedUser オプションの処理 
-            // if (!empty($searchCriteria['onlyFromFollowedUser']) && $searchCriteria['onlyFromFollowedUser'] === true) {
-            //     $followedUserIds = $this->getFollowedUserIds($searchCriteria['currentUserId']);
-            //     $query->whereIn('user_id', $followedUserIds);
-            // }
+            if (!empty($searchParam['onlyFromFollowedUser'])) {
+                $followedUsers = $this->followRepository->findOfFollowed($searchParam['currentUserId']);
+        
+                // フォローしているユーザーのIDを配列として取得
+                $followedUserIds = array_map(fn(User $user) => $user->getId(), $followedUsers);
+
+                if (!empty($followedUserIds)) {
+                    $query->andWhere('u.id IN (:followedUserIds)')
+                          ->setParameter('followedUserIds', $followedUserIds);
+                } else {
+                    // フォローしているユーザーがいない場合は結果を空に
+                    $query->andWhere('1 = 0');
+                }
+            }
 
             // クエリの実行と結果の取得
             $users = $query->getQuery()->getResult();

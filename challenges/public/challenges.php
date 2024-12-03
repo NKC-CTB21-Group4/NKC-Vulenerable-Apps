@@ -1,7 +1,7 @@
 <?php
-include("./api/get_progress.php");
-include("./api/get_links.php");
-$progressLevels = $result;
+require_once "./api/get_progress.php";
+require_once "./api/get_links.php";
+$progressLevels = get_progress();
 
 function generate_dynamic_link($icon_path, $alt_attr, $title, $max_level) {
     // ボックス内のHTMLを生成
