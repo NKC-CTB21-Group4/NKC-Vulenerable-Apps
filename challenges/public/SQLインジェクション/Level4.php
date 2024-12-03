@@ -1,6 +1,6 @@
 <?php
 session_start();
-require("../../utils/levelPageAccessBlock.php");
+require_once("../../utils/levelPageAccessBlock.php");
 
 if(AccessBlock()){
     header("Location: /");

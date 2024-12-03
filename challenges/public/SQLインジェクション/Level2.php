@@ -1,7 +1,7 @@
 <?php
 session_start();
-require "../../utils/back_button.php";
-require("../../utils/levelPageAccessBlock.php");
+require_once("../../utils/back_button.php");
+require_once("../../utils/levelPageAccessBlock.php");
 
 // セッションにusernameがセットされていない場合はログインページにリダイレクト
 // if (!isset($_SESSION['username'])) {
