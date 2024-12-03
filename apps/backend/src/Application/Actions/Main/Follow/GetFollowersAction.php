@@ -5,37 +5,37 @@ declare(strict_types=1);
 namespace App\Application\Actions\Main\Follow;
 
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use App\Domain\Main\Follow\Follow;
-use App\Domain\Main\Follow\FollowerNotFoundException;
+use App\Domain\Main\Follow\FollowedNotFoundException;
+use App\Domain\Main\User\UserNotFoundException;
 
 class GetFollowersAction extends FollowAction
 {
     protected function action(): Response
     {
-
         $userFromToken = $this->getUserFromHeader();
-        //ログインユーザーのidを取得
-        $userId = $userFromToken ? $userFromToken->getId() : null;
-
-        // リクエストから対象ユーザーIDを取得
         $targetUserId = (int)$this->resolveArg('userId');
 
         if ($targetUserId === null) {
-            return $this->respondWithData('User ID is required', 400);
+            return $this->respondWithData('User ID is required', 401);
         }
 
-        //ログインユーザーとターゲットユーザーが同じだった場合はそのまま情報を出す
-        if ($userId !== $targetUserId){
-            // 対象ユーザーの情報を取得
-            $targetUser = $this->userRepository->findUserOfId($targetUserId);
+        // 対象ユーザーの情報を取得
+        $targetUser = $this->userRepository->findUserOfId($targetUserId);
 
-            if (!$targetUser) {
-                return $this->respondWithData('User not found', 404);
-            }
+        if (!$targetUser) {
+            return $this->respondWithData('User not found', 402);
+        }
 
-            // 鍵アカウントかどうかをチェック
+        if ($userFromToken === null) {
+            // トークンがない（未ログインユーザー）の場合
             if ($targetUser->getIsPrivate()) {
+                return $this->respondWithData('Cannot access private user', 403);
+            }
+        } else {
+            // トークンがある（ログインユーザー）の場合
+            $userId = $userFromToken->getId();
+
+            if ($userId !== $targetUserId && $targetUser->getIsPrivate()) {
                 $isMutualFollow = $this->followRepository->bothFollowChecker($userId, $targetUserId);
 
                 if (!$isMutualFollow) {
@@ -44,12 +44,12 @@ class GetFollowersAction extends FollowAction
             }
         }
 
-        try {//任意のユーザー出ないといけない
-            $followers = $this->followRepository->findOfFollower($targetUserId);
-            
-            return $this->respondWithData($followers);
+        try {
+            // フォローされているユーザーを取得
+            $followedUsers = $this->followRepository->findOfFollower($targetUserId);
+            return $this->respondWithData($followedUsers);
         } catch (FollowerNotFoundException $e) {
-            return $this->respondWithData('Failed to get followers: ' . $e->getMessage(), 404);
+            return $this->respondWithData('No followed users found', 404);
         }
     }
 }
