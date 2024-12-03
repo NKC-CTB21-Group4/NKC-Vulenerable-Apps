@@ -46,8 +46,8 @@ class GetFollowersAction extends FollowAction
 
         try {
             // フォローされているユーザーを取得
-            $followedUsers = $this->followRepository->findOfFollower($targetUserId);
-            return $this->respondWithData($followedUsers);
+            $followerUsers = $this->followRepository->findOfFollower($targetUserId);
+            return $this->respondWithData($followerUsers);
         } catch (FollowerNotFoundException $e) {
             return $this->respondWithData('No followed users found', 404);
         }
