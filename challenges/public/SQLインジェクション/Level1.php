@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once "../../utils/back_button.php";
-require_once "../../utils/levelPageAccessBlock.php";
+require_once "/app/utils/back_button.php";
+require_once "/app/utils/levelPageAccessBlock.php";
 
 if(AccessBlock()){
     header("Location: /");

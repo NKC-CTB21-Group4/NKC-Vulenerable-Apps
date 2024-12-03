@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once "/app/utils/back_button.php";
 
 // ログイン済みの場合はリダイレクト
 if (isset($_SESSION['username'])) {
@@ -23,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($row['username'] == 'adminuser') {
             $_SESSION['admin'] = true;
         }
-        header("Location: level3.php");
+        header("Location: Level3.php");
         exit();
     } else {
         echo "Invalid username or password.";
@@ -41,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <h2>Login</h2>
     <form method="post" action="">
+        <?php echo generateBackButtonHTML()?>
         <label for="username">Username:</label><br>
         <input type="text" id="username" name="username"><br>
         <label for="password">Password:</label><br>
