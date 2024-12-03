@@ -1,6 +1,9 @@
 <?php
 require_once "./api/get_progress.php";
 require_once "./api/get_links.php";
+require_once "/app/utils/challenges_back_button.php";
+
+$base_url =  "http://localhost:8081";
 $progressLevels = get_progress();
 
 function generate_dynamic_link($icon_path, $alt_attr, $title, $max_level) {
@@ -25,6 +28,7 @@ function generate_dynamic_link($icon_path, $alt_attr, $title, $max_level) {
   <title>NKC Vulnerable Apps</title>
 </head>
 <body>
+    <?php echo generateChallengesBackButtonHTML($base_url);?>
     <div id="container">
         <?php
             foreach ($links as $link) {

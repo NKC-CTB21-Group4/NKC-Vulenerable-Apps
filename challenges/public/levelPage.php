@@ -1,6 +1,9 @@
 <?php
 require_once "switch.php";
-require_once "../utils/getMinLevels.php";
+require_once "/app/utils/getMinLevels.php";
+require_once "/app/utils/challenges_back_button.php";
+
+$challenges_url = "http://localhost:8081/challenges.php";
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -10,6 +13,7 @@ require_once "../utils/getMinLevels.php";
   <link rel="stylesheet" href="css/levelPage.css">
 </head>
 <body>
+    <?php echo generateChallengesBackButtonHTML($challenges_url) ?>
     <h1 class="title"><?php echo $title ?></h1>
     <div>
         <nav>
