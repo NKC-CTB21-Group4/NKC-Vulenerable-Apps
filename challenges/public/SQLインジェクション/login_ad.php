@@ -4,7 +4,7 @@ require_once "/app/utils/back_button.php";
 
 // ログイン済みの場合はリダイレクト
 if (isset($_SESSION['username'])) {
-    header("Location: level3.php");
+    header("Location: Level3.php");
     exit();
 }
 
