@@ -35,7 +35,7 @@ class ListUserPostsAction extends PostAction
             return $this->respondWithData("Post Not Found.", 404);
         }
       } else {
-        return $this->respondWithData("This follower is private.", 404);
+        return $this->respondWithData("This follower is private.", 403);
       }
     } else {
         //操作ユーザーがログインをしていたら

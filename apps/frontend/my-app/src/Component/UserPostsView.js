@@ -8,15 +8,24 @@ import defaultAvatar from '../images/tegakicreateuser.png'
 function UserPostsView({  }) {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
+  const [isPrivate,setIsPrivate] = useState('');
   const { userid } = useParams(); // URLからユーザーIDを取得
   const [searchKeyword, setSearchKeyword] = useState('');
     
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/users/${userid}/posts`);
+        const authToken = localStorage.getItem('authToken');
+        const response = await fetch(`http://localhost:8080/users/${userid}/posts`, authToken != undefined ? {
+          headers:{
+            'Authorization':`Bearer ${authToken}`,
+          }
+        }: {});
         const json = await response.json();
         const postarray = Object.values(json.data).reverse(); // 逆順にソート
+        if (response.status === 403){
+          setIsPrivate("user private");
+        }
         setPosts(postarray);
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -79,7 +88,10 @@ function UserPostsView({  }) {
 
   return (
     <div className="User-postview-container">
-      {posts.map((post) => (
+      {isPrivate ? (
+        <div className="private-message">ポストは、非公開です。</div>
+      ):(
+      posts.map((post) => (
         <Contentinfo
           key={post.id}
           src={post.author_avatar ? `http://localhost:8080${post.author_avatar}` : defaultAvatar}
@@ -92,7 +104,8 @@ function UserPostsView({  }) {
           handleDelete={handleDelete}
           onUserIconClick={handleUserIconClick} // アイコンをクリックした際に呼び出す関数を渡す
         />
-      ))}
+      ))
+      )}
     </div>
   );
 }
