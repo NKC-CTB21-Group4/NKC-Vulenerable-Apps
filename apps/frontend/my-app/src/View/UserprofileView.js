@@ -30,6 +30,12 @@ function UserProfileView() {
     const [isPrivated, setIsPrivated] = useState(false); // 鍵垢状態を管理
     
 
+    const handleUserIconClick = () => {
+      navigate(`/users/${userid}/profile`)
+    };
+  
+    
+
     const handleUserPrivateClick = async () => {
       try {
         // プライベート設定のトグル操作
@@ -265,6 +271,7 @@ function UserProfileView() {
           <Header />
           <div className="userpage-userinfo">
               <Profileinfo
+                onUserIconClick={handleUserIconClick}
                 src={userData.avatar_path ? `http://localhost:8080${userData.avatar_path}` : defaultAvatar}
                 username={userData.username}
                 userid={userData.id}
