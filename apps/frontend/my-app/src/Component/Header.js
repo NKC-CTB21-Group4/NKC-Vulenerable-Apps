@@ -5,7 +5,7 @@ import './css/Header.css'; // 必要に応じてCSSファイルをインポー�
 const Header = () => {
   return (
     <header className="header-container">
-      <h1>Vulnerbility App</h1>
+      <h1>Vulnerable App</h1>
       {/* 他のヘッダー内容をここに追加 */}
     </header>
   );
