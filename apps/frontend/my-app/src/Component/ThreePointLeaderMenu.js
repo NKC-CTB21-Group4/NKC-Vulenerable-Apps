@@ -49,18 +49,18 @@ const MenuContent = ({ isOpen }) => {
   return (
     <nav className={`nav-menu ${isOpen ? "open" : ""}`}>
       <ul>
-        {userid && (
           <li>
             <Link to="#" id="user-change-btn">
               Email,Password変更
             </Link>
           </li>
-        )}
+        {userid &&(
         <li>
           <Link to="#" id="user-delete-btn">
             User削除
           </Link>
         </li>
+        )}
       </ul>
     </nav>
   );
