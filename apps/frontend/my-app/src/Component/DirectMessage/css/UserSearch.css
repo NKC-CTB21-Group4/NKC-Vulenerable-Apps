@@ -1,5 +1,6 @@
 .direct-message-search-container{
     text-align: center;
+    position: absolute;
    }
    .direct-message-search-user{
        margin-top: 0.2em;
