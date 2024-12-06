@@ -222,16 +222,10 @@ function UserProfileView() {
       alt: 'Linkicon1',
       to: '/dm',
       text: "メッセージ"
-    },
-    {
-      src: (user?.avatar_path ? `http://localhost:8080${user.avatar_path}` : LinkiconCreateUser), // 更新されたアイコンを表示
-      alt: 'Linkicon1',
-      to: '/Mypage',
-      text: "マイページ"
     }
   ];
 
-  if (!userid) {
+  if (!user?.id) {
     links.push(
       {
         src: LinkiconLogin,
@@ -259,6 +253,12 @@ function UserProfileView() {
             logoutDialog.showModal();
           }
         }
+      },
+      {
+        src: (user?.avatar_path ? `http://localhost:8080${user.avatar_path}` : LinkiconCreateUser), // 更新されたアイコンを表示
+        alt: 'Linkicon1',
+        to: '/Mypage',
+        text: "マイページ"
       }
     );
   }
