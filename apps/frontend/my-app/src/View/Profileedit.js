@@ -21,8 +21,10 @@ const Profileedit = ({ userid, username: initialUsername,profile: initialProfile
 
   // ユーザー名変更ハンドラ
   const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-  };
+    const input = e.target.value;
+    const sanitizedInput = input.replace(/[^a-zA-Z0-9]/g, "");
+    setUsername(sanitizedInput);
+    };
 
   // プロフィール文変更ハンドラ
   const handleProfileChange = (e) => {
@@ -106,6 +108,7 @@ const Profileedit = ({ userid, username: initialUsername,profile: initialProfile
                 value={username}
                 onChange={handleUsernameChange}
                 className="username-input"
+                maxLength={14} // 14文字の制限を追加
               />
             </td>
           </tr>
