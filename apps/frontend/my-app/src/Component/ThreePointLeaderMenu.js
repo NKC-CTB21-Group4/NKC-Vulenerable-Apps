@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './css/ThreePointLeaderMenu.css';
+import React, { useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import "./css/ThreePointLeaderMenu.css";
+import AuthContext from "../Utils/AuthProvider";
 
 const MenuContent = ({ isOpen }) => {
+  const { user } = useContext(AuthContext); // useContextをトップレベルで呼び出す
+  const userid = user?.id;
+
   useEffect(() => {
     // User削除モーダルのイベントリスナーを追加
     const userDeleteBtn = document.querySelector("#user-delete-btn");
@@ -43,13 +47,20 @@ const MenuContent = ({ isOpen }) => {
   }, []);
 
   return (
-    <nav className={`nav-menu ${isOpen ? 'open' : ''}`}>
+    <nav className={`nav-menu ${isOpen ? "open" : ""}`}>
       <ul>
-        <li><Link to="#" id="user-change-btn">Email,Password変更</Link></li>
-        <li><Link to="#" id="user-delete-btn">User削除</Link></li>
-        <li><Link to="#about">About</Link></li>
-        <li><Link to="#services">Services</Link></li>
-        <li><Link to="#contact">Contact</Link></li>
+          <li>
+            <Link to="#" id="user-change-btn">
+              Email,Password変更
+            </Link>
+          </li>
+        {userid &&(
+        <li>
+          <Link to="#" id="user-delete-btn">
+            User削除
+          </Link>
+        </li>
+        )}
       </ul>
     </nav>
   );
