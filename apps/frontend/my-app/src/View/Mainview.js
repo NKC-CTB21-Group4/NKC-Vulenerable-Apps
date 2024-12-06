@@ -60,7 +60,7 @@ function Mainview() {
     {
       src: LinkiconMassage,
       alt: 'Linkicon1',
-      to: 'dm',
+      to: userid? 'dm' :"login",
       text: "メッセージ"
     }
   ];
