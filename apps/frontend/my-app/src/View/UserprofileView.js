@@ -15,7 +15,7 @@ import AuthContext from '../Utils/AuthProvider';
 import Logout from '../Component/Common/Logout';
 import Search from '../Component/Search';
 import Profileinfo from '../Component/ContentInfo/Profileinfo';
-import UserPostsView from '../Component/UserPostsView';
+import UserPostsView from '../Component/Posts/UserPostsView';
 import './css/UserprofileView.css'; 
 
 function UserProfileView() {

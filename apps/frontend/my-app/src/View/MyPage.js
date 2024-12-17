@@ -11,7 +11,7 @@ import LinkiconCreateUser from '../images/tegakicreateuser.png';
 import LinkiconLogout from '../images/tegakilogout.png';
 import LinkiconApp from '../images/tegakiappicon.png';
 import Linkview from '../Component/LinkView/Linkview';
-import MyPostview from '../Component/MyPostView';
+import MyPostview from '../Component/Posts/MyPostView';
 import Header from '../Component/Common/Header';
 import AuthContext from '../Utils/AuthProvider';
 import Logout from '../Component/Common/Logout';
