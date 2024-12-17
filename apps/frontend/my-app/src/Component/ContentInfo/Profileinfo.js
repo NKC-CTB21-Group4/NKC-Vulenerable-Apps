@@ -2,10 +2,10 @@ import React from 'react';
 import './css/Profileinfo.css'; // CSSファイルをインポート
 import Userinfo from './Userinfo';
 import Profile from './Profile';
-import UserFollow from '../UserFollow';
-import UserFollowList from '../UserFollowList';
-import UserFollowerList from '../UserFollowerList';
-import PrivateButton from '../PrivateButton';
+import UserFollow from '../Users/UserFollow';
+import UserFollowList from '../Users/UserFollowList';
+import UserFollowerList from '../Users/UserFollowerList';
+import PrivateButton from '../Users/PrivateButton';
 
 
 function Profileinfo({src, alt, username, userid, profile,onUserIconClick,onUserFollowClick,isFollowed,onUserPrivateClick,isPrivated,users,followerusers,onFollowListClick,onFollowerListClick}) {
