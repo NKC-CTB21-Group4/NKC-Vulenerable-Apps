@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
-import AuthContext from '../Utils/AuthProvider';
-import './css/ThreePointLeader.css';
+import AuthContext from '../../Utils/AuthProvider';
+import '../css/ThreePointLeader.css';
 import ThreePointLeaderMenu from './ThreePointLeaderMenu';
-import UserDelete from './UserDelete';
-import tegakileader from '../images/tegakileader.png';
-import UserChange from './UserChange';
+import UserDelete from '../UserDelete';
+import tegakileader from '../../images/tegakileader.png';
+import UserChange from '../UserChange';
 
 const ThreePointLeader = () => {
   const [isOpen, setIsOpen] = useState(false);

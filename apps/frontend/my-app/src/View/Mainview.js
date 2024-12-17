@@ -11,9 +11,9 @@ import LinkiconLogout from '../images/tegakilogout.png';
 import Linkview from '../Component/LinkView/Linkview';
 import LinkiconApp from '../images/tegakiappicon.png';
 import PostView from '../Component/PostView';
-import Header from '../Component/Header';
+import Header from '../Component/Common/Header';
 import AuthContext from '../Utils/AuthProvider';
-import Logout from '../Component/Logout';
+import Logout from '../Component/Common/Logout';
 import Search from '../Component/Search';
 
 function Mainview() {
