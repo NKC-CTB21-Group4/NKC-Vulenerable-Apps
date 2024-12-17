@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './css/UserFollowList.css';
-import defaultAvatar from '../images/tegakicreateuser.png'
+import '../css/UserFollowList.css';
+import defaultAvatar from '../../images/tegakicreateuser.png'
 
 const UserFollowList = ({ users, onFollowListClick }) => {
   const [isOpen, setIsOpen] = useState(false); // プルダウンの開閉状態を管理

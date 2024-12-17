@@ -1,5 +1,5 @@
 import React from 'react';
-import './css/UserFollow.css';
+import '../css/UserFollow.css';
 
 const UserFollow = ({  onUserFollowClick,isFollowed }) => {
   return (

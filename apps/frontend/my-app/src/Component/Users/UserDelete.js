@@ -1,6 +1,6 @@
 // UserDelete.js
 import React, { useState, useEffect} from 'react';
-import './css/UserDelete.css';
+import '../css/UserDelete.css';
 
 const UserDelete = ({ userId }) => {
   const [email, setEmail] = useState('');

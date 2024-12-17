@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './css/UserChange.css'; 
+import '../css/UserChange.css'; 
 const UserChange = ({ userId }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

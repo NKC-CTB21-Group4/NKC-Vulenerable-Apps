@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './css/UserFollowerList.css';
-import defaultAvatar from '../images/tegakicreateuser.png'
+import '../css/UserFollowerList.css';
+import defaultAvatar from '../../images/tegakicreateuser.png'
 
 
 const UserFollowerList = ({ followerusers, onFollowerListClick }) => {
