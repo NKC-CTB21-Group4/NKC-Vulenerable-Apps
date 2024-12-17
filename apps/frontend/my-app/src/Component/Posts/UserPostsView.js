@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // useNavigate をインポート
-import './css/PostView.css';
-import Contentinfo from './ContentInfo/Contentinfo';
-import defaultAvatar from '../images/tegakicreateuser.png'
+import {useParams, useNavigate } from 'react-router-dom'; // useNavigate をインポート
+import Contentinfo from '../ContentInfo/Contentinfo';
+import '../css/UserPostsView.css';
+import defaultAvatar from '../../images/tegakicreateuser.png'
 
-function PostView({}) {
+
+function UserPostsView({  }) {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
-
+  const [isPrivate,setIsPrivate] = useState('');
+  const { userid } = useParams(); // URLからユーザーIDを取得
+  const [searchKeyword, setSearchKeyword] = useState('');
+    
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/posts`,{
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+        const authToken = localStorage.getItem('authToken');
+        const response = await fetch(`http://localhost:8080/users/${userid}/posts`, authToken != undefined ? {
+          headers:{
+            'Authorization':`Bearer ${authToken}`,
           }
-        });;
+        }: {});
         const json = await response.json();
         const postarray = Object.values(json.data).reverse(); // 逆順にソート
+        if (response.status === 403){
+          setIsPrivate("user private");
+        }
         setPosts(postarray);
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -29,29 +37,23 @@ function PostView({}) {
       setPosts((prevPosts) => [event.detail, ...prevPosts]);
     };
 
- 
+    window.addEventListener('newPost', handleNewPost);
 
-     // カスタムイベントをリッスンして検索結果を取得する関数
-     const handleSearchEvent = async (event) => {
-      const { keyword, authorId, authorName, dateFrom, dateTo, onlyFromFollowedUser } = event.detail;
+    const handleSearchEvent = async (event) => {
+    const { keyword, authorId, authorName, dateFrom, dateTo } = event.detail;
 
       // 検索パラメータをクエリストリングとして生成
       const queryParams = new URLSearchParams({
         keyword,
-        authorId,
+        authorId: userid,
         authorName,
         dateFrom,
-        dateTo,
-        onlyFromFollowedUser
+        dateTo
       });
 
       try {
         // 検索APIにリクエスト
-        const response = await fetch(`http://localhost:8080/posts/search?${queryParams.toString()}`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-          }
-        });
+        const response = await fetch(`http://localhost:8080/posts/search?${queryParams.toString()}`);
         const json = await response.json();
         const searchpostarray = Object.values(json.data)
         .reverse()  // 逆順にソート
@@ -72,6 +74,8 @@ function PostView({}) {
     };
   }, []);
 
+  
+
   const handleDelete = (postid) => {
     setPosts(posts.filter((post) => post.id !== postid));
   };
@@ -80,9 +84,14 @@ function PostView({}) {
     navigate(`/users/${userid}/profile`)
   };
 
+  
+
   return (
-    <div className="postview-container">
-      {posts.map((post) => (
+    <div className="User-postview-container">
+      {isPrivate ? (
+        <div className="private-message">ポストは、非公開です。</div>
+      ):(
+      posts.map((post) => (
         <Contentinfo
           key={post.id}
           src={post.author_avatar ? `http://localhost:8080${post.author_avatar}` : defaultAvatar}
@@ -95,9 +104,10 @@ function PostView({}) {
           handleDelete={handleDelete}
           onUserIconClick={handleUserIconClick} // アイコンをクリックした際に呼び出す関数を渡す
         />
-      ))}
+      ))
+      )}
     </div>
   );
 }
 
-export default PostView;
+export default UserPostsView;

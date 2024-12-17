@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigate をインポート
-import './css/MyPostView.css'; // CSSファイルをインポート
-import Contentinfo from './ContentInfo/Contentinfo';
-import AuthContext from '../Utils/AuthProvider';
-import defaultAvatar from '../images/tegakicreateuser.png'
+import '../css/MyPostView.css'; // CSSファイルをインポート
+import Contentinfo from '../ContentInfo/Contentinfo';
+import AuthContext from '../../Utils/AuthProvider';
+import defaultAvatar from '../../images/tegakicreateuser.png'
 
 function MyPostView({ render}) { // デフォルト値として空の配列を設定
   const [posts, setPosts] = useState([]); 
