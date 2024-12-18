@@ -6,7 +6,7 @@ import Login from './View/Login';
 import Mainview from './View/Mainview';
 import CreateUser from './View/CreateUser';
 import Mypage from './View/MyPage';
-import Logout from './Component/Logout';
+import Logout from './Component/Common/Logout';
 import DirectMessage from './Component/DirectMessage/DirectMessage';
 import UserProfileView from './View/UserprofileView';
 

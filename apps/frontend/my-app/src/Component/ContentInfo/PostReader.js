@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import '../css/PostReader.css';
+import './css/PostReader.css';
 import PostReaderMenu from './PostReaderMenu';
 import tegakireader from '../../images/tegakireader.png';
 import ReportPost from '../ReportPost';
 import AuthContext from '../../Utils/AuthProvider';
-import deletePost from '../DeletePost';
+import deletePost from '../Posts/DeletePost';
 
 const PostReader = ({postid, userid}) => {
   const [isOpen, setIsOpen] = useState(false);

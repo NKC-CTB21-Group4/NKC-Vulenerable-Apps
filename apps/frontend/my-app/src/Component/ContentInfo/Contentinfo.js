@@ -3,7 +3,7 @@ import './css/Contentinfo.css'; // CSSファイルをインポート
 import Userinfo from './Userinfo';
 import Content from './Content';
 import Fav from './Fav';
-import deletePost from '../DeletePost';
+import deletePost from '../Posts/DeletePost';
 import AuthContext from '../../Utils/AuthProvider';
 import ReportPost from '../ReportPost';
 
