@@ -1,7 +1,7 @@
 .Private-button{
+    top: 10vh;
+    right: 3vw;
     position: absolute;
-    right: 29em;
-    top: 8em;
 }
 .mypage-container{
     display: flex;
@@ -21,6 +21,7 @@
 }
 .mypage-userinfo{
     display: flex;
+    position: relative;
 }
 .mypage-userinfo .User-Follow-button{
     display: none;
