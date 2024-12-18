@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigate をインポート
-import '../css/PostView.css';
+import './css/PostView.css';
 import Contentinfo from '../ContentInfo/Contentinfo';
 import defaultAvatar from '../../images/tegakicreateuser.png'
 

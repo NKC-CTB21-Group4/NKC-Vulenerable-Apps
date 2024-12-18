@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {useParams, useNavigate } from 'react-router-dom'; // useNavigate をインポート
 import Contentinfo from '../ContentInfo/Contentinfo';
-import '../css/UserPostsView.css';
+import './css/UserPostsView.css';
 import defaultAvatar from '../../images/tegakicreateuser.png'
 
 
