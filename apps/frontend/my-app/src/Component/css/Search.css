@@ -1,10 +1,13 @@
 .search-container{
- width: 13.5em;
- text-align: center;
- height: 25em;
+    width: 13.5em;
+    text-align: center;
+    height: 25em;
+    display: flex;
+    position: relative;
 }
 .search-post{
     margin-top: 0.2em;
+    margin-left: 0.5em;
     width:16.5em;
     height: 3em;
     border-radius: 1.5em;
@@ -12,22 +15,26 @@
     background-color: #efeeee;
     padding-left: 2.5em;
     padding-right: 2.5em;
+   
 }
 .search-icon{
-    width: 0.8em;
-    height: 0.8em;
+    width: 1.3rem;
+    height:1.3rem;
     position: absolute;
-    margin-left:0.5em;
-    margin-top: 0.7em;
     color: #efeeee;
+    top: 0.9rem;
+    left: 1rem;
+  
 }
 .clear-button{
     border-radius: 1.5em;
     border: none;
     background-color: rgb(40, 179, 218);
-    position: absolute;
+    height: 1.5em;
     margin-top: 1.15em;
-    right:2.4em;
+    position: absolute;
+    left: 19em;
+    cursor: pointer;
 }
 .clear-button img {
     width: 1em; /* クリアアイコンの幅を適宜調整 */

@@ -3,9 +3,9 @@
   flex-direction: column;
   align-items: center;
   gap: 0px; /* コンポーネント間のスペース */
-  max-height: 25.15em; /* スクロール可能にする最大の高さを指定 */
+  max-height: 92vh; /* スクロール可能にする最大の高さを指定 */
   overflow-y: auto; /* 垂直方向のスクロールを有効にする */
-  width: 50vw;
+  width: 29.25em;
   overflow-x: hidden;
 }
 .postview-container::-webkit-scrollbar {
