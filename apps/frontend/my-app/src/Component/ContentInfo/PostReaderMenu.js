@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/PostReaderMenu.css';
+import './css/PostReaderMenu.css';
 
 const PostReaderMenu = ({ isOpen,canDelete,handleDelete, handleReport }) => {
   return (

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './css/PostCreateButton.css'; // スタイリング用のCSSファイルを仮定
-import AuthContext from '../Utils/AuthProvider';
-import tegakiwrite from '../images/tegakiwrite.png'; // 画像ファイルをインポート
-import tegakiimage from '../images/tegakiimage.png';
+import AuthContext from '../../Utils/AuthProvider';
+import tegakiwrite from '../../images/tegakiwrite.png'; // 画像ファイルをインポート
+import tegakiimage from '../../images/tegakiimage.png';
 
 const PostCreateButton = () => {
   const [content, setContent] = useState(''); // テキストエリアの内容を保持する状態
