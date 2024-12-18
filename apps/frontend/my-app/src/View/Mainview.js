@@ -111,7 +111,9 @@ function Mainview() {
           <Header />
           <PostView />
         </div>
+        <div className="mainview-search-container">
         <Search/>
+        </div>
       </div>
       <Logout />
     </header>

@@ -1,7 +1,7 @@
 .User-Follow-button{
     position: absolute;
-    right: 29em;
-    top: 8em;
+    top: 10vh;
+    right: 3vw;
 }
 .userpage-container{
     display: flex;
@@ -21,6 +21,7 @@
 }
 .userpage-userinfo{
     display: flex;
+    position: relative;
 }
 
 .userpage-userinfo .user-icon {

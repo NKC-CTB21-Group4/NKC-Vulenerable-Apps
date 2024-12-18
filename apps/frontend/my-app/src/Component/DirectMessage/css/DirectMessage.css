@@ -3,6 +3,7 @@
     display: flex;
     height: 100vh;
     overflow-y: hidden;
+    justify-content: center;
   }
   .direct-message-container::-webkit-scrollbar{
     width: 0;
@@ -14,7 +15,6 @@
   }
   
   .direct-message-user {
-    
     cursor: pointer;
   }
   
