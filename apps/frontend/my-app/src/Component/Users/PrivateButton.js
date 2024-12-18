@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/PrivateButton.css';
+import './css/PrivateButton.css';
 
 const PrivateButton = ({  onUserPrivateClick,isPrivated }) => {
   return (
