@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import AuthContext from '../Utils/AuthProvider'
-import '../css/HumbugerMenu.css';
+import './css/HumbugerMenu.css';
 import UserDelete from './UserDelete';
 
 const HumbugerMenu = () => {

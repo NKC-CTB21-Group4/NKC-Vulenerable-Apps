@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import "../css/ThreePointLeaderMenu.css";
+import "./css/ThreePointLeaderMenu.css";
 import AuthContext from "../../Utils/AuthProvider";
 
 const MenuContent = ({ isOpen }) => {
