@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigate をインポート
+import { useFetchPosts, usesearchPost } from '../api/post';
 import './css/MyPostView.css'; // CSSファイルをインポート
 import Contentinfo from '../ContentInfo/Contentinfo';
 import AuthContext from '../../Utils/AuthProvider';
@@ -9,34 +10,20 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
   const [posts, setPosts] = useState([]); 
   const { user } = useContext(AuthContext);
   const userid = user?.id;
+  const { data,error,mutate} = useFetchPosts(`http://localhost:8080/users/${userid}/posts`);
   const navigate = useNavigate();
 
   useEffect(() => {
     // 初回読み込み時にユーザーの投稿を取得する関数
-    const fetchUserPosts = async () => {
+    if(data && posts.length ===0){
       if (!userid) return;
-      try {
-        const response = await fetch(`http://localhost:8080/users/${userid}/posts`,{
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-          }
-        });;
-        const json = await response.json();
-        if(json.statusCode !== 200){
-          throw new Error("fetch faild");
-        }
-        const mypostarray = Object.values(json.data).reverse(); // 逆順にソート
+        const mypostarray = Object.values(data).reverse(); // 逆順にソート
         setPosts(mypostarray);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      }
-    };
-
-    // 初回読み込み
-    fetchUserPosts();
-
+    }
+  
     const handleNewPost = (event) => {
       setPosts((prevPosts) => [event.detail, ...prevPosts]);
+      mutate(`http://localhost:8080/users/${userid}/posts`);
     };
 
     window.addEventListener('newPost', handleNewPost);
@@ -57,12 +44,12 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
 
       try {
         // 検索APIにリクエスト
-        const response = await fetch(`http://localhost:8080/posts/search?${queryParams.toString()}`);
-        const json = await response.json();
-        const searchpostarray = Object.values(json.data)
-        .reverse()// 逆順にソート
-        .filter((post) => post.deleted_at === null); // deleted_at が null の場合のみ
-        setPosts(searchpostarray);
+        const url = `http://localhost:8080/posts/search?${queryParams.toString()}`;
+        const response = await usesearchPost(url);
+        //ポストの配列が返された場合のみpostsにset
+        if(response){
+          setPosts(response);
+        }
       } catch (error) {
         console.error('Error fetching search results:', error);
       }
@@ -76,7 +63,7 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
       window.removeEventListener('SearchPost', handleSearchEvent);
       window.removeEventListener('newPost', handleNewPost);
     };
-  },[render]);
+  },[render,data]);
 
   const handleUserIconClick = () => {
     navigate("/Mypage")
