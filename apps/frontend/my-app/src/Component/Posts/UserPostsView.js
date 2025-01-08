@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {useParams, useNavigate } from 'react-router-dom'; // useNavigate をインポート
+import { useFetchPosts, } from '../api/post';
 import Contentinfo from '../ContentInfo/Contentinfo';
 import './css/UserPostsView.css';
 import defaultAvatar from '../../images/tegakicreateuser.png'
@@ -10,28 +11,17 @@ function UserPostsView({  }) {
   const navigate = useNavigate();
   const [isPrivate,setIsPrivate] = useState('');
   const { userid } = useParams(); // URLからユーザーIDを取得
+  const {data,error,mutate} = useFetchPosts(`http://localhost:8080/users/${userid}/posts`);
   const [searchKeyword, setSearchKeyword] = useState('');
     
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const authToken = localStorage.getItem('authToken');
-        const response = await fetch(`http://localhost:8080/users/${userid}/posts`, authToken != undefined ? {
-          headers:{
-            'Authorization':`Bearer ${authToken}`,
-          }
-        }: {});
-        const json = await response.json();
-        const postarray = Object.values(json.data).reverse(); // 逆順にソート
-        if (response.status === 403){
-          setIsPrivate("user private");
-        }
-        setPosts(postarray);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      }
+    if(data && posts.length){
+      const postarray = Object.values(data).reverse();
+      
+      setPosts(postarray);
+    }else{
+      setIsPrivate("user private");
     };
-    fetchPosts();
 
     const handleNewPost = (event) => {
       setPosts((prevPosts) => [event.detail, ...prevPosts]);
