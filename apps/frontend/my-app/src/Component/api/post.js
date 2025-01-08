@@ -7,7 +7,7 @@ const getAuthHeaders = () => {
 };
 
 // 共通のfetcher関数
-const fetcher = async (url, options = { needsAuth: false, headers: {} }) => {
+const fetcher = async (url, caller,options = { needsAuth: false, headers: {} }) => {
   const headers = {
     ...options.headers, // 追加のカスタムヘッダーがあればここにマージ
     ...(options.needsAuth ? getAuthHeaders() : {}), // 認証が必要なら認証ヘッダーを追加
@@ -15,6 +15,10 @@ const fetcher = async (url, options = { needsAuth: false, headers: {} }) => {
 
   const response = await fetch(url, { method: 'GET', headers });
   const responseData = await response.json();
+
+  if(caller === "UserPostsView.js"){
+    return responseData;
+  }
 
   if (!response.ok) {
     throw new Error(responseData.message || 'データの取得に失敗しました');
@@ -24,8 +28,8 @@ const fetcher = async (url, options = { needsAuth: false, headers: {} }) => {
 };
 
 // ポスト取得
-export function useFetchPosts(apiEndpoint) {
-  const { data, error } = useSWR(apiEndpoint, (url) => fetcher(url));
+export function useFetchPosts(apiEndpoint,caller) {
+  const { data, error } = useSWR(apiEndpoint, (url) => fetcher(url,caller));
   const { cache } = useSWRConfig();
 
   return { data, error, mutate, cache };
@@ -57,8 +61,7 @@ export async function createPost(apiEndpoint, formData) {
 
 // いいね数取得
 export function useFetchFavorites(apiEndpoint) {
-  const { data, error, mutate } = useSWR(apiEndpoint, (url) => fetcher(url, { needsAuth: true }));
-
+  const { data, error, mutate } = useSWR(apiEndpoint, (url) => fetcher(url,{ needsAuth: true }));
   return { data, error, mutate };
 }
 
