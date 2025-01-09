@@ -160,72 +160,91 @@ class DatabasePostRepository extends EntityRepository implements PostRepository
         return $posts;
     }
 
-  public function search(array $searchCriteria):array 
-  {
-    try {
-      // 基本的なクエリ構築
-      $query = $this->createQueryBuilder('p');
-
-      // キーワードによる検索
-      if (!empty($searchCriteria['keyword'])) {
-        $query->andWhere('LOWER(p.content) LIKE LOWER(:keyword)')
-        ->setParameter('keyword', '%' . $searchCriteria['keyword'] . '%');
-      }
-
-      // 特定ユーザーによるフィルタリング
-      if (!empty($searchCriteria['authorId'])) {
-          $query->andWhere('p.author = :author_id')
-          ->setParameter('author_id',$searchCriteria['authorId']);
-      }
-
-      if (!empty($searchCriteria['authorName'])) {
-        $query->join('p.author', 'user')
-        ->andWhere('user.username LIKE :authorName')
-        ->setParameter('authorName', '%' . $searchCriteria['authorName'] . '%');
-      }
+    public function search(array $searchCriteria): array 
+    {
+        try {
+            // 基本的なクエリ構築
+            $query = $this->createQueryBuilder('p')
+                          ->join('p.author', 'u'); // 投稿の著者(Userエンティティ)をJOIN
     
+            // キーワードによる検索
+            if (!empty($searchCriteria['keyword'])) {
+                $query->andWhere('LOWER(p.content) LIKE LOWER(:keyword)')
+                      ->setParameter('keyword', '%' . $searchCriteria['keyword'] . '%');
+            }
     
-      // 日付範囲によるフィルタリング 次回ここから
-      if (!empty($searchCriteria['dateFrom'])) {
-          $query->andWhere('p.createdAt >= :dateFrom')
-          ->setParameter('dateFrom',new \DateTime($searchCriteria['dateFrom']));
-      }
-      if (!empty($searchCriteria['dateTo'])) {
-          $query->andWhere('p.createdAt <= :dateTo')
-          ->setParameter('dateTo',new \DateTime($searchCriteria['dateTo']));
-      }
+            // 特定ユーザーによるフィルタリング
+            if (!empty($searchCriteria['authorId'])) {
+                $query->andWhere('u.id = :authorId')
+                      ->setParameter('authorId', $searchCriteria['authorId']);
+            }
+    
+            if (!empty($searchCriteria['authorName'])) {
+                $query->andWhere('u.username LIKE :authorName')
+                      ->setParameter('authorName', '%' . $searchCriteria['authorName'] . '%');
+            }
+    
+            // 日付範囲によるフィルタリング
+            if (!empty($searchCriteria['dateFrom'])) {
+                $query->andWhere('p.createdAt >= :dateFrom')
+                      ->setParameter('dateFrom', new \DateTime($searchCriteria['dateFrom']));
+            }
+            if (!empty($searchCriteria['dateTo'])) {
+                $query->andWhere('p.createdAt <= :dateTo')
+                      ->setParameter('dateTo', new \DateTime($searchCriteria['dateTo']));
+            }
 
-      // onlyFromFollowedUser オプションの処理
-      if (!empty($searchCriteria['onlyFromFollowedUser'])) {
-        $followedUsers = $this->followRepository->findOfFollowed($searchCriteria['currentUserId']);
+            // onlyFromFollowedUser オプションの処理
+            if (!empty($searchCriteria['onlyFromFollowedUser'])) {
+                $followedUsers = $this->followRepository->findOfFollowed($searchCriteria['currentUserId']);
 
-        // フォローしているユーザーのIDを配列として取得
-        $followedUserIds = array_map(fn(User $user) => $user->getId(), $followedUsers);
+                // フォローしているユーザーのIDを配列として取得
+                $followedUserIds = array_map(fn(User $user) => $user->getId(), $followedUsers);
 
-        if (!empty($followedUserIds)) {
-            $query->andWhere('p.author IN (:followedUserIds)')
-                  ->setParameter('followedUserIds', $followedUserIds);
-        } else {
-            // フォローしているユーザーがいない場合は結果を空に
-            $query->andWhere('1 = 0');
+                if (!empty($followedUserIds)) {
+                    $query->andWhere('p.author IN (:followedUserIds)')
+                        ->setParameter('followedUserIds', $followedUserIds);
+                } else {
+                    // フォローしているユーザーがいない場合は結果を空に
+                    $query->andWhere('1 = 0');
+                    var_dump($query);
+                }
+            }
+    
+            // 非公開ユーザーの投稿を除外
+            $allUserIds = $this->userRepository->findAllUserIds();
+            $allowedUserIds = [];
+    
+            if (!empty($searchCriteria['currentUserId'])) {
+                foreach ($allUserIds as $userId) {
+                    if ($this->followRepository->bothFollowChecker($searchCriteria['currentUserId'], $userId)) {
+                        $allowedUserIds[] = $userId;
+                    }
+                }
+            }
+    
+            // 公開投稿または許可されたユーザーの投稿を絞り込む
+            if (!empty($allowedUserIds)) {
+                $query->andWhere('u.isPrivate = false OR u.id IN (:allowedUserIds)')
+                      ->setParameter('allowedUserIds', $allowedUserIds);
+            } else {
+                $query->andWhere('u.isPrivate = false');
+            }
+    
+            // 削除されていない投稿のみ取得
+            $posts = $query->andWhere('p.deletedAt IS NULL')
+                           ->getQuery()
+                           ->getResult();
+    
+            if (empty($posts)) {
+                throw new PostNotFoundException();
+            }
+    
+            return $posts;
+    
+        } catch (\Exception $e) {
+            throw new PostSearchFailedException('An error occurred during the search: ' . $e->getMessage());
         }
     }
-
-      // ソート順
-      // if (!empty($searchCriteria['sortBy'])) {
-      //     $query->orderBy($searchCriteria['sortBy'], 'desc');
-      // }
-
-      // クエリの実行と結果の取得
-      $posts = $query->getQuery()->getResult();
-
-      if (empty($posts)) {
-          throw new PostNotFoundException();
-      }
-
-      return $posts;
-    } catch (Exception $e) {
-        throw new PostSearchFailedException('An error occurred during the search.');
-    }
-  }
+    
 }
