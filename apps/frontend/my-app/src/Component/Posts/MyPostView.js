@@ -15,11 +15,13 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
 
   useEffect(() => {
     // 初回読み込み時にユーザーの投稿を取得する関数
-    if(data && posts.length ===0){
+    console.log(data);
+    if(data){
       if (!userid) return;
         const mypostarray = Object.values(data).reverse(); // 逆順にソート
         setPosts(mypostarray);
     }
+    
   
     const handleNewPost = (event) => {
       setPosts((prevPosts) => [event.detail, ...prevPosts]);
@@ -77,8 +79,7 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
 
   return (
     <div className="mypostview-container">
-      {posts.length > 0 ? (
-        posts.map((post) => (
+        {posts.map((post) => (
           <Contentinfo
             key={post.id}
             src={post.author_avatar ? `http://localhost:8080${post.author_avatar}` : defaultAvatar} 
@@ -91,10 +92,7 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
             handleDelete={handleDelete} // handleDelete関数のプロップス名を修正
             onUserIconClick={handleUserIconClick}
           />
-        ))
-      ) : (
-        <p className='MyPostView-message'>表示する投稿がありません。</p>
-      )}
+        ))}
     </div>
   );
 }

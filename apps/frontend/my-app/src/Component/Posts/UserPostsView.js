@@ -13,7 +13,6 @@ function UserPostsView() {
   const { data = null, error, mutate } = useFetchPosts(`http://localhost:8080/users/${userid}/posts`, "UserPostsView.js");
 
   useEffect(() => {
-    console.log("data:", data); // デバッグ用
     if (data) {
       if (data.statusCode === 403) {
         setIsPrivate("user private");

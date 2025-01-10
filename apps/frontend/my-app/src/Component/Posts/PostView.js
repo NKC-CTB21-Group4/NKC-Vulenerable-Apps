@@ -11,7 +11,7 @@ function PostView({}) {
   const navigate = useNavigate();
 
   useEffect(() =>{
-    if(data && posts.length === 0){
+    if(data){
       const postarray = Object.values(data).reverse(); // 逆順にソート
       setPosts(postarray.flat());
       } 
