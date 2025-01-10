@@ -28,8 +28,8 @@ const fetcher = async (url, caller,options = { needsAuth: false, headers: {} }) 
 };
 
 // ポスト取得
-export function useFetchPosts(apiEndpoint,caller) {
-  const { data, error } = useSWR(apiEndpoint, (url) => fetcher(url,caller));
+export function useFetchPosts(apiEndpoint,caller,needsAuth) {
+  const { data, error } = useSWR(apiEndpoint, (url) => fetcher(url,caller,{needsAuth: needsAuth}));
   const { cache } = useSWRConfig();
 
   return { data, error, mutate, cache };

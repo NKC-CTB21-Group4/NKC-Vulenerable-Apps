@@ -10,7 +10,7 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
   const [posts, setPosts] = useState([]); 
   const { user } = useContext(AuthContext);
   const userid = user?.id;
-  const { data,error,mutate} = useFetchPosts(`http://localhost:8080/users/${userid}/posts`);
+  const { data,error,mutate} = useFetchPosts(`http://localhost:8080/users/${userid}/posts`,"",true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,6 +21,8 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
         const mypostarray = Object.values(data).reverse(); // 逆順にソート
         setPosts(mypostarray);
     }
+
+    mutate();
     
   
     const handleNewPost = (event) => {
