@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigate をインポート
-import { useFetchPosts, usesearchPost } from '../api/post';
+import { useFetchPosts, searchPosts } from '../api/post';
 import './css/PostView.css';
 import Contentinfo from '../ContentInfo/Contentinfo';
 import defaultAvatar from '../../images/tegakicreateuser.png'
@@ -20,7 +20,7 @@ function PostView({}) {
   useEffect(() => {
     const handleNewPost = (event) => {
       setPosts((prevPosts) => [event.detail, ...prevPosts]);
-      mutate(`http://localhost:8080/posts`);
+      mutate(`http://localhost:8080/posts`,);
     };
 
      // カスタムイベントをリッスンして検索結果を取得する関数
@@ -39,7 +39,7 @@ function PostView({}) {
 
       // 検索APIにリクエスト
       const url = `http://localhost:8080/posts/search?${queryParams.toString()}`
-      const response = await usesearchPost(url);
+      const response = await searchPosts(url);
       if(response){
         setPosts(response);
       }

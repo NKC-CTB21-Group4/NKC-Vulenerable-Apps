@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useFetchPosts, usesearchPost } from '../api/post';
+import { useFetchPosts, searchPosts } from '../api/post';
 import Contentinfo from '../ContentInfo/Contentinfo';
 import './css/UserPostsView.css';
 import defaultAvatar from '../../images/tegakicreateuser.png';
@@ -40,7 +40,7 @@ function UserPostsView() {
 
       try {
         const url = `http://localhost:8080/posts/search?${queryParams.toString()}`;
-        const response = await usesearchPost(url);
+        const response = await searchPosts(url);
         const searchpostarray = Object.values(response)
           .reverse()
           .filter((post) => post.deleted_at === null);

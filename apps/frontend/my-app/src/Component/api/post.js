@@ -90,7 +90,7 @@ export async function clickFavorites(apiEndpoint) {
 }
 
 // ポスト削除
-export async function usedeletePost(postId, userId) {
+export async function deletePosts(postId, userId) {
   try {
     const response = await fetch(`http://localhost:8080/users/${userId}/posts/${postId}`, {
       method: 'DELETE',
@@ -109,7 +109,7 @@ export async function usedeletePost(postId, userId) {
 }
 
 //ポスト検索
-export async function usesearchPost(apiEndpoint) {
+export async function searchPosts(apiEndpoint) {
     try {
         // 検索APIにリクエスト
         const response = await fetch(apiEndpoint, {

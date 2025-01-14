@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigate をインポート
-import { useFetchPosts, usesearchPost } from '../api/post';
+import { useFetchPosts, searchPosts } from '../api/post';
 import './css/MyPostView.css'; // CSSファイルをインポート
 import Contentinfo from '../ContentInfo/Contentinfo';
 import AuthContext from '../../Utils/AuthProvider';
@@ -10,7 +10,7 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
   const [posts, setPosts] = useState([]); 
   const { user } = useContext(AuthContext);
   const userid = user?.id;
-  const { data,error,mutate} = useFetchPosts(`http://localhost:8080/users/${userid}/posts`,"",true);
+  const { data,error,mutate} = useFetchPosts(`http://localhost:8080/users/${userid}/posts`,"",true); //headerにAuthrizationHeaderをつけるかどうか
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,7 +49,7 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
       try {
         // 検索APIにリクエスト
         const url = `http://localhost:8080/posts/search?${queryParams.toString()}`;
-        const response = await usesearchPost(url);
+        const response = await searchPosts(url);
         //ポストの配列が返された場合のみpostsにset
         if(response){
           setPosts(response);
