@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getAuth, updateUser } from '../api/user';
 import './css/UserChange.css'; 
 const UserChange = ({ userId }) => {
   const [email, setEmail] = useState('');
@@ -36,21 +37,8 @@ const UserChange = ({ userId }) => {
   // 認証処理
   const handleAuthenticate = async () => {
     try {
-      const response = await fetch('http://localhost:8080/auth/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('認証に失敗しました');
-      }
-
+      const url = 'http://localhost:8080/auth/token';
+      await getAuth(url,email,password);
       setAuthSuccess(true);
       setAuthError('');
     } catch (error) {
@@ -62,22 +50,8 @@ const UserChange = ({ userId }) => {
   // ユーザー情報更新処理
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/users/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-        },
-        body: JSON.stringify({
-          email: newEmail || email, // 新しいメールがなければ現在のメールを使用
-          password: newPassword || password // 新しいパスワードがなければ現在のパスワードを使用
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('ユーザー情報の更新に失敗しました');
-      }
-
+      const url = `http://localhost:8080/users/${userId}`;
+      await updateUser(url,newEmail,email,newPassword,password);
       document.querySelector("#user-change-dialog").close();
       window.location.href = '/Mypage'; // 更新後にリダイレクト
     } catch (error) {
