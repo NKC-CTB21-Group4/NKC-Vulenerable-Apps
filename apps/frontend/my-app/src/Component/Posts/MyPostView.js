@@ -15,7 +15,6 @@ function MyPostView({ render}) { // デフォルト値として空の配列を�
 
   useEffect(() => {
     // 初回読み込み時にユーザーの投稿を取得する関数
-    console.log(data);
     if(data){
       if (!userid) return;
         const mypostarray = Object.values(data).reverse(); // 逆順にソート
