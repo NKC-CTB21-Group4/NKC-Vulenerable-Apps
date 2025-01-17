@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AuthContext from '../../Utils/AuthProvider';
 import './css/Logout.css';
 
 const Logout = () => {
   const [message, setMessage] = useState('');
+  const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     const logoutModalBtn = document.querySelector(".logout-modalBtn");
@@ -25,32 +27,10 @@ const Logout = () => {
   }, []);
 
   const handleLogout = async () => {
-    const apiEndpoint = 'http://localhost:8080/auth/revoke-token';
-
-    try {
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-        },
-        body: JSON.stringify({})
-      });
-      if (response.status === 200) {
-        localStorage.removeItem('authToken');
-        setMessage('Logout successful');
-        document.querySelector("#logout-dialog").close();
-        window.location.href = '/';
-      } else {
-        localStorage.removeItem('authToken');
-        setMessage('Logout successful');
-        document.querySelector("#logout-dialog").close();
-        window.location.href = '/';
-      }
-    } catch (error) {
-      console.error('Logout failed:', error);
-      localStorage.removeItem('authToken');
-    }
+      await logout();
+      setMessage('Logout successful');
+      document.querySelector("#logout-dialog").close();
+      window.location.href = '/';
   };
 
   return (
