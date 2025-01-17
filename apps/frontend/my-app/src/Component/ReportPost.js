@@ -1,33 +1,25 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useFetchTags, reportPosts } from './api/report';
 import './css/ReportPost.css'; // CSSファイルを作成してインポート
 import AuthContext from '../Utils/AuthProvider';
 
 function ReportPost({ postid, onClose }) {
   const [reportOptions, setReportOptions] = useState([]); // APIから取得する通報内容
   const [selectedIds, setSelectedIds] = useState([]); // 選択されたID
-  const [additionalInfo, setAdditionalInfo] = useState(""); // テキストエリアの状態
+  const [additionalInfo, setAdditionalInfo] = useState(''); // テキストエリアの状態
+  const [errorMessage, setErrorMessage] = useState(''); // エラーメッセージの状態
   const { user } = useContext(AuthContext);
   const userid = user.id;
+  const { data, error } = useFetchTags('http://localhost:8080/tags');
 
-  // APIから通報内容のデータを取得する
   useEffect(() => {
-    const fetchReportOptions = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/tags');
-        if (response.ok) {
-          const json = await response.json();
-          const data = json.data
-          setReportOptions(data); // データを状態にセット
-        } else {
-          console.error('通報内容の取得に失敗しました');
-        }
-      } catch (error) {
-        console.error('通報内容の取得中にエラーが発生しました', error);
-      }
-    };
-
-    fetchReportOptions();
-  }, []);
+    if (data) {
+      setReportOptions(data.data);
+    }
+    if (error) {
+      console.log('エラーが発生しました', error);
+    }
+  }, [data]);
 
   const handleCheckboxChange = (event) => {
     const { checked, id } = event.target;
@@ -46,21 +38,18 @@ function ReportPost({ postid, onClose }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      // 通報内容をサーバーに送信する処理
-      const response = await fetch(`http://localhost:8080/reports/${userid}/${postid}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem("authToken")
-        },
-        body: JSON.stringify({
-          tag_ids: selectedIds,
-          reason: additionalInfo // テキストエリアの内容も送信
-        }),
-      });
 
-      if (response.ok) {
+    // タグが選択されていない場合はエラーメッセージを表示して中断
+    if (selectedIds.length === 0) {
+      setErrorMessage('タグを選択してください。');
+      return;
+    }
+
+    try {
+      const url = `http://localhost:8080/reports/${userid}/${postid}`;
+      const response = await reportPosts(url, selectedIds, additionalInfo);
+      console.log(response);
+      if (response) {
         alert('通報が送信されました');
         onClose();
       } else {
@@ -76,9 +65,10 @@ function ReportPost({ postid, onClose }) {
     <div className="report-modal-overlay">
       <div className="report-modal-content">
         <h2 className="report-modal-title">通報内容を選択してください</h2>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         <form className="report-form" onSubmit={handleSubmit}>
           <div className="report-checkbox-group">
-            {reportOptions.map(option => (
+            {reportOptions.map((option) => (
               <div key={option.id} className="report-checkbox-item">
                 <input
                   type="checkbox"
