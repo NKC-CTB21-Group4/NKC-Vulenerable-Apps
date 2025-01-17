@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // 追加
+import { uploadImage, updateUserProfile } from '../Component/api/profile';
 import './css/Profileedit.css';
 
 const Profileedit = ({ userid, username: initialUsername,profile: initialProfile, icon: initialIcon, onSave ,dialogOpen}) => {
@@ -39,30 +40,17 @@ const Profileedit = ({ userid, username: initialUsername,profile: initialProfile
         const formData = new FormData();
         formData.append('avatar', icon); // アイコン画像を追加
 
+        const url = `http://localhost:8080/users/${userid}/avatar`;
         // アイコン画像を送信
-        await fetch(`http://localhost:8080/users/${userid}/avatar`, {
-          method: 'POST',
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-        },
-        body: formData,
-        });
+        await uploadImage(url,formData);
       }
 
       // ユーザー名を送信
-      const response = await fetch(`http://localhost:8080/users/${userid}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authtoken}`,
-        },
-        body: JSON.stringify({ username,profile }),
-         // ユーザー名とプロフィール文を送信
-      });
-      const json = (await response.json()).data;
-
+      const url = `http://localhost:8080/users/${userid}`;
+      const response = await updateUserProfile(url,username,profile);
+      console.log(response);
       // 更新情報を親コンポーネントに渡す
-      onSave({ id: json.user.id, username : json.user.username, profile : json.user.profile, user:json.user, icon: iconPreview },json.token);
+      onSave({ id: response.user.id, username : response.user.username, profile : response.user.profile, user:response.user, icon: iconPreview },response.token);
 
       // 保存後にMypageへリダイレクト
       navigate('/mypage');
