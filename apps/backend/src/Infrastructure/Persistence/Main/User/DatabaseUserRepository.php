@@ -147,18 +147,21 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
     public function search(array $searchParam):array {
         try {
             // 基本的なクエリ構築
-            $query = $this->createQueryBuilder('u');
+            //$query = $this->createQueryBuilder('u');
+            $dql = "select u FROM App\Domain\Main\User\User u WHERE 1=1";
       
             // キーワードによる検索
             if (!empty($searchParam['keyword'])) {
-              $query->andWhere('LOWER(u.username) LIKE LOWER(:keyword)')
-              ->setParameter('keyword', '%' . $searchParam['keyword'] . '%');
+            //   $query->andWhere('LOWER(u.username) LIKE LOWER(:keyword)')
+            //   ->setParameter('keyword', '%' . $searchParam['keyword'] . '%');
+                $dql .= "AND LOWER(u.username) LIKE LOWER('%" . $searchParam['keyword'] . "%')";
             }
       
             // 特定ユーザーによるフィルタリング
             if (!empty($searchParam['userId'])) {
-                $query->andWhere('u.id = :user_id')
-                ->setParameter('user_id',$searchParam['userId']);
+                // $query->andWhere('u.id = :user_id')
+                // ->setParameter('user_id',$searchParam['userId']);
+                $dql .= "AND u.id = " . $searchParam['userId'];
             }
       
             if (!empty($searchParam['onlyFromFollowedUser'])) {
@@ -168,16 +171,20 @@ class DatabaseUserRepository extends EntityRepository implements UserRepository
                 $followedUserIds = array_map(fn(User $user) => $user->getId(), $followedUsers);
 
                 if (!empty($followedUserIds)) {
-                    $query->andWhere('u.id IN (:followedUserIds)')
-                          ->setParameter('followedUserIds', $followedUserIds);
+                    // $query->andWhere('u.id IN (:followedUserIds)')
+                    //       ->setParameter('followedUserIds', $followedUserIds);
+                    $dql .= "AND u.id IN (" . implode(',', $followedUserIds) . ")";
                 } else {
                     // フォローしているユーザーがいない場合は結果を空に
-                    $query->andWhere('1 = 0');
+                    //$query->andWhere('1 = 0');
+                    $dql .= " AND 1 = 0";
                 }
             }
 
             // クエリの実行と結果の取得
-            $users = $query->getQuery()->getResult();
+            //$users = $query->getQuery()->getResult();
+            $query = $this->entityManager->createQuery($dql);
+            $users = $query->getResult();
       
             if (empty($users)) {
                 throw new UserNotFoundException();
