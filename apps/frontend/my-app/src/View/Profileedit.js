@@ -48,7 +48,6 @@ const Profileedit = ({ userid, username: initialUsername,profile: initialProfile
       // ユーザー名を送信
       const url = `http://localhost:8080/users/${userid}`;
       const response = await updateUserProfile(url,username,profile);
-      console.log(response);
       // 更新情報を親コンポーネントに渡す
       onSave({ id: response.user.id, username : response.user.username, profile : response.user.profile, user:response.user, icon: iconPreview },response.token);
 

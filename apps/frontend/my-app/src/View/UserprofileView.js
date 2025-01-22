@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {useParams,  useNavigate } from 'react-router-dom';
+import { useFetchFollowList, userPrivateClick,useFetchFollowerList,userFollowClick, useFecthPrivate } from '../Component/api/userHooks';
+import { useFetchUser } from '../Component/api/user';
 import LinkiconHome from '../images/tegakihome.png';
 import LinkiconBell from '../images/tegakibell.png';
 import LinkiconMassage from '../images/tegakimessage.png';
@@ -17,6 +19,8 @@ import Search from '../Component/Search';
 import Profileinfo from '../Component/ContentInfo/Profileinfo';
 import UserPostsView from '../Component/Posts/UserPostsView';
 import './css/UserprofileView.css'; 
+import { mutate } from 'swr';
+import { useFetchData } from '../Component/api/useFetchData';
 
 function UserProfileView() {
     const { userid } = useParams(); // URLからユーザーIDを取得
@@ -28,43 +32,31 @@ function UserProfileView() {
     const [followerusers, setfollowerUsers] = useState([]);
     const [isFollowed, setIsFollowed] = useState(false); // フォロー状態を管理
     const [isPrivated, setIsPrivated] = useState(false); // 鍵垢状態を管理
-    
-
+    const {data:privateClickData,error:privateClickerror} = useFecthPrivate(`http://localhost:8080/users/${userid}`);
+    const {data:followListData,error:followListerror} = useFetchFollowList(`http://localhost:8080/users/${userid}/followed`);
+    const {data:followerListData,error:followerListerror} = useFetchFollowerList(`http://localhost:8080/users/${userid}/follower`);
+    const {data,error} = useFetchData(`http://localhost:8080/users/${userid}`);
+   
     const handleUserIconClick = () => {
       navigate(`/users/${userid}/profile`)
     };
-  
-    
 
     const handleUserPrivateClick = async () => {
       try {
-        // プライベート設定のトグル操作
-        const response = await fetch(`http://localhost:8080/users/${user.id}/private`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('authToken'),
-          },
-        });
-    
-        if (!response.ok) {
-          throw new Error('プライベート設定の更新に失敗しました');
-        }
-    
-        // プライベート状態の取得
-        const privateResponse = await fetch(`http://localhost:8080/users/${userid}`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('authToken'),
-          },
-        });
-    
-        if (!privateResponse.ok) {
+        if(privateClickerror){
           throw new Error('ユーザーデータの取得に失敗しました');
         }
+        // プライベート設定のトグル操作
+        const url = `http://localhost:8080/users/${user.id}/private`;
+        const response = await userPrivateClick(url);
     
-        const privateData = await privateResponse.json();
-        const isPrivate = privateData?.data?.is_private; // `is_private` プロパティを直接確認
+        if (!response) {
+          throw new Error('プライベート設定の更新に失敗しました');
+        }
+
+        // プライベート状態の取得
+        const isPrivate = privateClickData?.data?.is_private; // `is_private` プロパティを直接確認
+        await mutate(`http://localhost:8080/users/${userid}`);
         setIsPrivated(isPrivate); // 状態を更新
       } catch (error) {
         console.error('Error handling user private click:', error);
@@ -82,14 +74,11 @@ function UserProfileView() {
 
     const fetchprivate = async () => {
       try {
-        const privateResponse = await fetch(`http://localhost:8080/users/${userid}`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-          },
-        });
-        const privateData = await privateResponse.json();
-        const isPrivate = privateData?.data?.is_private; // `is_private` プロパティを直接確認
+        if(privateClickerror){
+          throw new Error('ユーザーデータの取得に失敗しました');
+        }
+
+        const isPrivate = privateClickData?.data?.is_private; // `is_private` プロパティを直接確認
         setIsPrivated(isPrivate); // 状態を更新
       } catch (error) {
         console.error('Error handling user private click:', error);
@@ -98,28 +87,22 @@ function UserProfileView() {
 
     const fetchFollowList = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/users/${userid}/followed`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-          },
-        });
-        const followingUsers = await response.json();
-        setfollowUsers(Array.isArray(followingUsers.data) ? followingUsers.data : []); // フォローリストを保存
+        if(followListerror){
+          throw new Error('フォローリストの取得に失敗しました');
+        }
+        setfollowUsers(Array.isArray(followListData) ? followListData : []); // フォローリストを保存
       } catch (error) {
         console.error('Error fetching follow list:', error);
       }
     };
+    
     const fetchFollowerList = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/users/${userid}/follower`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-          },
-        });
-        const followerUsers = await response.json();
-        setfollowerUsers(Array.isArray(followerUsers.data) ? followerUsers.data :  []); // フォロワーリストを保存
+        if(followerListerror){
+          throw new Error('フォロワーリストの取得に失敗しました');
+        }
+        console.log(followerListData);
+        setfollowerUsers(Array.isArray(followerListData) ? followerListData :  []); // フォロワーリストを保存
       } catch (error) {
         console.error('Error fetching follow list:', error);
       }
@@ -127,51 +110,30 @@ function UserProfileView() {
 
     const handleUserFollowClick = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/users/${user.id}/follow/${userid}`, {
-          method: isFollowed ? 'DELETE' : 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-          },
-        });
+        const url = `http://localhost:8080/users/${user.id}/follow/${userid}`;
+        const response = await userFollowClick(url,isFollowed);
   
-        if (!response.ok) {
+        if (!response) {
           throw new Error('認証に失敗しました');
         }
-
-
-        const followResponse = await fetch(`http://localhost:8080/users/${userid}/follower`,{
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-          },
-        });
-        const followerUsers = await followResponse.json();
-        if(Array.isArray(followerUsers.data)){
-          const isAlreadyFollowed = followerUsers.data.some(followerUser => followerUser.id === Number(user.id));
+        if(Array.isArray(followerListData)){
+          const isAlreadyFollowed = followerListData.some(followerUser => followerUser.id === Number(user.id));
           setIsFollowed(isAlreadyFollowed);
         }else setIsFollowed(false);
   
       } catch (error) {
+
       }
     };
 
     useEffect(() => {
         const fetchUserData = async () => {
           try {
-            const response = await fetch(`http://localhost:8080/users/${userid}`);
-            const data = await response.json();
-            setUserData(data.data); 
-
-            const followResponse = await fetch(`http://localhost:8080/users/${userid}/follower`,{
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-              },
-            });
-            const followerUsers = await followResponse.json();
-            if(Array.isArray(followerUsers.data)){
-              const isAlreadyFollowed = followerUsers.data.some(followerUser => followerUser.id === Number(user.id));
+            if(data){
+              setUserData(data); 
+            }
+            if(Array.isArray(followerListData)){
+              const isAlreadyFollowed = followerListData.some(followerUser => followerUser.id === Number(user.id));
               setIsFollowed(isAlreadyFollowed);
             }else setIsFollowed(false);
           } catch (error) {
@@ -183,7 +145,7 @@ function UserProfileView() {
         fetchUserData();
         fetchFollowerList();
         fetchprivate();
-      }, [userid]);
+      }, [userid,followListData,followerListData]);
 
   const handleClearSearch = () => {
     setSearchKeyword('');
