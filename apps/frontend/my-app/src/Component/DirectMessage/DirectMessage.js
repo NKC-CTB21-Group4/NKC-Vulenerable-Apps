@@ -30,14 +30,14 @@ function DirectMessage() {
   );
 
   useEffect(() => {
-    if (userData?.data) {
-      setUsers(userData.data);
+    if (userData) {
+      setUsers(userData);
     }
   }, [userData]);
 
   useEffect(() => {
-    if (messageData?.data) {
-      setMessages(messageData.data);
+    if (messageData) {
+      setMessages(messageData);
     }
   }, [messageData]);
 
