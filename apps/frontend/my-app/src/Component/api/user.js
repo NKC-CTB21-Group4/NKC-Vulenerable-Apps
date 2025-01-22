@@ -1,7 +1,15 @@
+import { useFetchData } from "./useFetchData";
+
 const getAuthHeaders = () => {
     const token = localStorage.getItem('authToken');
     return token ? { 'Authorization': `Bearer ${token}` } : {};
   };
+
+  export function useFetchUser(apiEndpoint){
+    const {data,error,mutate} = useFetchData(apiEndpoint,"",true);
+
+    return {data,error,mutate};
+  }
 
   export async function createUser(apiEndpoint,newUser) {
     try {
@@ -101,7 +109,7 @@ const getAuthHeaders = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+          ...getAuthHeaders(),
         },
         body: JSON.stringify({
           email: newEmail || email, // 新しいメールがなければ現在のメールを使用

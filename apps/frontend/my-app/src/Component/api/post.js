@@ -1,4 +1,5 @@
 import useSWR,{mutate,useSWRConfig} from 'swr';
+import { useFetchData } from './useFetchData';
 
 // 認証トークンを取得する関数
 const getAuthHeaders = () => {
@@ -6,33 +7,18 @@ const getAuthHeaders = () => {
   return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
-// 共通のfetcher関数
-const fetcher = async (url, caller,options = { needsAuth: false, headers: {} }) => {
-  const headers = {
-    ...options.headers, // 追加のカスタムヘッダーがあればここにマージ
-    ...(options.needsAuth ? getAuthHeaders() : {}), // 認証が必要なら認証ヘッダーを追加
-  };
-
-  const response = await fetch(url, { method: 'GET', headers });
-  const responseData = await response.json();
-
-  if(caller === "UserPostsView.js"){
-    return responseData;
-  }
-
-  if (!response.ok) {
-    throw new Error(responseData.message || 'データの取得に失敗しました');
-  }
-
-  return responseData.data;
-};
-
 // ポスト取得
 export function useFetchPosts(apiEndpoint,caller,needsAuth) {
-  const { data, error } = useSWR(apiEndpoint, (url) => fetcher(url,caller,{needsAuth: needsAuth}));
-  const { cache } = useSWRConfig();
+  const { data, error, mutate } = useFetchData(apiEndpoint,caller,needsAuth)
 
-  return { data, error, mutate, cache };
+  return { data, error, mutate};
+}
+
+// いいね数取得
+export function useFetchFavorites(apiEndpoint) {
+  const { data, error, mutate } = useFetchData(apiEndpoint,"",true)
+
+  return { data, error, mutate };
 }
 
 // ポスト作成
@@ -57,12 +43,6 @@ export async function createPost(apiEndpoint, formData) {
     console.error('エラーが発生しました:', error.message);
     throw error;
   }
-}
-
-// いいね数取得
-export function useFetchFavorites(apiEndpoint) {
-  const { data, error, mutate } = useSWR(apiEndpoint, (url) => fetcher(url,{ needsAuth: true }));
-  return { data, error, mutate };
 }
 
 // いいねクリック

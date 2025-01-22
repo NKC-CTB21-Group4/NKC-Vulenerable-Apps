@@ -1,5 +1,6 @@
 import useSWR from "swr";
 import { mutate, useSWRConfig } from 'swr/_internal';
+import { useFetchData } from "./useFetchData";
 
 // 認証トークンを取得する関数
 const getAuthHeaders = () => {
@@ -7,33 +8,16 @@ const getAuthHeaders = () => {
   return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
-// 柔軟な fetcher を定義
-const fetcher = async (url, options = { needsAuth: false, headers: {} }) => {
-  const headers = {
-    ...options.headers, // 追加のカスタムヘッダーがあればここにマージ
-    ...(options.needsAuth ? getAuthHeaders() : {}), // 認証が必要なら認証ヘッダーを追加
-  };
-
-  const response = await fetch(url, {method: 'GET',headers,});
-  const responseData = await response.json();
-
-  if (!response.ok) {
-    throw new Error(responseData.message || 'データの取得に失敗しました。');
-  }
-
-  return responseData;
-};
-
 // カスタムフックとして定義
 export function useFetchUsers(apiEndpoint) {
-  const { data, error, mutate } = useSWR(apiEndpoint,(url) => fetcher(url, { needsAuth:true }));
+  const { data, error, mutate } = useFetchData(apiEndpoint,"",true)
   const { cache } = useSWRConfig();
 
   return { data, error, mutate, cache };
 }
 
 export function useFetchMessage(apiEndpoint){
-    const{data ,error, mutate } = useSWR(apiEndpoint,(url) => fetcher(url, { needsAuth:true }));
+    const{data ,error, mutate } = useFetchData(apiEndpoint,"",true)
     const{ cache } = useSWRConfig();
     
     return {data, error, mutate, cache};

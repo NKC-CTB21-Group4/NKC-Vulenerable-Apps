@@ -1,5 +1,3 @@
-import useSWR,{mutate,useSWRConfig} from 'swr';
-
 // 認証トークンを取得する関数
 const getAuthHeaders = () => {
   const token = localStorage.getItem('authToken');
@@ -7,26 +5,6 @@ const getAuthHeaders = () => {
 };
 
 // 共通のfetcher関数
-const fetcher = async (url, caller,options = { needsAuth: false, headers: {} }) => {
-  const headers = {
-    ...options.headers, // 追加のカスタムヘッダーがあればここにマージ
-    ...(options.needsAuth ? getAuthHeaders() : {}), // 認証が必要なら認証ヘッダーを追加
-  };
-
-  const response = await fetch(url, { method: 'GET', headers });
-  const responseData = await response.json();
-
-  if(caller === "UserPostsView.js"){
-    return responseData;
-  }
-
-  if (!response.ok) {
-    throw new Error(responseData.message || 'データの取得に失敗しました');
-  }
-
-  return responseData.data;
-};
-
 export async function uploadImage(apiEndpoint,formData) {
     try{
         const response = await fetch(apiEndpoint,{
