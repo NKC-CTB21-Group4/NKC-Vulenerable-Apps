@@ -14,7 +14,7 @@ function ReportPost({ postid, onClose }) {
 
   useEffect(() => {
     if (data) {
-      setReportOptions(data.data);
+      setReportOptions(data);
     }
     if (error) {
       console.log('エラーが発生しました', error);
@@ -48,7 +48,6 @@ function ReportPost({ postid, onClose }) {
     try {
       const url = `http://localhost:8080/reports/${userid}/${postid}`;
       const response = await reportPosts(url, selectedIds, additionalInfo);
-      console.log(response);
       if (response) {
         alert('通報が送信されました');
         onClose();
