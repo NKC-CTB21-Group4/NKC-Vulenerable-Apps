@@ -1,35 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigate をインポート
+import { useFetchPosts, searchPosts } from '../api/post';
 import './css/PostView.css';
 import Contentinfo from '../ContentInfo/Contentinfo';
 import defaultAvatar from '../../images/tegakicreateuser.png'
 
 function PostView({}) {
   const [posts, setPosts] = useState([]);
+  const {data, error, mutate} = useFetchPosts(`http://localhost:8080/posts`);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch(`http://localhost:8080/posts`,{
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-          }
-        });;
-        const json = await response.json();
-        const postarray = Object.values(json.data).reverse(); // 逆順にソート
-        setPosts(postarray);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      }
-    };
-    fetchPosts();
+  useEffect(() =>{
+    if(data){
+      const postarray = Object.values(data).reverse(); // 逆順にソート
+      setPosts(postarray.flat());
+      } 
+  },[data])
 
+  useEffect(() => {
     const handleNewPost = (event) => {
       setPosts((prevPosts) => [event.detail, ...prevPosts]);
+      mutate(`http://localhost:8080/posts`,);
     };
-
- 
 
      // カスタムイベントをリッスンして検索結果を取得する関数
      const handleSearchEvent = async (event) => {
@@ -45,20 +37,11 @@ function PostView({}) {
         onlyFromFollowedUser
       });
 
-      try {
-        // 検索APIにリクエスト
-        const response = await fetch(`http://localhost:8080/posts/search?${queryParams.toString()}`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-          }
-        });
-        const json = await response.json();
-        const searchpostarray = Object.values(json.data)
-        .reverse()  // 逆順にソート
-        .filter((post) => post.deleted_at === null); // deleted_at が null の場合のみ
-        setPosts(searchpostarray);
-      } catch (error) {
-        console.error('Error fetching search results:', error);
+      // 検索APIにリクエスト
+      const url = `http://localhost:8080/posts/search?${queryParams.toString()}`
+      const response = await searchPosts(url);
+      if(response){
+        setPosts(response);
       }
     };
 

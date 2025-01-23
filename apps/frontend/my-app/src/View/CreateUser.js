@@ -1,6 +1,7 @@
 // CreateUser.js
 
 import React, { useState ,useContext,useEffect} from 'react';
+import { createUser } from '../Component/api/user';
 import AuthContext from '../Utils/AuthProvider';
 import './css/CreateUser.css';
 import {useNavigate} from 'react-router-dom';
@@ -34,20 +35,10 @@ const CreateUser = () => {
       password
     };
 
-    const apiEndpoint = 'http://localhost:8080/users'; // ユーザー作成用のエンドポイントを指定
+    const url = 'http://localhost:8080/users'; // ユーザー作成用のエンドポイントを指定
 
     try {
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newUser)
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+      await createUser(url,newUser);
       setMessage('User created successfully');
       navigate('/');
     } catch (error) {

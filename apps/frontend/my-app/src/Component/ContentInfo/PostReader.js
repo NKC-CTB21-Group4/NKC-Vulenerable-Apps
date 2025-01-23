@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { deletePosts } from '../api/post';
 import './css/PostReader.css';
 import PostReaderMenu from './PostReaderMenu';
 import tegakireader from '../../images/tegakireader.png';
 import ReportPost from '../ReportPost';
 import AuthContext from '../../Utils/AuthProvider';
-import deletePost from '../Posts/DeletePost';
 
 const PostReader = ({postid, userid}) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +36,7 @@ const PostReader = ({postid, userid}) => {
     }
 
     try {
-      await deletePost(postid, currentUserId);
+      await deletePosts(postid, currentUserId);
       alert('ポストが削除されました');
       // ここで削除後の処理を追加できます
     } catch (error) {

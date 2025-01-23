@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import './css/CreateUser.css';
 import {useNavigate } from 'react-router-dom';
+import { createAdminUser } from '../Component/api/user';
 
 const CreateAdminUser = () => {
   const [username, setUsername] = useState('');
@@ -20,22 +21,10 @@ const CreateAdminUser = () => {
       password
     };
 
-    const apiEndpoint = 'http://localhost:8080/admin/users'; // ユーザー作成用のエンドポイントを指定
+    const url = 'http://localhost:8080/admin/users'; // ユーザー作成用のエンドポイントを指定
 
     try {
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-        },
-        body: JSON.stringify(newUser)
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
+      await createAdminUser(url,newUser);
       setMessage('Admin User created successfully');
       navigate('/admin');      
     } catch (error) {

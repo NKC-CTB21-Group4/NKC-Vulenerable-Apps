@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { createPost } from '../api/post';
 import './css/PostCreateButton.css'; // スタイリング用のCSSファイルを仮定
 import AuthContext from '../../Utils/AuthProvider';
 import tegakiwrite from '../../images/tegakiwrite.png'; // 画像ファイルをインポート
@@ -49,21 +50,13 @@ const PostCreateButton = () => {
         formData.append('image', image);
       }
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-        },
-        body: formData,
-      });
+      const response = await createPost(url,formData);
 
-      if (!response.ok) {
+      if (!response) {
         throw new Error('投稿の作成に失敗しました');
       }
 
-      const responseJson = await response.json();
-
-      const event = new CustomEvent('newPost', { detail: responseJson.data });
+      const event = new CustomEvent('newPost', { detail: response.data });
       window.dispatchEvent(event);
 
       // 成功した投稿後にテキストエリアと画像ファイルをクリア

@@ -1,4 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useFetchUsers, useFetchMessage, sendMessage, searchUsers } from '../api/directMessage.js';
 import UserList from './UserList';
 import MessageList from './MessageList.js';
 import MessageInput from './MessageInput';
@@ -13,55 +15,54 @@ function DirectMessage() {
   const [users, setUsers] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const { user } = useContext(AuthContext);
-  const userid = user?.id;
+  const userid = user.id;
 
-  const getUserList = () => {
-    if (!userid) return;
+  const { data: userData, error: userError, mutate: userMutate } = useFetchUsers(
+    `http://localhost:8080/users/${userid}/direct-message`
+  );
 
-    fetch(`http://localhost:8080/users/${userid}/direct-message`, {
-      headers: {
-        "Authorization": "Bearer " + localStorage.getItem('authToken')
-      },
-    })
-      .then(response => response.json())
-      .then(json => setUsers(json.data))
-      .catch(error => console.error('Error fetching users:', error));
-  };
+  const { data: messageData, error: messageError, mutate: messageMutate } = useFetchMessage(
+    selectedUser
+      ? `http://localhost:8080/direct-message/${userid}/${
+          userid === selectedUser.receiver.id ? selectedUser.sender.id : selectedUser.receiver.id
+        }`
+      : null
+  );
 
   useEffect(() => {
-    getUserList();
+    if (userData) {
+      setUsers(userData);
+    }
+  }, [userData]);
 
+  useEffect(() => {
+    if (messageData) {
+      setMessages(messageData);
+    }
+  }, [messageData]);
+
+  useEffect(() => {
     const handleSearchUser = async (event) => {
-      const { keyword, searchUserId,onlyFromFollowedUser } = event.detail;
-      const queryParams = new URLSearchParams({ 
-        keyword, 
-        userId: searchUserId,
-        onlyFromFollowedUser
-      });
+      const { keyword, searchUserId, onlyFromFollowedUser } = event.detail;
+      const queryParams = new URLSearchParams({ keyword, userId: searchUserId, onlyFromFollowedUser });
+      const url = `http://localhost:8080/users/search?${queryParams.toString()}`;
 
-      fetch(`http://localhost:8080/users/search?${queryParams.toString()}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-        }
-      })
-        .then(response => response.json())
-        .then(json => {
-          if (!json.data || json.data.length === 0) {
-            console.warn("User not found. Resetting selected user.");
-            setSearchResults([]); // 検索結果をリセット
-            setSelectedUser(null);
-            setMessages([]);
-            return;
-          }
-
-          setSearchResults(json.data); // 検索結果を保存
-        })
-        .catch(error => {
-          console.error("Error fetching search results:", error);
+      try {
+        const response = await searchUsers(url);
+        if (!response.data || response.data.length === 0) {
+          console.warn("User not found. Resetting selected user.");
           setSearchResults([]);
           setSelectedUser(null);
           setMessages([]);
-        });
+          return;
+        }
+        setSearchResults(response.data);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+        setSearchResults([]);
+        setSelectedUser(null);
+        setMessages([]);
+      }
     };
 
     window.addEventListener('SearchUser', handleSearchUser);
@@ -71,54 +72,42 @@ function DirectMessage() {
     };
   }, [userid]);
 
-  const handleUserSelect = (selectedUser) => {
-    setSelectedUser(selectedUser);
-    const senderid = selectedUser.sender.id;
-    const receiverid = selectedUser.receiver.id;
-
-    fetch(`http://localhost:8080/direct-message/${userid}/${userid === receiverid ? senderid : receiverid}`, {
-      headers: {
-        "Authorization": "Bearer " + localStorage.getItem('authToken')
-      }
-    })
-      .then(response => response.json())
-      .then(json => setMessages(json.data))
-      .catch(error => console.error('Error fetching messages:', error));
+  const handleUserSelect = (user) => {
+    setSelectedUser(user);
   };
 
-  const handleSendMessage = (message) => {
+  const handleSendMessage = async (message) => {
     if (!message.trim()) {
       console.warn("Cannot send an empty message.");
       return;
     }
 
-    const receiverid = selectedUser.receiver.id;
-    const senderid = selectedUser.sender.id;
+    const receiverId = selectedUser.receiver.id;
+    const senderId = selectedUser.sender.id;
+    const url = `http://localhost:8080/direct-message/${userid}/${
+      userid === receiverId ? senderId : receiverId
+    }`;
 
-    if (senderid !== receiverid) {
-      fetch(`http://localhost:8080/direct-message/${userid}/${userid === receiverid ? senderid : receiverid}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          "Authorization": "Bearer " + localStorage.getItem('authToken')
+    try {
+      const response = await sendMessage(url, message);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          sender: response.data.sender,
+          receiver: response.data.receiver,
+          message,
+          sent_at: new Date().toISOString(),
         },
-        body: JSON.stringify({ message }),
-      })
-        .then(response => response.json())
-        .then(json => {
-          setMessages(prevMessages => [
-            ...prevMessages,
-            { sender: json.data.sender, receiver: json.data.receiver, message, sent_at: new Date().toISOString() }
-          ]);
-          getUserList();
-        })
-        .catch(error => console.error('Error sending message:', error));
+      ]);
+      userMutate();
+    } catch (error) {
+      console.error("Error sending message:", error);
     }
   };
 
   const handleSearchResultClick = (user) => {
     setSelectedUser({ sender: { id: userid }, receiver: { id: user.id } });
-    setSearchResults([]); // プルダウンリストを非表示にする
+    setSearchResults([]);
     handleUserSelect({ sender: { id: userid }, receiver: { id: user.id } });
   };
 

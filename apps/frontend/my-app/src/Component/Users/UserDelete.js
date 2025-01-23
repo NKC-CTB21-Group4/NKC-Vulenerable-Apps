@@ -1,5 +1,6 @@
 // UserDelete.js
 import React, { useState, useEffect} from 'react';
+import { deleteUser } from '../api/user';
 import './css/UserDelete.css';
 
 const UserDelete = ({ userId }) => {
@@ -58,17 +59,13 @@ const UserDelete = ({ userId }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/users/${userId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-        },
-      });
+      const url =`http://localhost:8080/users/${userId}`;
+      const response = deleteUser(url);
 
-      if (response.ok) {
+      if (response) {
         localStorage.removeItem('authToken');
       }
-      else if(!response.ok){
+      else if(!response){
         throw new Error('ユーザー削除に失敗しました');
       }
 
